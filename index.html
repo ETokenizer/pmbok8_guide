@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMBOK Guide Edition 8 - 第 8 版项目管理指南 (2026)</title>
+    <style>
+        :root {
+            --pmi-blue: #005A9D;
+            --pmi-dark: #003366;
+            --pmi-light: #0077C8;
+            --pmi-gold: #D4AF37;
+            --pmi-green: #2E8B57;
+            --pmi-bg: #F0F8FF;
+            --white: #fff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--pmi-bg) 0%, #E6F2FF 100%);
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--pmi-dark), var(--pmi-blue));
+            color: var(--white);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon {
+            width: 50px; height: 50px;
+            background: var(--pmi-gold);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px;
+        }
+        .logo h1 { font-size: 20px; }
+        .logo-sub { font-size: 11px; opacity: 0.85; margin-top: 3px; }
+        .main-container {
+            max-width: 1550px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+        .sidebar {
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,90,157,0.15);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 100px);
+        }
+        .sidebar-header {
+            background: var(--pmi-blue);
+            color: var(--white);
+            padding: 14px 18px;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .view-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            flex-shrink: 0;
+        }
+        .view-tab {
+            flex: 1;
+            padding: 12px 6px;
+            text-align: center;
+            cursor: pointer;
+            background: #f5f5f5;
+            border: none;
+            font-size: 12.5px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .view-tab.active {
+            background: var(--pmi-blue);
+            color: var(--white);
+        }
+        .view-tab:hover:not(.active) { background: #e8e8e8; }
+        .content-list {
+            flex: 1;
+            overflow-y: auto;
+            min-height: 0;
+        }
+        .content-item {
+            padding: 14px 18px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.2s;
+        }
+        .content-item:hover {
+            background: var(--pmi-bg);
+            border-left-color: var(--pmi-light);
+        }
+        .content-item.active {
+            background: linear-gradient(90deg, rgba(0,90,157,0.15), transparent);
+            border-left-color: var(--pmi-blue);
+        }
+        .content-number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: var(--pmi-blue);
+            color: var(--white);
+            border-radius: 6px;
+            text-align: center;
+            line-height: 28px;
+            font-size: 13px;
+            margin-right: 10px;
+            font-weight: 600;
+        }
+        .content-item.active .content-number {
+            background: var(--pmi-gold);
+        }
+        .content-title-cn { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+        .content-title-en { font-size: 11px; opacity: 0.7; font-weight: normal; }
+        .content-desc { font-size: 11px; color: #888; margin-top: 4px; }
+
+        .content-area { display: flex; flex-direction: column; gap: 15px; }
+        .overview-section {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,90,157,0.15);
+        }
+        .overview-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--pmi-dark);
+            margin-bottom: 10px;
+        }
+        .overview-sub { font-size: 13px; opacity: 0.7; margin-bottom: 20px; }
+
+        /* Performance Domain Map */
+        .domain-map {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .domain-card {
+            background: linear-gradient(135deg, var(--pmi-bg), #E6F2FF);
+            border: 2px solid var(--pmi-light);
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .domain-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,90,157,0.2);
+        }
+        .domain-card.active {
+            background: linear-gradient(135deg, var(--pmi-blue), var(--pmi-light));
+            color: var(--white);
+            border-color: var(--pmi-gold);
+        }
+        .domain-icon { font-size: 32px; margin-bottom: 10px; }
+        .domain-name-cn { font-weight: 600; font-size: 14px; margin-bottom: 5px; }
+        .domain-name-en { font-size: 11px; opacity: 0.8; }
+
+        .detail-section { display: flex; flex-direction: column; gap: 15px; }
+        .detail-section {
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,90,157,0.15);
+            overflow: hidden;
+            min-height: 500px;
+        }
+        .detail-header {
+            background: linear-gradient(135deg, var(--pmi-blue), var(--pmi-light));
+            color: var(--white);
+            padding: 25px;
+        }
+        .detail-header h2 { font-size: 22px; margin-bottom: 8px; }
+        .detail-number {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        .detail-meta { font-size: 13px; opacity: 0.9; margin-top: 5px; }
+        .detail-body { padding: 25px; }
+
+        .principle-card {
+            background: var(--pmi-bg);
+            border-left: 4px solid var(--pmi-blue);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 25px;
+        }
+        .principle-card h4 {
+            font-size: 15px;
+            color: var(--pmi-dark);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .principle-card p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        .principle-card p.en {
+            font-size: 13px;
+            color: #888;
+            font-style: italic;
+        }
+
+        .simple-explain {
+            background: linear-gradient(90deg, rgba(212,175,55,0.15), transparent);
+            border-left: 3px solid var(--pmi-gold);
+            padding: 15px 18px;
+            border-radius: 0 6px 6px 0;
+            font-size: 14px;
+            color: #8B6914;
+            margin-top: 15px;
+        }
+        .simple-explain strong { color: #B8860B; }
+
+        .key-aspects {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .aspect-item {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        .aspect-icon { font-size: 24px; margin-bottom: 8px; }
+        .aspect-title { font-weight: 600; color: var(--pmi-dark); margin-bottom: 5px; font-size: 13px; }
+        .aspect-desc { font-size: 12px; color: #666; line-height: 1.6; }
+
+        .welcome-state { text-align: center; padding: 60px 20px; }
+        .welcome-icon { font-size: 80px; margin-bottom: 20px; }
+        .welcome-title { font-size: 26px; color: var(--pmi-dark); margin-bottom: 15px; }
+        .welcome-desc { font-size: 15px; color: #666; line-height: 2; max-width: 700px; margin: 0 auto; }
+
+        .welcome-features {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 20px;
+            background: var(--pmi-bg);
+            border-radius: 10px;
+            min-width: 150px;
+        }
+        .feature-icon { font-size: 40px; margin-bottom: 10px; }
+        .feature-title { font-weight: 600; color: var(--pmi-dark); margin-bottom: 5px; }
+        .feature-desc { font-size: 12px; color: #888; }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+        .modal-overlay.active, .modal-overlay[style*="display: block"] { display: flex !important; }
+        .modal-content {
+            background: var(--white);
+            border-radius: 12px;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow-y: auto;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .modal-header {
+            background: linear-gradient(135deg, var(--pmi-dark), var(--pmi-blue));
+            color: var(--white);
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 12px 12px 0 0;
+        }
+        .modal-header h3 { font-size: 17px; font-weight: 600; }
+        .modal-close {
+            background: none; border: none;
+            color: var(--white);
+            font-size: 28px;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            width: 36px; height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .modal-close:hover { opacity: 1; background: rgba(255,255,255,0.1); }
+        .modal-body { padding: 30px; }
+
+        ::-webkit-scrollbar { width: 10px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb { background: var(--pmi-light); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--pmi-blue); }
+
+        /* 新增：第 8 版标识 */
+        .edition-badge {
+            background: linear-gradient(135deg, #10b981, #059669);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">📘</div>
+            <div>
+                <h1>PMBOK Guide Edition 8 <span class="edition-badge">2026 新版</span></h1>
+                <div class="logo-sub">项目管理知识体系指南 (第 8 版) | 6 原则 & 7 绩效域</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                📘 PMBOK 第 8 版 - 6 原则 & 7 绩效域
+                <br><span style="font-size:11px;opacity:0.85;font-weight:normal">6 Principles & 7 Performance Domains (2026)</span>
+            </div>
+            <div class="view-tabs">
+                <button class="view-tab active" onclick="switchView('principles')">📌 6 项原则</button>
+                <button class="view-tab" onclick="switchView('domains')">🌐 7 个绩效域</button>
+                <button class="view-tab" onclick="switchView('processes')">🔄 40 个流程</button>
+            </div>
+            <div class="content-list" id="contentList"></div>
+        </aside>
+
+        <main class="content-area">
+            <section class="overview-section" id="overviewSection"></section>
+            <section class="detail-section" id="detailSection">
+                <div class="welcome-state">
+                    <div class="welcome-icon">📘</div>
+                    <h2 class="welcome-title">PMBOK 第 8 版 - 6 原则 & 7 绩效域</h2>
+                    <p class="welcome-desc">
+                        <strong>PMBOK 第 8 版 (2025/2026)</strong> 是 PMI 发布的最新版本，对第 7 版进行了重大更新。<br><br>
+                        <strong>📘 6 项原则</strong> - 精简整合自第 7 版的 12 项原则<br>
+                        <strong>🌐 7 个绩效域</strong> - 重构后的绩效关键领域<br>
+                        <strong>🔄 40 个流程</strong> - 按 5 个焦点领域组织（非强制性）<br><br>
+                        左侧导航切换查看原则和绩效域的详细内容
+                    </p>
+                    <div class="welcome-features">
+                        <div class="feature-item">
+                            <div class="feature-icon">📌</div>
+                            <div class="feature-title">6 项原则</div>
+                            <div class="feature-desc">精简整合<br>Streamlined principles</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🌐</div>
+                            <div class="feature-title">7 个绩效域</div>
+                            <div class="feature-desc">重构优化<br>Optimized domains</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">✨</div>
+                            <div class="feature-title">新增内容</div>
+                            <div class="feature-desc">AI/ESG/价值流<br>New topics</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        let currentView = 'principles';
+        let selectedPrinciple = null;
+        let selectedDomain = null;
+        let selectedProcess = null;
+        let expandedFocusAreas = {
+            '启动': true,
+            '规划': true,
+            '执行': true,
+            '监控': true,
+            '收尾': true
+        };
+
+        // PMBOK 第 8 版 - 6 项原则（整合版）
+        const principles = [
+            {
+                number: 1,
+                name: '系统思维',
+                nameEn: 'Systems Thinking',
+                icon: '🔗',
+                summary: '从整体视角理解项目与组织的相互关联',
+                summaryEn: 'Understand interconnections from a holistic view',
+                description: '项目是一个系统，与组织内外部其他系统相互关联。要用系统思维看待项目，理解各要素之间的关系和相互影响。整合了第 7 版的系统思考、驾驭复杂性等内容。',
+                keyAspects: [
+                    { icon: '🌐', title: '整体视角', desc: '从全局看问题' },
+                    { icon: '🔗', title: '相互关联', desc: '理解要素间关系' },
+                    { icon: '🔄', title: '反馈循环', desc: '建立反馈机制' },
+                    { icon: '🧩', title: '复杂管理', desc: '驾驭复杂性' }
+                ]
+            },
+            {
+                number: 2,
+                name: '价值交付',
+                nameEn: 'Value Delivery',
+                icon: '💎',
+                summary: '聚焦于价值创造和商业成果实现',
+                summaryEn: 'Focus on value creation and business outcomes',
+                description: '项目的最终目标是创造价值。所有决策都应围绕价值最大化，确保项目成果能够为组织和相关方带来实际收益。',
+                keyAspects: [
+                    { icon: '🎯', title: '价值定义', desc: '明确什么是价值' },
+                    { icon: '📈', title: '价值最大化', desc: '优先做高价值的事' },
+                    { icon: '💰', title: '商业收益', desc: '关注投资回报' },
+                    { icon: '✅', title: '成果验证', desc: '确认价值实现' }
+                ]
+            },
+            {
+                number: 3,
+                name: '相关方协作',
+                nameEn: 'Stakeholder Collaboration',
+                icon: '🤝',
+                summary: '与相关方建立互利合作关系',
+                summaryEn: 'Build mutually beneficial relationships',
+                description: '整合了相关方参与和团队协作。相关方是能够影响或被项目影响的个人或组织，要识别所有相关方，建立协作关系。',
+                keyAspects: [
+                    { icon: '👥', title: '相关方识别', desc: '找出所有受影响的人' },
+                    { icon: '🗣️', title: '开放沟通', desc: '信息透明，畅所欲言' },
+                    { icon: '🤲', title: '团队协作', desc: '互相支持，共同成长' },
+                    { icon: '📊', title: '期望管理', desc: '了解并管理期望' }
+                ]
+            },
+            {
+                number: 4,
+                name: '领导力与管家',
+                nameEn: 'Leadership & Stewardship',
+                icon: '🌟',
+                summary: '展现领导力，成为诚信的管家',
+                summaryEn: 'Demonstrate leadership and be a diligent steward',
+                description: '整合了领导力、管家和质量。项目经理是项目的管家，要以诚信为本，展现领导力行为，同时对质量负责。',
+                keyAspects: [
+                    { icon: '🎯', title: '愿景引领', desc: '描绘清晰的目标' },
+                    { icon: '❤️', title: '管家责任', desc: '对资源和结果负责' },
+                    { icon: '⭐', title: '质量融入', desc: '将质量融入过程' },
+                    { icon: '🔥', title: '激励他人', desc: '激发团队热情' }
+                ]
+            },
+            {
+                number: 5,
+                name: '适应性与韧性',
+                nameEn: 'Adaptability & Resilience',
+                icon: '🎋',
+                summary: '培养适应力和抗挫能力',
+                summaryEn: 'Cultivate adaptability and resiliency',
+                description: '整合了裁剪适配、风险管理、适应与韧性、变革推动。变化是常态，要具备适应能力，在挫折后快速恢复。',
+                keyAspects: [
+                    { icon: '🔄', title: '敏捷响应', desc: '快速适应变化' },
+                    { icon: '✂️', title: '裁剪适配', desc: '根据情境调整' },
+                    { icon: '⚠️', title: '风险管理', desc: '主动管理风险' },
+                    { icon: '💪', title: '抗挫能力', desc: '从失败中恢复' }
+                ]
+            },
+            {
+                number: 6,
+                name: '可持续性',
+                nameEn: 'Sustainability',
+                icon: '🌱',
+                summary: '整合 ESG 理念，实现可持续发展',
+                summaryEn: 'Integrate ESG for sustainable development',
+                description: '第 8 版新增内容。项目要考虑环境、社会和治理 (ESG) 影响，实现可持续发展。',
+                keyAspects: [
+                    { icon: '🌍', title: '环境保护', desc: '减少环境影响' },
+                    { icon: '👪', title: '社会责任', desc: '关注社会影响' },
+                    { icon: '📋', title: '治理合规', desc: '遵守治理要求' },
+                    { icon: '♻️', title: '循环经济', desc: '资源循环利用' }
+                ]
+            }
+        ];
+
+        // PMBOK 第 8 版 - 7 个绩效域（重构版）
+        const performanceDomains = [
+            {
+                number: 1,
+                name: '项目治理绩效域',
+                nameEn: 'Project Governance Performance Domain',
+                icon: '🏛️',
+                color: '#005A9D',
+                summary: '建立有效的项目治理框架',
+                description: '项目治理绩效域涉及建立项目决策、监督和控制的框架，确保项目与组织战略一致。',
+                keyActivities: [
+                    '建立治理结构和决策流程',
+                    '定义角色和职责',
+                    '设置阶段审查点',
+                    '确保合规和道德标准'
+                ],
+                expectedOutcomes: [
+                    '清晰的治理框架',
+                    '有效的决策机制',
+                    '透明的监督过程'
+                ]
+            },
+            {
+                number: 2,
+                name: '团队绩效域',
+                nameEn: 'Team Performance Domain',
+                icon: '👥',
+                color: '#0077C8',
+                summary: '打造高效协作的项目团队',
+                description: '团队绩效域关注项目团队的组建、发展和管理。',
+                keyActivities: [
+                    '确定所需的技能和角色',
+                    '获取和组建团队',
+                    '建立团队规范',
+                    '提供反馈和发展机会'
+                ],
+                expectedOutcomes: [
+                    '团队成员技能匹配',
+                    '高效的团队协作',
+                    '积极的工作氛围'
+                ]
+            },
+            {
+                number: 3,
+                name: '开发方法与生命周期绩效域',
+                nameEn: 'Development Approach & Life Cycle',
+                icon: '🔄',
+                color: '#2E8B57',
+                summary: '选择适合的开发方法和生命周期',
+                description: '选择适合项目的开发方法（预测型、适应型或混合型）和定义项目生命周期。',
+                keyActivities: [
+                    '评估项目特点和约束',
+                    '选择合适的开发方法',
+                    '定义生命周期阶段',
+                    '确定阶段审查点'
+                ],
+                expectedOutcomes: [
+                    '方法与项目匹配',
+                    '清晰的生命周期定义',
+                    '适当的阶段检查点'
+                ]
+            },
+            {
+                number: 4,
+                name: '规划绩效域',
+                nameEn: 'Planning Performance Domain',
+                icon: '📋',
+                color: '#D4AF37',
+                summary: '制定全面且可行的项目计划',
+                description: '规划绩效域涉及制定项目计划的所有活动。',
+                keyActivities: [
+                    '定义项目范围和目标',
+                    '制定进度和成本估算',
+                    '规划资源和采购',
+                    '识别和规划风险应对'
+                ],
+                expectedOutcomes: [
+                    '全面的项目管理计划',
+                    '可行的进度和预算',
+                    '清晰的角色和职责'
+                ]
+            },
+            {
+                number: 5,
+                name: '交付绩效域',
+                nameEn: 'Delivery Performance Domain',
+                icon: '📦',
+                color: '#C71585',
+                summary: '交付项目范围和价值',
+                description: '交付绩效域关注项目可交付成果的完成和质量。',
+                keyActivities: [
+                    '管理和执行范围',
+                    '确保可交付成果质量',
+                    '获取验收和批准',
+                    '实现业务价值'
+                ],
+                expectedOutcomes: [
+                    '完整的可交付成果',
+                    '满足质量要求',
+                    '相关方验收通过'
+                ]
+            },
+            {
+                number: 6,
+                name: '测量绩效域',
+                nameEn: 'Measurement Performance Domain',
+                icon: '📊',
+                color: '#4B0082',
+                summary: '评估项目绩效并采取行动',
+                description: '测量绩效域涉及建立和使用指标来评估项目绩效。',
+                keyActivities: [
+                    '定义关键绩效指标',
+                    '收集和分析数据',
+                    '报告项目状态',
+                    '推荐纠正措施'
+                ],
+                expectedOutcomes: [
+                    '及时的绩效数据',
+                    '准确的状态报告',
+                    '有效的纠正行动'
+                ]
+            },
+            {
+                number: 7,
+                name: '不确定性绩效域',
+                nameEn: 'Uncertainty Performance Domain',
+                icon: '🌪️',
+                color: '#FF6347',
+                summary: '有效应对项目不确定性',
+                description: '不确定性绩效域涉及识别、分析和应对项目中的风险和不确定性。',
+                keyActivities: [
+                    '识别风险和不确定性',
+                    '分析概率和影响',
+                    '制定应对策略',
+                    '监控风险触发因素'
+                ],
+                expectedOutcomes: [
+                    '充分的风险意识',
+                    '适当的应对措施',
+                    '最小化的威胁影响'
+                ]
+            }
+        ];
+
+        // PMBOK 第 8 版 - 40 个流程 (保留第 7 版数据)
+        const processes = [
+            { number: 1, focusArea: '启动', name: '制定项目章程', nameEn: 'Develop Project Charter', icon: '📜', color: '#005A9D', description: '正式授权项目或阶段启动的文件。' },
+            { number: 2, focusArea: '启动', name: '识别相关方', nameEn: 'Identify Stakeholders', icon: '👥', color: '#0077C8', description: '识别项目相关方并分析其期望和影响力。' },
+            { number: 3, focusArea: '规划', name: '制定项目管理计划', nameEn: 'Develop Project Management Plan', icon: '📋', color: '#2E8B57', description: '定义和协调所有子管理计划。' },
+            { number: 4, focusArea: '规划', name: '收集需求', nameEn: 'Collect Requirements', icon: '📝', color: '#D4AF37', description: '确定和管理相关方需求。' },
+            { number: 5, focusArea: '规划', name: '定义范围', nameEn: 'Define Scope', icon: '🎯', color: '#8B4513', description: '制定项目和产品的详细描述。' },
+            { number: 6, focusArea: '规划', name: '创建 WBS', nameEn: 'Create WBS', icon: '📊', color: '#C71585', description: '将项目工作分解为更小的组件。' },
+            { number: 7, focusArea: '规划', name: '定义活动', nameEn: 'Define Activities', icon: '⚡', color: '#4B0082', description: '识别为完成可交付成果需采取的行动。' },
+            { number: 8, focusArea: '规划', name: '排列活动顺序', nameEn: 'Sequence Activities', icon: '🔗', color: '#FF6347', description: '识别和记录项目活动间的逻辑关系。' },
+            { number: 9, focusArea: '规划', name: '估算活动持续时间', nameEn: 'Estimate Activity Durations', icon: '⏱️', color: '#00CED1', description: '估算完成单项活动所需的工作时段数。' },
+            { number: 10, focusArea: '规划', name: '估算成本', nameEn: 'Estimate Costs', icon: '💰', color: '#FFD700', description: '估算完成项目工作所需资源的成本。' },
+            { number: 11, focusArea: '规划', name: '估算资源', nameEn: 'Estimate Activity Resources', icon: '🧑‍💼', color: '#32CD32', description: '估算执行项目活动所需的资源。' },
+            { number: 12, focusArea: '规划', name: '制定进度计划', nameEn: 'Develop Schedule', icon: '📅', color: '#9370DB', description: '分析活动顺序和约束，创建进度模型。' },
+            { number: 13, focusArea: '规划', name: '制定预算', nameEn: 'Determine Budget', icon: '💵', color: '#20B2AA', description: '汇总成本估算，建立成本基准。' },
+            { number: 14, focusArea: '规划', name: '规划质量管理', nameEn: 'Plan Quality Management', icon: '⭐', color: '#FF69B4', description: '识别质量要求和标准。' },
+            { number: 15, focusArea: '规划', name: '规划资源管理', nameEn: 'Plan Resource Management', icon: '📦', color: '#DAA520', description: '定义如何管理项目资源。' },
+            { number: 16, focusArea: '规划', name: '规划沟通管理', nameEn: 'Plan Communications Management', icon: '📢', color: '#4169E1', description: '制定适当的沟通策略。' },
+            { number: 17, focusArea: '规划', name: '规划风险管理', nameEn: 'Plan Risk Management', icon: '🛡️', color: '#DC143C', description: '定义如何进行风险管理活动。' },
+            { number: 18, focusArea: '规划', name: '识别风险', nameEn: 'Identify Risks', icon: '⚠️', color: '#FF4500', description: '识别单个项目风险和风险来源。' },
+            { number: 19, focusArea: '规划', name: '实施定性风险分析', nameEn: 'Perform Qualitative Risk Analysis', icon: '📊', color: '#8A2BE2', description: '评估风险概率和影响并优先排序。' },
+            { number: 20, focusArea: '规划', name: '实施定量风险分析', nameEn: 'Perform Quantitative Risk Analysis', icon: '📈', color: '#00FA9A', description: '定量分析风险对整体目标的影响。' },
+            { number: 21, focusArea: '规划', name: '规划风险应对', nameEn: 'Plan Risk Responses', icon: '🎯', color: '#FFE4B5', description: '制定风险应对策略。' },
+            { number: 22, focusArea: '规划', name: '规划相关方参与', nameEn: 'Plan Stakeholder Engagement', icon: '🤝', color: '#1E90FF', description: '制定相关方参与策略。' },
+            { number: 23, focusArea: '执行', name: '指导与管理项目工作', nameEn: 'Direct and Manage Project Work', icon: '🎬', color: '#005A9D', description: '领导和执行项目管理计划中的工作。' },
+            { number: 24, focusArea: '执行', name: '获取资源', nameEn: 'Acquire Resources', icon: '🧑‍💼', color: '#2E8B57', description: '获取项目所需的资源。' },
+            { number: 25, focusArea: '执行', name: '建设团队', nameEn: 'Develop Team', icon: '👥', color: '#2E8B57', description: '提高团队能力和凝聚力。' },
+            { number: 26, focusArea: '执行', name: '管理团队', nameEn: 'Manage Team', icon: '👪', color: '#2E8B57', description: '跟踪团队表现并提供反馈。' },
+            { number: 27, focusArea: '执行', name: '管理沟通', nameEn: 'Manage Communications', icon: '📢', color: '#4169E1', description: '确保信息及时恰当地分发。' },
+            { number: 28, focusArea: '执行', name: '实施风险应对', nameEn: 'Implement Risk Responses', icon: '🛡️', color: '#DC143C', description: '执行风险应对计划。' },
+            { number: 29, focusArea: '执行', name: '实施采购', nameEn: 'Conduct Procurements', icon: '🛒', color: '#8B4513', description: '获取卖方响应并授予合同。' },
+            { number: 30, focusArea: '执行', name: '管理相关方参与', nameEn: 'Manage Stakeholder Engagement', icon: '🤝', color: '#1E90FF', description: '与相关方沟通和协作。' },
+            { number: 31, focusArea: '监控', name: '监控项目工作', nameEn: 'Monitor and Control Project Work', icon: '📊', color: '#4B0082', description: '跟踪项目进展和绩效。' },
+            { number: 32, focusArea: '监控', name: '实施整体变更控制', nameEn: 'Perform Integrated Change Control', icon: '🔄', color: '#4B0082', description: '审查和批准变更请求。' },
+            { number: 33, focusArea: '监控', name: '确认范围', nameEn: 'Validate Scope', icon: '✅', color: '#C71585', description: '正式验收已完成的可交付成果。' },
+            { number: 34, focusArea: '监控', name: '控制范围', nameEn: 'Control Scope', icon: '🎯', color: '#8B4513', description: '管理范围基准的变更。' },
+            { number: 35, focusArea: '监控', name: '控制进度', nameEn: 'Control Schedule', icon: '📅', color: '#9370DB', description: '管理进度基准的变更。' },
+            { number: 36, focusArea: '监控', name: '控制成本', nameEn: 'Control Costs', icon: '💵', color: '#20B2AA', description: '管理成本基准的变更。' },
+            { number: 37, focusArea: '监控', name: '控制质量', nameEn: 'Control Quality', icon: '⭐', color: '#FF69B4', description: '监控和记录质量活动结果。' },
+            { number: 38, focusArea: '监控', name: '监督沟通', nameEn: 'Monitor Communications', icon: '📢', color: '#4169E1', description: '确保信息流动的有效性。' },
+            { number: 39, focusArea: '监控', name: '监督相关方参与', nameEn: 'Monitor Stakeholder Engagement', icon: '👥', color: '#1E90FF', description: '调整相关方参与策略。' },
+            { number: 40, focusArea: '收尾', name: '结束项目或阶段', nameEn: 'Close Project or Phase', icon: '🏁', color: '#D4AF37', description: '完成所有活动以正式结束项目或阶段。' }
+        ];
+
+        function switchView(view) {
+            currentView = view;
+            document.querySelectorAll('.view-tab').forEach(tab => {
+                tab.classList.toggle('active',
+                    view === 'principles' ? tab.textContent.includes('原则') :
+                    view === 'domains' ? tab.textContent.includes('绩效域') :
+                    tab.textContent.includes('流程')
+                );
+            });
+            expandedFocusAreas = { '启动': true, '规划': true, '执行': true, '监控': true, '收尾': true };
+            renderContentList();
+            renderOverview();
+            document.getElementById('detailSection').innerHTML = getWelcomeHTML();
+        }
+
+        function toggleFocusArea(fa) {
+            if (currentView === 'processes') {
+                const isExpanded = expandedFocusAreas[fa];
+                for (const key in expandedFocusAreas) expandedFocusAreas[key] = false;
+                if (!isExpanded) expandedFocusAreas[fa] = true;
+            } else {
+                expandedFocusAreas[fa] = !expandedFocusAreas[fa];
+            }
+            renderContentList();
+        }
+
+        function renderContentList() {
+            const container = document.getElementById('contentList');
+            container.innerHTML = '';
+
+            if (currentView === 'principles') {
+                principles.forEach(p => {
+                    const item = document.createElement('div');
+                    item.className = 'content-item' + (selectedPrinciple === p.number ? ' active' : '');
+                    item.onclick = () => selectPrinciple(p.number);
+                    item.innerHTML = `<div><span class="content-number">${p.number}</span><span class="content-title-cn">${p.name}</span></div><div class="content-title-en">${p.nameEn}</div>`;
+                    container.appendChild(item);
+                });
+            } else if (currentView === 'domains') {
+                performanceDomains.forEach(d => {
+                    const item = document.createElement('div');
+                    item.className = 'content-item' + (selectedDomain === d.number ? ' active' : '');
+                    item.onclick = () => selectDomain(d.number);
+                    item.innerHTML = `<div><span class="content-number" style="background:${d.color}">${d.number}</span><span class="content-title-cn">${d.name}</span></div><div class="content-title-en">${d.nameEn}</div>`;
+                    container.appendChild(item);
+                });
+            } else if (currentView === 'processes') {
+                const focusAreas = ['启动', '规划', '执行', '监控', '收尾'];
+                const focusAreaEn = { '启动': 'Initiating', '规划': 'Planning', '执行': 'Executing', '监控': 'M&C', '收尾': 'Closing' };
+                const focusAreaColor = { '启动': '#005A9D', '规划': '#2E8B57', '执行': '#0077C8', '监控': '#4B0082', '收尾': '#D4AF37' };
+
+                focusAreas.forEach(fa => {
+                    const isExpanded = expandedFocusAreas[fa];
+                    const headerItem = document.createElement('div');
+                    headerItem.style.cssText = 'padding:10px 18px;background:' + focusAreaColor[fa] + '20;color:' + focusAreaColor[fa] + ';font-weight:600;font-size:13px;border-bottom:2px solid' + focusAreaColor[fa] + ';cursor:pointer;user-select:none;display:flex;align-items:center;gap:8px;';
+                    headerItem.innerHTML = `<span style="font-size:16px">${isExpanded ? '🔽' : '▶️'}</span><span>${fa} | ${focusAreaEn[fa]}</span>`;
+                    headerItem.onclick = (e) => { e.stopPropagation(); toggleFocusArea(fa); };
+                    container.appendChild(headerItem);
+
+                    if (isExpanded) {
+                        processes.filter(p => p.focusArea === fa).forEach(p => {
+                            const item = document.createElement('div');
+                            item.className = 'content-item' + (selectedProcess === p.number ? ' active' : '');
+                            item.onclick = () => selectProcess(p.number);
+                            item.innerHTML = `<div><span class="content-number" style="background:${p.color};width:24px;height:24px;font-size:11px;line-height:24px">${p.number}</span><span class="content-title-cn">${p.name}</span></div><div class="content-title-en">${p.nameEn}</div>`;
+                            container.appendChild(item);
+                        });
+                    }
+                });
+            }
+        }
+
+        function renderOverview() {
+            const container = document.getElementById('overviewSection');
+            if (currentView === 'principles') {
+                container.innerHTML = `
+                    <h3 class="overview-title">📘 6 项项目管理原则 | 6 Project Management Principles</h3>
+                    <p class="overview-sub">第 8 版将第 7 版的 12 项原则精简整合为 6 项核心原则</p>
+                    <div class="domain-map">
+                        ${principles.map(p => `
+                            <div class="domain-card" onclick="selectPrinciple(${p.number})" style="cursor:pointer">
+                                <div class="domain-icon">${p.icon}</div>
+                                <div class="domain-name-cn">${p.name}</div>
+                                <div class="domain-name-en">${p.nameEn}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (currentView === 'domains') {
+                container.innerHTML = `
+                    <h3 class="overview-title">🌐 7 个绩效域 | 7 Performance Domains</h3>
+                    <p class="overview-sub">第 8 版重构后的 7 个绩效关键领域</p>
+                    <div class="domain-map">
+                        ${performanceDomains.map(d => `
+                            <div class="domain-card" onclick="selectDomain(${d.number})" style="cursor:pointer;border-color:${d.color}">
+                                <div class="domain-icon">${d.icon}</div>
+                                <div class="domain-name-cn">${d.name}</div>
+                                <div class="domain-name-en">${d.nameEn}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                const focusAreaInfo = {
+                    '启动': { icon: '🚀', count: 2, color: '#005A9D' },
+                    '规划': { icon: '📋', count: 20, color: '#2E8B57' },
+                    '执行': { icon: '⚡', count: 8, color: '#0077C8' },
+                    '监控': { icon: '📊', count: 9, color: '#4B0082' },
+                    '收尾': { icon: '🏁', count: 1, color: '#D4AF37' }
+                };
+                container.innerHTML = `
+                    <h3 class="overview-title">🔄 40 个流程 | 40 Processes</h3>
+                    <p class="overview-sub">按 5 个焦点领域组织 | 点击左侧展开/折叠查看</p>
+                    <div class="domain-map">
+                        ${Object.keys(focusAreaInfo).map(fa => `
+                            <div class="domain-card" onclick="toggleFocusArea('${fa}')" style="cursor:pointer;border-color:${focusAreaInfo[fa].color}">
+                                <div class="domain-icon">${focusAreaInfo[fa].icon}</div>
+                                <div class="domain-name-cn">${fa}</div>
+                                <div class="domain-name-en">${focusAreaInfo[fa].count} 个流程</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        function getWelcomeHTML() {
+            return `
+                <div class="welcome-state">
+                    <div class="welcome-icon">📘</div>
+                    <h2 class="welcome-title">PMBOK 第 8 版 - ${currentView === 'principles' ? '6 项原则' : currentView === 'domains' ? '7 个绩效域' : '40 个流程'}</h2>
+                    <p class="welcome-desc">
+                        ${currentView === 'principles' ? '6 项原则整合自第 7 版的 12 项原则<br>6 Principles consolidated from 12 in 7th Edition' :
+                          currentView === 'domains' ? '7 个绩效域重构自第 7 版的 8 个绩效域<br>7 Domains restructured from 8 in 7th Edition' :
+                          '40 个流程按 5 个焦点领域组织<br>40 Processes by 5 Focus Areas'}
+                    </p>
+                </div>
+            `;
+        }
+
+        function selectPrinciple(number) {
+            selectedPrinciple = number;
+            selectedDomain = null;
+            renderContentList();
+            const p = principles.find(x => x.number === number);
+            document.getElementById('detailSection').innerHTML = `
+                <div class="detail-header">
+                    <h2><span class="detail-number">原则 ${p.number}</span>${p.name}</h2>
+                    <div class="detail-meta">${p.nameEn}</div>
+                    <div class="detail-meta" style="margin-top:8px;font-size:14px">${p.icon} ${p.summary}</div>
+                </div>
+                <div class="detail-body">
+                    <div class="principle-card">
+                        <h4>📘 原则说明 | Description</h4>
+                        <p>${p.description}</p>
+                    </div>
+                    <div class="key-aspects">
+                        ${p.keyAspects.map(a => `
+                            <div class="aspect-item">
+                                <div class="aspect-icon">${a.icon}</div>
+                                <div class="aspect-title">${a.title}</div>
+                                <div class="aspect-desc">${a.desc}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectDomain(number) {
+            selectedDomain = number;
+            selectedPrinciple = null;
+            renderContentList();
+            const d = performanceDomains.find(x => x.number === number);
+            document.getElementById('detailSection').innerHTML = `
+                <div class="detail-header" style="background:linear-gradient(135deg, ${d.color}, ${adjustColor(d.color, 20)})">
+                    <h2><span class="detail-number">绩效域 ${d.number}</span>${d.name}</h2>
+                    <div class="detail-meta">${d.nameEn}</div>
+                    <div class="detail-meta" style="margin-top:8px;font-size:14px">${d.icon} ${d.summary}</div>
+                </div>
+                <div class="detail-body">
+                    <div class="principle-card" style="border-left-color:${d.color}">
+                        <h4>📘 绩效域说明 | Description</h4>
+                        <p>${d.description}</p>
+                    </div>
+                    <div style="margin-top:25px">
+                        <h4 style="color:${d.color};margin-bottom:15px;font-size:16px">📋 主要活动 | Key Activities</h4>
+                        <ul style="list-style:none;padding:0">
+                            ${d.keyActivities.map((item, i) => `<li style="margin:10px 0;padding:10px 15px;background:var(--pmi-bg);border-left:3px solid ${d.color};border-radius:0 4px 4px 0;font-size:14px">${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div style="margin-top:25px">
+                        <h4 style="color:${d.color};margin-bottom:15px;font-size:16px">✅ 预期成果 | Expected Outcomes</h4>
+                        <ul style="list-style:none;padding:0">
+                            ${d.expectedOutcomes.map((item, i) => `<li style="margin:10px 0;padding:10px 15px;background:var(--pmi-bg);border-left:3px solid ${d.color};border-radius:0 4px 4px 0;font-size:14px">✅ ${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectProcess(number) {
+            selectedProcess = number;
+            selectedPrinciple = null;
+            selectedDomain = null;
+            if (currentView === 'processes') {
+                const p = processes.find(x => x.number === number);
+                if (p) {
+                    for (const key in expandedFocusAreas) expandedFocusAreas[key] = (key === p.focusArea);
+                }
+            }
+            renderContentList();
+            const p = processes.find(x => x.number === number);
+            document.getElementById('detailSection').innerHTML = `
+                <div class="detail-header" style="background:linear-gradient(135deg, ${p.color}, ${adjustColor(p.color, 20)})">
+                    <h2><span class="detail-number">${p.focusArea}</span>${p.name}</h2>
+                    <div class="detail-meta">${p.nameEn}</div>
+                    <div class="detail-meta" style="margin-top:8px;font-size:14px">${p.icon} 流程 #${p.number}</div>
+                </div>
+                <div class="detail-body">
+                    <div class="principle-card" style="border-left-color:${p.color}">
+                        <h4>📘 流程说明 | Description</h4>
+                        <p>${p.description}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function adjustColor(hex, percent) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) + amt;
+            const G = (num >> 8 & 0x00FF) + amt;
+            const B = (num & 0x0000FF) + amt;
+            return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+        }
+
+        renderContentList();
+        renderOverview();
+    </script>
+</body>
+</html>
