@@ -1,13 +1,2692 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PMBOK Guide Edition 8 - 项目管理指南</title>
-    <meta http-equiv="refresh" content="0;url=./src/index.html">
-    <script>window.location.href = './src/index.html';</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMBOK Guide Edition 8 - 项目管理指南 (第8版)</title>
+<style>
+/* PMBOK Edition 8 - CSS Variables */
+:root {
+    --pmi-blue: #005A9D;
+    --pmi-dark: #003366;
+    --pmi-light: #0077C8;
+    --pmi-gold: #D4AF37;
+    --pmi-green: #10b981;
+    --pmi-bg: #F0F8FF;
+    --white: #fff;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --border: #e5e7eb;
+    --radius: 8px;
+    --radius-lg: 12px;
+    --shadow: 0 2px 10px rgba(0, 90, 157, 0.15);
+    --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.12);
+    --transition: all 0.25s ease;
+}
+
+/* PMBOK Edition 8 - Main Layout Styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, var(--pmi-bg) 0%, #E6F2FF 100%);
+    min-height: 100vh;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, var(--pmi-dark), var(--pmi-blue));
+    color: var(--white);
+    padding: 12px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo { display: flex; align-items: center; gap: 12px; }
+
+.logo-icon {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--pmi-gold), #FFD700);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+}
+
+.logo h1 { font-size: 18px; }
+.logo-sub { font-size: 11px; opacity: 0.85; margin-top: 2px; }
+
+.edition-badge {
+    background: linear-gradient(135deg, var(--pmi-green), #059669);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+/* Account Menu */
+.account-menu { position: relative; }
+.account-btn {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px; cursor: pointer;
+    color: var(--white); font-size: 13px;
+    transition: var(--transition);
+}
+.account-btn:hover { background: rgba(255,255,255,0.25); }
+.account-icon { font-size: 16px; }
+.account-arrow { font-size: 10px; opacity: 0.8; }
+
+.account-dropdown {
+    position: absolute; top: 100%; right: 0;
+    background: var(--white); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg); min-width: 240px;
+    padding: 8px; display: none; z-index: 1000; margin-top: 8px;
+}
+.account-dropdown.show { display: block; }
+
+.dropdown-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: var(--radius);
+    cursor: pointer; font-size: 13px; color: #333;
+    transition: var(--transition);
+}
+.dropdown-item:hover { background: #f5f5f5; }
+.item-icon { font-size: 16px; }
+.item-text { flex: 1; }
+.item-badge {
+    background: linear-gradient(135deg, var(--pmi-gold), #FFD700);
+    color: #333; padding: 2px 8px;
+    border-radius: 10px; font-size: 10px; font-weight: 600;
+}
+.item-tag {
+    padding: 2px 8px; border-radius: 10px;
+    font-size: 10px; font-weight: 600;
+}
+.item-tag.premium {
+    background: linear-gradient(135deg, var(--pmi-gold), #FFD700);
+    color: #333;
+}
+.dropdown-divider { height: 1px; background: #eee; margin: 6px 0; }
+
+/* Main Container */
+.main-container {
+    max-width: 1550px; margin: 0 auto; padding: 20px;
+    display: grid; grid-template-columns: 420px 1fr;
+    gap: 20px; align-items: start;
+}
+
+/* Sidebar */
+.sidebar {
+    background: var(--white); border-radius: 10px;
+    box-shadow: var(--shadow); overflow: hidden;
+    display: flex; flex-direction: column;
+    height: calc(100vh - 95px);
+}
+
+.sidebar-header {
+    background: var(--pmi-blue); color: var(--white);
+    padding: 14px 18px; font-weight: 600; font-size: 14px;
+    flex-shrink: 0;
+}
+
+.sidebar-content { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+
+/* View Tabs */
+.view-tabs {
+    display: flex; border-bottom: 1px solid #eee; flex-shrink: 0;
+}
+.view-tab {
+    flex: 1 1 25%; padding: 12px 8px;
+    text-align: center; cursor: pointer;
+    background: #f5f5f5; border: none;
+    font-size: 14px; font-weight: 600; color: #666;
+    transition: var(--transition); line-height: 1.4;
+}
+.tab-en { display: block; font-size: 10px; font-weight: normal; opacity: 0.8; margin-top: 2px; }
+.view-tab.active { background: var(--pmi-blue); color: var(--white); }
+.view-tab.active .tab-en { opacity: 0.9; }
+.view-tab:hover:not(.active) { background: #e8e8e8; }
+
+/* Content List */
+.content-list { flex: 1; overflow-y: auto; min-height: 0; }
+
+.content-item {
+    padding: 14px 18px; cursor: pointer;
+    border-left: 3px solid transparent;
+    border-bottom: 1px solid #f0f0f0;
+    transition: var(--transition);
+    display: flex; align-items: flex-start;
+}
+.content-item:hover {
+    background: var(--pmi-bg);
+    border-left-color: var(--pmi-light);
+}
+.content-item.active {
+    background: linear-gradient(90deg, rgba(0,90,157,0.15), transparent);
+    border-left-color: var(--pmi-blue);
+}
+
+.content-number {
+    display: inline-block; width: 28px; height: 28px;
+    background: var(--pmi-blue); color: var(--white);
+    border-radius: 6px; text-align: center;
+    line-height: 28px; font-size: 13px;
+    margin-right: 10px; font-weight: 600; flex-shrink: 0;
+}
+.content-item.active .content-number { background: var(--pmi-gold); }
+
+.content-title-cn { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+.content-title-en { font-size: 11px; opacity: 0.7; font-weight: normal; }
+.content-desc { font-size: 11px; color: #666; margin-top: 4px; }
+
+/* Content Area */
+.content-area { display: flex; flex-direction: column; gap: 15px; }
+
+/* Overview Section */
+.overview-section {
+    background: var(--white); border-radius: 10px;
+    padding: 25px; box-shadow: var(--shadow);
+}
+.overview-title { font-size: 18px; font-weight: 600; color: var(--pmi-dark); margin-bottom: 10px; }
+.overview-sub { font-size: 13px; opacity: 0.7; margin-bottom: 20px; }
+
+/* Domain Map */
+.domain-map { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
+.domain-map.processes-map { grid-template-columns: repeat(5, 1fr); }
+.domain-map.agile-map { grid-template-columns: repeat(4, 1fr); }
+
+.domain-card {
+    background: linear-gradient(135deg, var(--pmi-bg), #E6F2FF);
+    border: 2px solid var(--pmi-light); border-radius: 10px;
+    padding: 18px; text-align: center; cursor: pointer;
+    transition: var(--transition);
+}
+.domain-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,90,157,0.2);
+}
+.domain-card.active {
+    background: linear-gradient(135deg, var(--pmi-blue), var(--pmi-light));
+    color: var(--white); border-color: var(--pmi-gold);
+}
+
+.domain-icon { font-size: 32px; margin-bottom: 10px; }
+.domain-name-cn { font-weight: 600; font-size: 14px; margin-bottom: 5px; }
+.domain-name-en { font-size: 11px; opacity: 0.8; }
+
+/* Process card compact */
+.domain-card.process-card { padding: 12px 8px; }
+.domain-card.process-card .domain-icon { font-size: 24px; margin-bottom: 6px; }
+.domain-card.process-card .domain-name-cn { font-size: 12px; }
+
+/* Detail Section */
+.detail-section {
+    background: var(--white); border-radius: 10px;
+    box-shadow: var(--shadow); overflow: hidden; min-height: 500px;
+}
+
+.detail-header {
+    background: linear-gradient(135deg, var(--pmi-blue), var(--pmi-light));
+    color: var(--white); padding: 25px;
+    display: flex; justify-content: space-between;
+    align-items: flex-start; gap: 20px;
+}
+.detail-header h2 { font-size: 22px; margin-bottom: 8px; }
+.detail-number {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 3px 10px; border-radius: 4px;
+    font-size: 12px; margin-right: 10px;
+}
+.detail-meta { font-size: 13px; opacity: 0.9; margin-top: 5px; }
+.detail-header-actions { display: flex; gap: 10px; flex-shrink: 0; flex-wrap: wrap; }
+
+.detail-header-btn {
+    background: linear-gradient(135deg, var(--pmi-gold), #B8941F);
+    color: #333; border: 2px solid #FFD700;
+    padding: 9px 16px; border-radius: var(--radius);
+    cursor: pointer; font-size: 13px; font-weight: 600;
+    transition: var(--transition); white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(212,175,55,0.3);
+}
+.detail-header-btn:hover {
+    background: linear-gradient(135deg, #FFD700, var(--pmi-gold));
+    border-color: #FFF; transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212,175,55,0.5);
+}
+.detail-header-btn.secondary {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: var(--white);
+    box-shadow: none;
+}
+.detail-header-btn.secondary:hover {
+    background: rgba(255,255,255,0.25);
+}
+
+.detail-body { padding: 25px; }
+
+/* Principle Card */
+.principle-card {
+    background: var(--pmi-bg);
+    border-left: 4px solid var(--pmi-blue);
+    padding: 20px; border-radius: 0 8px 8px 0;
+    margin-bottom: 25px;
+}
+.principle-card h4 {
+    font-size: 15px; color: var(--pmi-dark);
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+}
+.principle-card p { font-size: 14px; color: #555; line-height: 1.8; margin-bottom: 10px; }
+.principle-card p.en { font-size: 13px; color: #888; font-style: italic; }
+
+/* Simple Explain */
+.simple-explain {
+    background: linear-gradient(90deg, rgba(212,175,55,0.15), transparent);
+    border-left: 3px solid var(--pmi-gold);
+    padding: 15px 18px; border-radius: 0 6px 6px 0;
+    font-size: 14px; color: #8B6914; margin-top: 15px;
+}
+.simple-explain strong { color: #B8860B; }
+
+/* Key Aspects */
+.key-aspects { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+
+.aspect-item {
+    background: #f9f9f9; border: 1px solid #e0e0e0;
+    border-radius: var(--radius); padding: 15px;
+}
+.aspect-icon { font-size: 24px; margin-bottom: 8px; }
+.aspect-title { font-weight: 600; color: var(--pmi-dark); margin-bottom: 5px; font-size: 13px; }
+.aspect-desc { font-size: 12px; color: #666; line-height: 1.6; }
+
+/* Welcome State */
+.welcome-state { text-align: center; padding: 60px 20px; }
+.welcome-icon { font-size: 80px; margin-bottom: 20px; }
+.welcome-title { font-size: 26px; color: var(--pmi-dark); margin-bottom: 15px; }
+.welcome-desc { font-size: 15px; color: #666; line-height: 2; max-width: 700px; margin: 0 auto; }
+
+.welcome-features {
+    display: flex; justify-content: center;
+    gap: 25px; margin-top: 40px; flex-wrap: wrap;
+}
+.feature-item {
+    text-align: center; padding: 20px;
+    background: var(--pmi-bg); border-radius: 10px; min-width: 150px;
+}
+.feature-icon { font-size: 40px; margin-bottom: 10px; }
+.feature-title { font-weight: 600; color: var(--pmi-dark); margin-bottom: 5px; }
+.feature-desc { font-size: 12px; color: #888; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; height: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 5px; }
+::-webkit-scrollbar-thumb { background: var(--pmi-light); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--pmi-blue); }
+
+/* PMBOK Edition 8 - Component Styles */
+
+/* Modal Overlay */
+.modal-overlay {
+    display: none; position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6); z-index: 1000;
+    justify-content: center; align-items: center;
+    backdrop-filter: blur(3px);
+}
+.modal-overlay.active { display: flex !important; }
+
+.modal-content {
+    background: var(--white); border-radius: var(--radius-lg);
+    max-width: 900px; max-height: 85vh;
+    overflow-y: auto; width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    position: relative;
+}
+.modal-content.wide { max-width: 1200px; }
+
+.modal-header {
+    background: linear-gradient(135deg, var(--pmi-dark), var(--pmi-blue));
+    color: var(--white); padding: 16px 24px;
+    display: flex; justify-content: space-between;
+    align-items: center; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.modal-header h3 { font-size: 17px; font-weight: 600; }
+
+.modal-close {
+    background: none; border: none;
+    color: var(--white); font-size: 28px;
+    cursor: pointer; opacity: 0.8;
+    transition: opacity 0.2s;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+}
+.modal-close:hover { opacity: 1; background: rgba(255,255,255,0.1); }
+
+.modal-body { padding: 30px; }
+
+/* Case Study Cards */
+.case-card {
+    background: #f8f9fa; padding: 20px;
+    border-radius: var(--radius-lg); border: 1px solid #e9ecef;
+    cursor: pointer; transition: var(--transition);
+}
+.case-card:hover { box-shadow: var(--shadow-lg); }
+
+.case-header {
+    display: flex; justify-content: space-between;
+    align-items: start; margin-bottom: 12px;
+}
+
+.industry-tag {
+    font-size: 11px; padding: 4px 10px;
+    background: #e0e7ff; color: #3730a3;
+    border-radius: 20px;
+}
+
+.tech-tag {
+    font-size: 11px; padding: 4px 10px;
+    background: #f3f4f6; color: #6b7280;
+    border-radius: 20px;
+}
+
+.difficulty-tag {
+    font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 600;
+}
+.difficulty-tag.easy { background: #d1fae5; color: #059669; }
+.difficulty-tag.medium { background: #fef3c7; color: #b45309; }
+.difficulty-tag.hard { background: #fee2e2; color: #dc2626; }
+
+/* Filter Buttons */
+.filter-btn {
+    padding: 8px 16px; border-radius: 20px;
+    cursor: pointer; font-size: 13px; border: none;
+    transition: var(--transition);
+}
+.filter-btn.active { background: #8b5cf6; color: white; }
+.filter-btn:not(.active) { background: #f3f4f6; color: #374151; }
+.filter-btn:not(.active):hover { background: #e5e7eb; }
+
+/* Case Detail Sections */
+.case-section {
+    padding: 20px; border-radius: var(--radius-lg);
+    border: 1px solid; margin-bottom: 15px;
+}
+.case-section.challenge { background: #fef2f2; border-color: #fecaca; }
+.case-section.challenge h3 { color: #dc2626; }
+.case-section.challenge p { color: #7f1d1d; }
+.case-section.solution { background: #f0fdf4; border-color: #bbf7d0; }
+.case-section.solution h3 { color: #16a34a; }
+.case-section.solution p { color: #14532d; }
+.case-section.result { background: #eff6ff; border-color: #bfdbfe; }
+.case-section.result h3 { color: #2563eb; }
+.case-section.result p { color: #1e3a8a; }
+
+/* Premium Section */
+.premium-section .sidebar-section-header { background: var(--pmi-blue); }
+.premium-section .sidebar-section-header:hover { background: var(--pmi-dark); }
+
+.premium-nav-list { display: flex; flex-direction: column; }
+.premium-nav-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px; background: #f5f9fc;
+    border: none; border-bottom: 1px solid #e0e8f0;
+    cursor: pointer; transition: var(--transition);
+    text-align: left; width: 100%;
+}
+.premium-nav-item:hover { background: #e8f4fc; }
+.premium-nav-icon { font-size: 20px; }
+.premium-nav-text { display: flex; flex-direction: column; gap: 2px; }
+.premium-nav-title { font-weight: 600; font-size: 13px; color: var(--pmi-dark); }
+.premium-nav-subtitle { font-size: 11px; color: #666; }
+
+/* Premium Features Home */
+.premium-features-home {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 15px; margin: 30px auto; max-width: 900px;
+}
+.premium-feature-card {
+    background: linear-gradient(135deg, #FFF8E7, #FFE8A3);
+    border: 2px solid var(--pmi-gold); border-radius: var(--radius-lg);
+    padding: 20px 15px; cursor: pointer;
+    transition: var(--transition); position: relative;
+}
+.premium-feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(212,175,55,0.3);
+}
+.card-icon { font-size: 36px; margin-bottom: 8px; text-align: center; }
+.card-badge {
+    position: absolute; top: 10px; right: 10px;
+    background: linear-gradient(135deg, var(--pmi-gold), #FFD700);
+    color: #333; padding: 2px 8px;
+    border-radius: 10px; font-size: 10px; font-weight: 600;
+}
+.card-title { font-weight: 600; color: #8B6914; margin-bottom: 8px; font-size: 14px; text-align: center; }
+.card-desc { font-size: 11px; color: #666; line-height: 1.5; text-align: center; }
+
+/* Focus area header in sidebar */
+
+/* Cross-reference links */
+.cross-ref-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 15px; background: #f0f7ff;
+    border-radius: var(--radius); text-decoration: none;
+    color: var(--pmi-blue); border: 1px solid #bfdbfe;
+    transition: var(--transition);
+}
+.cross-ref-link:hover { background: #e0f2fe; }
+
+/* PMBOK Edition 8 - Premium & Trial Styles */
+
+.upgrade-banner {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    padding: 20px; border-radius: var(--radius-lg);
+    margin-top: 20px; border: 2px solid #f59e0b;
+}
+
+.upgrade-banner-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 15px;
+}
+
+.upgrade-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-bottom: 15px;
+}
+
+.upgrade-item {
+    background: white; padding: 10px;
+    border-radius: var(--radius);
+}
+
+.upgrade-item .check { color: #059669; font-weight: 600; font-size: 13px; }
+.upgrade-item .en { color: #6b7280; font-size: 11px; }
+
+.upgrade-btn {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white; border: none;
+    padding: 10px 20px; border-radius: var(--radius);
+    cursor: pointer; font-weight: 600; font-size: 14px;
+    width: 100%; transition: var(--transition);
+}
+.upgrade-btn:hover { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+
+/* Trial lock indicator */
+.trial-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: 10px;
+    font-size: 10px; font-weight: 600;
+}
+.trial-badge.free { background: #d1fae5; color: #059669; }
+.trial-badge.locked { background: #fee2e2; color: #dc2626; }
+
+/* License key input */
+.license-section {
+    padding: 15px; background: #f9fafb;
+    border-radius: var(--radius); border: 1px dashed #d1d5db;
+    margin-top: 15px;
+}
+
+.license-input-group {
+    display: flex; gap: 8px; margin-top: 10px;
+}
+
+.license-input {
+    flex: 1; padding: 8px 12px;
+    border: 1px solid #d1d5db; border-radius: var(--radius);
+    font-size: 14px; font-family: monospace;
+}
+.license-input:focus { outline: none; border-color: var(--pmi-blue); }
+
+.license-btn {
+    padding: 8px 16px; border-radius: var(--radius);
+    background: var(--pmi-blue); color: white;
+    border: none; cursor: pointer; font-size: 13px;
+    transition: var(--transition);
+}
+.license-btn:hover { background: var(--pmi-dark); }
+
+.license-status {
+    font-size: 12px; margin-top: 8px;
+    display: flex; align-items: center; gap: 6px;
+}
+.license-status.active { color: #059669; }
+.license-status.inactive { color: #dc2626; }
+.license-status.unknown { color: #6b7280; }
+
+/* PMBOK Edition 8 - Quiz/Exercise Styles */
+
+.quiz-session { padding: 10px 0; }
+
+.quiz-progress {
+    display: flex; justify-content: center;
+    gap: 8px; margin-bottom: 25px;
+}
+.quiz-progress-item {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600;
+    color: #6b7280;
+    transition: var(--transition);
+}
+.quiz-progress-item.current {
+    background: var(--pmi-blue); color: white;
+    transform: scale(1.15);
+}
+.quiz-progress-item.correct {
+    background: var(--success); color: white;
+}
+.quiz-progress-item.incorrect {
+    background: var(--danger); color: white;
+}
+
+.quiz-question-header {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 15px;
+}
+.quiz-question-number { font-size: 12px; color: #6b7280; }
+
+.quiz-difficulty-tag {
+    padding: 3px 10px; border-radius: 4px;
+    font-size: 11px; font-weight: 600;
+}
+
+.quiz-question {
+    font-size: 16px; font-weight: 600;
+    color: var(--pmi-dark); margin-bottom: 24px;
+    line-height: 1.7;
+}
+
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+
+.quiz-option {
+    padding: 14px 18px;
+    background: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: var(--radius);
+    cursor: pointer; font-size: 14px;
+    text-align: left; transition: var(--transition);
+    color: var(--text-primary);
+    width: 100%;
+}
+.quiz-option:hover:not(.selected):not(.disabled) {
+    border-color: var(--pmi-light);
+    background: var(--pmi-bg);
+}
+.quiz-option.selected { border-color: var(--pmi-blue); background: #eff6ff; }
+.quiz-option.correct {
+    border-color: var(--success); background: #f0fdf4;
+    color: #065f46;
+}
+.quiz-option.incorrect {
+    border-color: var(--danger); background: #fef2f2;
+    color: #991b1b;
+}
+.quiz-option.disabled { pointer-events: none; opacity: 0.7; }
+.quiz-option.correct.disabled,
+.quiz-option.incorrect.disabled { opacity: 1; }
+
+.quiz-feedback {
+    display: none; margin-top: 18px;
+    padding: 16px; border-radius: var(--radius);
+    border-left: 4px solid;
+    font-size: 14px; line-height: 1.7;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb {
+    background: #f0fdf4; border-color: var(--success);
+    color: #065f46;
+}
+.quiz-feedback.incorrect-fb {
+    background: #fef2f2; border-color: var(--danger);
+    color: #991b1b;
+}
+
+.quiz-navigation {
+    display: flex; justify-content: space-between;
+    margin-top: 24px; gap: 10px;
+}
+
+.quiz-nav-btn {
+    padding: 10px 24px; border-radius: var(--radius);
+    border: 1px solid #d1d5db; background: white;
+    cursor: pointer; font-size: 14px; font-weight: 500;
+    transition: var(--transition);
+}
+.quiz-nav-btn:hover:not(:disabled) {
+    background: var(--pmi-bg);
+    border-color: var(--pmi-light);
+}
+.quiz-nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.quiz-score-summary {
+    text-align: center; padding: 30px;
+}
+.quiz-score-circle {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    border: 6px solid var(--pmi-blue);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 36px; font-weight: 700;
+    color: var(--pmi-blue);
+}
+.quiz-score-circle.excellent { border-color: var(--success); color: var(--success); }
+.quiz-score-circle.good { border-color: var(--pmi-blue); color: var(--pmi-blue); }
+.quiz-score-circle.fair { border-color: var(--warning); color: var(--warning); }
+.quiz-score-circle.poor { border-color: var(--danger); color: var(--danger); }
+
+.quiz-restart-btn {
+    background: var(--pmi-blue); color: white;
+    border: none; padding: 10px 28px;
+    border-radius: var(--radius); font-size: 14px;
+    cursor: pointer; margin-top: 15px;
+    transition: var(--transition);
+}
+.quiz-restart-btn:hover { background: var(--pmi-dark); }
+
+/* Quiz tab in detail header */
+.quiz-tab {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: white; cursor: pointer;
+    font-size: 13px; transition: var(--transition);
+}
+.quiz-tab:hover { background: rgba(255,255,255,0.2); }
+
+</style>
 </head>
 <body>
-    <p>正在加载 PMBOK Guide Edition 8... <a href="./src/index.html">点击这里</a></p>
+<!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">📘</div>
+            <div>
+                <h1>PMBOK Guide Edition 8 <span class="edition-badge">2026</span></h1>
+                <div class="logo-sub">项目管理知识体系指南 (第 8 版) | 6 Principles & 7 Performance Domains</div>
+            </div>
+        </div>
+        <div class="account-menu">
+            <button class="account-btn" id="accountBtn">
+                <span class="account-icon">👤</span>
+                <span class="account-text">免费用户</span>
+                <span class="account-arrow">▼</span>
+            </button>
+            <div class="account-dropdown" id="accountDropdown"></div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="view-tabs">
+                <button class="view-tab active" data-view="principles">
+                    📘 原则<br><span class="tab-en">Principles</span>
+                </button>
+                <button class="view-tab" data-view="domains">
+                    🌐 绩效域<br><span class="tab-en">Domains</span>
+                </button>
+                <button class="view-tab" data-view="processes">
+                    🔄 流程<br><span class="tab-en">Processes</span>
+                </button>
+                <button class="view-tab" data-view="agile">
+                    🚀 敏捷<br><span class="tab-en">Agile</span>
+                </button>
+            </div>
+            <div class="sidebar-content" id="sidebarContent"></div>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="content-area">
+            <section class="overview-section" id="overviewSection"></section>
+            <section class="detail-section" id="detailSection" style="display:none"></section>
+        </main>
+    </div>
+
+    <!-- 实际案例弹窗 -->
+    <div class="modal-overlay" id="caseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📝 实际案例 | Real-world Example</h3>
+                <button class="modal-close" onclick="closeCaseModal()">×</button>
+            </div>
+            <div class="modal-body" id="caseModalContent"></div>
+        </div>
+    </div>
+
+    <!-- 自测弹窗 -->
+    <div class="modal-overlay" id="quizModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="quizModalTitle">自测 | Self-test</h3>
+                <button class="modal-close" onclick="closeQuizModal()">×</button>
+            </div>
+            <div class="modal-body" id="quizModalContent"></div>
+        </div>
+    </div>
+
+    <!-- 案例库弹窗 -->
+    <div class="modal-overlay" id="caseOverlay">
+        <div class="modal-content wide">
+            <div class="modal-header" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">
+                <h3>📚 案例分析库 | Case Study Library</h3>
+                <button class="modal-close" onclick="closeCaseLibrary()">×</button>
+            </div>
+            <div class="modal-body" id="caseOverlayBody"></div>
+        </div>
+    </div>
+
+    <!-- ES6 Module Entry -->
+<script>
+
+// ===== src/js/core/state.js =====
+/**
+ * PMBOK Edition 8 - 状态管理模块
+ * State Management Module
+ */
+const state = {
+    currentUser: null,
+    isPremiumUser: false,
+    licenseKey: null,
+    licenseDeviceId: null,
+    licenseExpiresAt: null,
+    currentView: 'principles',
+    selectedPrinciple: null,
+    selectedDomain: null,
+    selectedProcess: null,
+    selectedAgile: null,
+    quizScores: {}
+};
+
+const STORAGE_KEYS = {
+    PREMIUM: 'pmbok8_premium',
+    PREMIUM_EXPIRY: 'pmbok8_premium_expiry',
+    LICENSE_KEY: 'pmbok8_license_key',
+    DEVICE_ID: 'pmbok8_device_id',
+    QUIZ_SCORES: 'pmbok8_quiz_scores',
+    USER: 'pmbok8_user'
+};
+
+function getFromStorage(key) {
+    try {
+        const data = localStorage.getItem(key);
+        return data ? JSON.parse(data) : null;
+    } catch (e) {
+        console.warn('Storage read error:', e);
+        return null;
+    }
+}
+
+function setToStorage(key, value) {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+    } catch (e) {
+        console.warn('Storage write error:', e);
+        return false;
+    }
+}
+
+function loadState() {
+    const premium = getFromStorage(STORAGE_KEYS.PREMIUM);
+    const premiumExpiry = getFromStorage(STORAGE_KEYS.PREMIUM_EXPIRY);
+    const licenseKey = getFromStorage(STORAGE_KEYS.LICENSE_KEY);
+    const deviceId = getFromStorage(STORAGE_KEYS.DEVICE_ID);
+    const quizScores = getFromStorage(STORAGE_KEYS.QUIZ_SCORES);
+    const user = getFromStorage(STORAGE_KEYS.USER);
+
+    let isPremium = false;
+    if (premium && premiumExpiry) {
+        isPremium = new Date(premiumExpiry) > new Date();
+    }
+    if (premium === 'forever') isPremium = true;
+
+    state.isPremiumUser = isPremium;
+    state.licenseKey = licenseKey;
+    state.licenseDeviceId = deviceId;
+    state.quizScores = quizScores || {};
+    state.currentUser = user;
+    return state;
+}
+
+function saveState() {
+    setToStorage(STORAGE_KEYS.PREMIUM, state.isPremiumUser);
+    if (state.licenseExpiresAt) setToStorage(STORAGE_KEYS.PREMIUM_EXPIRY, state.licenseExpiresAt);
+    if (state.licenseKey) setToStorage(STORAGE_KEYS.LICENSE_KEY, state.licenseKey);
+    if (state.licenseDeviceId) setToStorage(STORAGE_KEYS.DEVICE_ID, state.licenseDeviceId);
+    if (state.quizScores) setToStorage(STORAGE_KEYS.QUIZ_SCORES, state.quizScores);
+    if (state.currentUser) setToStorage(STORAGE_KEYS.USER, state.currentUser);
+}
+
+function getDeviceId() {
+    let deviceId = getFromStorage(STORAGE_KEYS.DEVICE_ID);
+    if (!deviceId) {
+        const fp = [navigator.userAgent, navigator.language, screen.colorDepth, screen.width, screen.height, new Date().getTimezoneOffset(), Date.now()].join('|');
+        let hash = 0;
+        for (let i = 0; i < fp.length; i++) {
+            const c = fp.charCodeAt(i);
+            hash = ((hash << 5) - hash) + c;
+            hash |= 0;
+        }
+        deviceId = 'DEV' + Math.abs(hash).toString(16).toUpperCase().padStart(8, '0');
+        setToStorage(STORAGE_KEYS.DEVICE_ID, deviceId);
+    }
+    return deviceId;
+}
+
+
+// ===== src/js/data/trial.js =====
+/**
+ * PMBOK Edition 8 - 试用与 Premium 系统
+ * Trial & Premium Access Management
+ */
+const TRIAL_PRINCIPLES = [1, 2, 3, 4, 5, 6]; // 6 原则全部免费基础访问
+const TRIAL_DOMAINS = [1, 2, 3, 4, 5, 6, 7]; // 7 绩效域全部免费基础访问
+const TRIAL_QUIZZES_PER_ITEM = 3; // 每项前3题免费
+const TRIAL_CASE_STUDIES = 4; // 前4个案例免费
+
+function checkTrialAccess(type, number) {
+    const trialLimits = {
+        principle: { allowed: TRIAL_PRINCIPLES, name: '原则' },
+        domain: { allowed: TRIAL_DOMAINS, name: '绩效域' }
+    };
+    const config = trialLimits[type];
+    if (!config) return { isTrial: false, canAccess: true, message: '' };
+    if (config.allowed.includes(number)) {
+        return { isTrial: true, canAccess: true, message: '✅ 免费内容' };
+    }
+    return { isTrial: true, canAccess: false, message: `🔒 ${config.name} #${number} 需要 Premium` };
+}
+
+function canAccessContent(isPremium, type, number) {
+    if (isPremium) return true;
+    if (type === 'principle') return TRIAL_PRINCIPLES.includes(number);
+    if (type === 'domain') return TRIAL_DOMAINS.includes(number);
+    return true;
+}
+
+function getTrialUpgradeMessage() {
+    return `
+        <div class="upgrade-banner">
+            <div class="upgrade-banner-header">
+                <span style="font-size:24px;">👑</span>
+                <div>
+                    <div style="font-weight:600;color:#92400e;font-size:15px;">升级 Premium，解锁全部内容</div>
+                    <div style="font-size:12px;color:#78350f;">Upgrade to Premium for Full Access</div>
+                </div>
+            </div>
+            <div class="upgrade-grid">
+                <div class="upgrade-item">
+                    <div class="check">✅ 6 项原则完整习题库（30题）</div>
+                    <div class="en">Full Quiz Bank for all 6 Principles</div>
+                </div>
+                <div class="upgrade-item">
+                    <div class="check">✅ 7 个绩效域完整习题库（7题）</div>
+                    <div class="en">Full Quiz Bank for all 7 Domains</div>
+                </div>
+                <div class="upgrade-item">
+                    <div class="check">✅ 12 个完整案例研究</div>
+                    <div class="en">All 12 Case Studies</div>
+                </div>
+                <div class="upgrade-item">
+                    <div class="check">✅ 学习进度追踪与成绩分析</div>
+                    <div class="en">Learning Progress Tracking</div>
+                </div>
+            </div>
+            <button class="upgrade-btn" onclick="window.openPremiumModal()">
+                👑 立即升级 Premium
+            </button>
+            <div class="license-section">
+                <p style="font-size:12px;color:#6b7280;margin-bottom:8px;">已有 License Key？输入激活码 | Already have a key?</p>
+                <div class="license-input-group">
+                    <input class="license-input" id="licenseKeyInput" placeholder="输入 License Key...">
+                    <button class="license-btn" onclick="window.activateLicense()">激活</button>
+                </div>
+                <div id="licenseStatus" class="license-status unknown"></div>
+            </div>
+        </div>
+    `;
+}
+
+
+// ===== src/js/data/principles.js =====
+/**
+ * PMBOK 第 8 版 - 6 项原则数据
+ * 6 Principles of PMBOK 8th Edition (2025/2026)
+ * 含：白话解释、实际案例、自测题库（5题/原则）、绩效域关联
+ */
+const principles = [
+    {
+        number: 1,
+        name: '整体视角',
+        nameEn: 'Adopt a Holistic View',
+        icon: '\u{1f310}',
+        summary: '从整体视角理解项目生态系统',
+        summaryEn: 'Consider the entire project ecosystem',
+        description: '考虑整个项目生态系统，包括相互依赖关系、相关方和更广泛的组织背景。项目不是孤立的，要与组织战略和其他系统协调一致，用系统思维理解各要素之间的关系和相互影响。',
+        descriptionEn: 'Consider the entire project ecosystem, including interdependencies, stakeholders, and the broader organizational context. Projects are not isolated; they must align with organizational strategy and coordinate with other systems.',
+        simpleExplain: '说人话：见树又见林。做项目不能只看自己的一亩三分地，要看到项目与组织战略、其他项目、外部环境的关联。大局观决定成败。',
+        keyAspects: [
+            { icon: '\u{1f30d}', title: '系统思维', titleEn: 'Systems Thinking', desc: '理解系统间的相互关联' },
+            { icon: '\u{1f517}', title: '依赖管理', titleEn: 'Dependency Management', desc: '识别和管理内外部依赖关系' },
+            { icon: '\u{1f465}', title: '相关方视角', titleEn: 'Stakeholder Perspectives', desc: '考虑所有相关方的影响和需求' },
+            { icon: '\u{1f3e2}', title: '组织背景', titleEn: 'Organizational Context', desc: '理解组织环境、文化和战略方向' }
+        ],
+        example: {
+            title: '实际案例：某银行核心系统升级',
+            scenario: '某大型银行启动核心系统升级项目。项目经理陈明没有只看技术层面，而是：',
+            actions: [
+                '✅ 绘制系统交互全景图，识别了12个关联系统和5个业务部门的影响（系统思维）',
+                '✅ 建立跨部门协调委员会，每周同步进展和风险（依赖管理）',
+                '✅ 走访各业务部门，收集不同角色的需求和顾虑（相关方视角）',
+                '✅ 将项目目标与银行三年数字化战略对齐，获得高管持续支持（组织背景）'
+            ],
+            outcome: '项目不仅成功上线，还意外发现并优化了3个长期存在的系统集成瓶颈，整体效率提升40%。'
+        },
+        quizzes: [
+            { id: 'P1_Q1', question: 'PMBOK第8版中的"整体视角"原则强调什么？', options: ['A. 只关注自己负责的模块', 'B. 从全局出发，理解项目在组织中的位置和关联', 'C. 把项目拆得越细越好', 'D. 忽略外部环境变化'], correct: 1, explanation: '整体视角要求项目经理从全局出发，理解项目与组织战略、其他系统、外部环境的相互关联。', difficulty: 'easy' },
+            { id: 'P1_Q2', question: '以下哪项最能体现"整体视角"原则的应用？', options: ['A. 只与直接上级沟通', 'B. 绘制系统交互图并建立跨部门协调机制', 'C. 每个团队成员独立工作', 'D. 等到上线前再考虑系统集成'], correct: 1, explanation: '绘制系统交互图和建立跨部门协调机制体现了系统思维和对依赖关系的管理。', difficulty: 'medium' },
+            { id: 'P1_Q3', question: '"整体视角"原则中，依赖管理包括哪些内容？', options: ['A. 只管理技术依赖', 'B. 识别和管理项目内外部所有依赖关系', 'C. 忽略外部依赖', 'D. 只关注时间依赖'], correct: 1, explanation: '依赖管理需要识别和管理项目内部和外部所有的依赖关系，包括技术、组织、资源等。', difficulty: 'medium' },
+            { id: 'P1_Q4', question: '系统思维与线性思维的主要区别是什么？', options: ['A. 没有区别', 'B. 系统思维关注整体关联，线性思维关注单线因果', 'C. 线性思维更高级', 'D. 系统思维只适用于IT项目'], correct: 1, explanation: '系统思维强调整体性和相互关联，反对简单的线性因果思维，认为系统各要素相互影响。', difficulty: 'hard' },
+            { id: 'P1_Q5', question: '在项目中应用"整体视角"原则，以下做法最不合适的是？', options: ['A. 定期与各相关方同步信息', 'B. 只关注项目内部进度，无视组织战略变化', 'C. 识别跨项目依赖和共享资源', 'D. 理解项目对组织变革的影响'], correct: 1, explanation: '只关注内部进度而无视组织战略变化，恰恰违背了整体视角原则的核心要求。', difficulty: 'easy' }
+        ],
+        performanceDomains: ['治理绩效域', '范围绩效域', '相关方绩效域']
+    },
+    {
+        number: 2,
+        name: '聚焦价值',
+        nameEn: 'Focus on Value',
+        icon: '\u{1f48e}',
+        summary: '优先交付价值，确保与组织目标一致',
+        summaryEn: 'Prioritize delivering value aligned with organizational goals',
+        description: '项目的最终目标是向相关方交付价值，确保项目成果与组织目标一致。所有决策都应围绕价值最大化，持续评估项目是否仍在创造预期价值，必要时调整方向。',
+        descriptionEn: 'The ultimate goal of projects is to deliver value to stakeholders. All decisions should focus on maximizing value and ensuring alignment with organizational objectives.',
+        simpleExplain: '说人话：一切向"值"看。做项目不是为了完成任务清单，而是为了创造实实在在的价值。时刻问自己：这个决定能增加价值吗？如果不能，为什么还要做？',
+        keyAspects: [
+            { icon: '\u{1f3af}', title: '价值定义', titleEn: 'Define Value', desc: '明确什么对组织才是真正的价值' },
+            { icon: '\u{1f4c8}', title: '价值最大化', titleEn: 'Maximize Value', desc: '优先做高价值的事，低价值可舍弃' },
+            { icon: '\u{1f4b0}', title: '商业收益', titleEn: 'Business Benefits', desc: '关注投资回报和商业成果' },
+            { icon: '✅', title: '成果验证', titleEn: 'Validate Outcomes', desc: '持续确认价值是否在实现' }
+        ],
+        example: {
+            title: '实际案例：电商平台功能优先级决策',
+            scenario: '某电商平台项目原计划包含30个功能，但预算和时间有限。项目经理李娜进行了价值导向的优先级分析：',
+            actions: [
+                '✅ 与业务方共同定义价值评估标准：收入影响、用户留存、技术可行性（价值定义）',
+                '✅ 使用MoSCoW方法对所有功能进行价值排序，砍掉12个低价值功能（价值最大化）',
+                '✅ 建立价值仪表盘，实时追踪核心指标（商业收益）',
+                '✅ 每个迭代结束后验证功能是否产生了预期的用户行为变化（成果验证）'
+            ],
+            outcome: '产品提前3周上线，核心收入指标提升45%，低价值功能的放弃没有对用户满意度产生负面影响。'
+        },
+        quizzes: [
+            { id: 'P2_Q1', question: 'PMBOK第8版中"聚焦价值"原则的核心是什么？', options: ['A. 按时完成所有计划功能', 'B. 优先交付对组织最有价值的成果', 'C. 尽可能多地完成功能', 'D. 只关注成本控制'], correct: 1, explanation: '聚焦价值意味着资源有限时优先交付高价值成果，而非盲目完成所有计划功能。', difficulty: 'easy' },
+            { id: 'P2_Q2', question: '以下哪项最能衡量项目是否在"聚焦价值"？', options: ['A. 完成了多少个用户故事', 'B. 交付的功能是否产生了预期的商业成果', 'C. 团队成员加班时长', 'D. 文档的完整程度'], correct: 1, explanation: '价值的衡量标准是商业成果（outcome），而非产出数量（output）。', difficulty: 'medium' },
+            { id: 'P2_Q3', question: '在资源有限时，聚焦价值原则建议项目经理如何决策？', options: ['A. 平均分配资源到所有功能', 'B. 优先完成高价值功能，必要时舍弃低价值功能', 'C. 要求增加资源完成所有功能', 'D. 随机选择功能进行开发'], correct: 1, explanation: '聚焦价值要求在资源约束下做出取舍，优先保障高价值功能的交付。', difficulty: 'medium' },
+            { id: 'P2_Q4', question: '价值交付应该何时进行评估？', options: ['A. 仅在项目结束时', 'B. 仅在项目开始时', 'C. 贯穿整个项目生命周期', 'D. 不需要评估'], correct: 2, explanation: '价值交付需要持续评估，贯穿整个项目生命周期，以便及时调整方向。', difficulty: 'easy' },
+            { id: 'P2_Q5', question: '以下哪项不是"聚焦价值"原则关注的内容？', options: ['A. 投资回报率', 'B. 客户满意度', 'C. 完成任务的数量', 'D. 商业目标的实现'], correct: 2, explanation: '聚焦价值关注的是成果的质量和影响，而非简单地追求任务完成数量。', difficulty: 'hard' }
+        ],
+        performanceDomains: ['财务绩效域', '范围绩效域', '相关方绩效域']
+    },
+    {
+        number: 3,
+        name: '融入质量',
+        nameEn: 'Embed Quality',
+        icon: '⭐',
+        summary: '在整个项目活动中融入质量管理',
+        summaryEn: 'Integrate quality management throughout all activities',
+        description: '将质量管理融入所有项目活动中，而不是作为最后的检查环节。质量是设计和构建进去的，不是检查出来的。每个环节都要确保产出合格，形成持续改进的闭环。',
+        descriptionEn: 'Integrate quality into all project activities rather than treating it as a final inspection. Quality is designed and built in, not inspected in.',
+        simpleExplain: '说人话：一次做对，全程把关。质量靠的是预防和过程控制，不是最后一刻的突击检查。每个环节都做好，最后自然质量好。',
+        keyAspects: [
+            { icon: '\u{1f4d0}', title: '质量标准', titleEn: 'Quality Standards', desc: '明确质量要求和验收标准' },
+            { icon: '\u{1f527}', title: '过程设计', titleEn: 'Process Design', desc: '设计防止缺陷产生的工作流程' },
+            { icon: '✅', title: '持续验证', titleEn: 'Continuous Verification', desc: '边做边检查，不是做完再查' },
+            { icon: '\u{1f4ca}', title: '持续改进', titleEn: 'Continuous Improvement', desc: '基于数据和反馈不断优化' }
+        ],
+        example: {
+            title: '实际案例：医疗设备软件开发',
+            scenario: '某医疗设备软件需要满足严格的FDA合规要求。质量负责人赵敏将质量融入整个开发过程：',
+            actions: [
+                '✅ 在需求阶段就明确每个功能的验收标准和测试用例（质量标准）',
+                '✅ 设计代码审查+自动化测试+持续集成的质量流水线（过程设计）',
+                '✅ 每个功能完成后立即进行单元测试和集成测试（持续验证）',
+                '✅ 每月分析缺陷趋势，识别根本原因并优化开发流程（持续改进）'
+            ],
+            outcome: '产品一次性通过FDA审核，上市后客户投诉率为零，质量成本同比下降60%。'
+        },
+        quizzes: [
+            { id: 'P3_Q1', question: '"融入质量"原则与传统质量管理的根本区别是什么？', options: ['A. 没有区别', 'B. 质量是设计和构建进去的，不是最后检查出来的', 'C. 传统质量管理更好', 'D. 不需要质量检查'], correct: 1, explanation: '融入质量强调质量是前置和内置的，通过过程控制预防缺陷，而非依赖最终检查。', difficulty: 'easy' },
+            { id: 'P3_Q2', question: '以下哪项最能体现"融入质量"的实践？', options: ['A. 等所有开发完成后再统一测试', 'B. 在开发前定义验收标准，边开发边测试', 'C. 只由QA团队负责质量', 'D. 跳过测试以加快进度'], correct: 1, explanation: '前置定义验收标准并持续测试，体现了质量融入过程的理念。', difficulty: 'medium' },
+            { id: 'P3_Q3', question: '持续改进（Continuous Improvement）在质量管理中意味着？', options: ['A. 一次做好就不需要改进了', 'B. 永远可以做得更好，基于数据持续优化', 'C. 等到出问题再改进', 'D. 只在大项目中做改进'], correct: 1, explanation: '持续改进是质量管理的核心理念，认为永远有改进空间，应基于数据驱动决策。', difficulty: 'medium' },
+            { id: 'P3_Q4', question: '质量成本包括哪些类型？', options: ['A. 只有检验成本', 'B. 预防成本、评估成本、内部失败成本、外部失败成本', 'C. 只有返工成本', 'D. 只有培训成本'], correct: 1, explanation: '质量成本包括预防成本、评估成本、内部失败成本和外部失败成本四大类。', difficulty: 'hard' },
+            { id: 'P3_Q5', question: '在项目中，谁应该对质量负责？', options: ['A. 只有QA团队', 'B. 只有项目经理', 'C. 整个项目团队', 'D. 只有开发人员'], correct: 2, explanation: '质量是团队中每个人的责任，融入质量意味着每个角色都在自己的工作中保证质量。', difficulty: 'easy' }
+        ],
+        performanceDomains: ['范围绩效域', '财务绩效域', '风险绩效域']
+    },
+    {
+        number: 4,
+        name: '负责任领导',
+        nameEn: 'Be an Accountable Leader',
+        icon: '\u{1f31f}',
+        summary: '展现负责任、诚信和道德的领导力',
+        summaryEn: 'Demonstrate responsible, ethical, and accountable leadership',
+        description: '展现负责任、诚信和道德的领导力。领导者要对项目、团队和相关方负责，做出符合道德标准的决策。领导力不是职位，而是行为——无论什么角色都可以展现领导力。',
+        descriptionEn: 'Demonstrate responsible, ethical leadership. Leaders are accountable to the project, team, and stakeholders, making decisions that meet ethical standards.',
+        simpleExplain: '说人话：带好头、负好责。领导力不是"管人"，而是通过行动影响他人、敢于担当、做正确的事。出了问题是"我的责任"，有了成绩是"团队的功劳"。',
+        keyAspects: [
+            { icon: '\u{1f3af}', title: '愿景引领', titleEn: 'Vision & Direction', desc: '描绘清晰的目标和方向，激励团队前行' },
+            { icon: '\u{1f6e1}', title: '诚信行事', titleEn: 'Act with Integrity', desc: '诚实守信，说到做到，做正确的事' },
+            { icon: '\u{1f525}', title: '激励他人', titleEn: 'Motivate & Inspire', desc: '激发团队成员的潜力和热情' },
+            { icon: '⚖️', title: '道德决策', titleEn: 'Ethical Decisions', desc: '在困难情况下做出符合道德的决策' }
+        ],
+        example: {
+            title: '实际案例：新手项目经理的逆袭',
+            scenario: '新手项目经理小陈接手了一个濒临失败的数据平台项目。团队士气低落，客户不信任。他展现了以下领导力：',
+            actions: [
+                '✅ 与团队一起重新描绘项目成功后的愿景，让每个人看到自己的贡献意义（愿景引领）',
+                '✅ 如实向客户承认前期问题，提出详实的补救方案和承诺（诚信行事）',
+                '✅ 公开表扬每位成员的进步，每周评选"本周之星"（激励他人）',
+                '✅ 在供应商提出给回扣换取合同时，坚决拒绝并更换供应商（道德决策）'
+            ],
+            outcome: '团队士气从低谷回升到历史最高，项目不仅追回进度，还获得了年度最佳项目奖。'
+        },
+        quizzes: [
+            { id: 'P4_Q1', question: 'PMBOK第8版中的"负责任领导"原则强调什么？', options: ['A. 领导力只是项目经理的事', 'B. 通过诚信、道德和担当来影响和带领团队', 'C. 领导力就是发号施令', 'D. 领导力是天生的，后天无法培养'], correct: 1, explanation: '负责任领导强调领导力是行为而非职位，任何人都可以通过诚信、担当和道德行为来展现领导力。', difficulty: 'easy' },
+            { id: 'P4_Q2', question: '以下哪项最能体现"负责任领导"的行为？', options: ['A. 项目出问题时推卸责任给团队', 'B. 主动承担问题责任，带领团队寻找解决方案', 'C. 只做上级交代的事', 'D. 隐瞒问题避免被批评'], correct: 1, explanation: '负责任领导在困难面前不推卸责任，而是主动承担并带领团队解决问题。', difficulty: 'medium' },
+            { id: 'P4_Q3', question: '服务型领导（Servant Leadership）的核心是什么？', options: ['A. 控制团队成员的一举一动', 'B. 以服务和支持团队的成长与成功为首要任务', 'C. 只关注上级的满意度', 'D. 让团队自行其是，完全不干预'], correct: 1, explanation: '服务型领导以支持和服务团队为核心，关注团队成员的成长与发展。', difficulty: 'medium' },
+            { id: 'P4_Q4', question: '面对道德困境时，负责任的项目经理应该如何做？', options: ['A. 选择对自己最有利的方案', 'B. 遵循道德准则和组织价值观，即使这可能是更困难的选择', 'C. 征求上级同意后选择捷径', 'D. 让团队成员来决定'], correct: 1, explanation: '负责任领导要求在道德困境中坚持原则，做出符合道德标准的决策。', difficulty: 'hard' },
+            { id: 'P4_Q5', question: '项目经理的领导力与职能经理的管理有何不同？', options: ['A. 完全相同', 'B. 领导力侧重影响和激励，管理侧重控制和协调', 'C. 管理比领导力重要', 'D. 二者不可兼得'], correct: 1, explanation: '领导力侧重愿景、影响和激励，而管理侧重计划、控制和协调，两者互补。', difficulty: 'easy' }
+        ],
+        performanceDomains: ['治理绩效域', '资源绩效域', '相关方绩效域']
+    },
+    {
+        number: 5,
+        name: '协作团队',
+        nameEn: 'Foster a Collaborative Team Environment',
+        icon: '\u{1f465}',
+        summary: '培养协作的项目团队环境',
+        summaryEn: 'Build a collaborative project team environment',
+        description: '培养协作的项目团队环境，促进开放沟通、知识共享和相互支持。高效团队不是靠命令凝聚，而是靠共享的愿景、信任和协作文化。让团队成员发挥最大潜力。',
+        descriptionEn: 'Foster a collaborative team environment that promotes open communication, knowledge sharing, and mutual support to enable team members to reach their full potential.',
+        simpleExplain: '说人话：众人拾柴火焰高。打造一个人人愿意说话、互相帮助、一起成长的团队环境。好的氛围不是靠制度管出来的，是靠信任和尊重建立的。',
+        keyAspects: [
+            { icon: '\u{1f5e3}', title: '开放沟通', titleEn: 'Open Communication', desc: '信息透明，鼓励畅所欲言' },
+            { icon: '\u{1f4da}', title: '知识共享', titleEn: 'Knowledge Sharing', desc: '分享经验和技能，共同成长' },
+            { icon: '\u{1f932}', title: '相互支持', titleEn: 'Mutual Support', desc: '互相帮助，不让任何人掉队' },
+            { icon: '\u{1f389}', title: '团队文化', titleEn: 'Team Culture', desc: '建立积极、包容的团队规范' }
+        ],
+        example: {
+            title: '实际案例：跨国团队的协作突破',
+            scenario: '某跨国项目团队分布在5个时区，初期协作效率低下，成员之间缺乏信任。项目经理王芳采取措施：',
+            actions: [
+                '✅ 建立团队共享知识库，所有决策和讨论都在公开频道进行（开放沟通）',
+                '✅ 设立"周五技术分享会"，轮流由成员分享专长领域（知识共享）',
+                '✅ 实施"伙伴制度"，每位新成员配备一名资深伙伴帮助融入（相互支持）',
+                '✅ 共同制定团队章程，包括沟通规范、决策流程和冲突处理方式（团队文化）'
+            ],
+            outcome: '跨时区协作效率提升60%，团队成员NPS从-20提升到+75，项目提前交付。'
+        },
+        quizzes: [
+            { id: 'P5_Q1', question: '"协作团队"原则中，以下哪项做法最有效？', options: ['A. 建立开放沟通机制，鼓励知识共享和相互支持', 'B. 严格管控信息流通，避免信息泄露', 'C. 让团队成员独立工作，减少沟通成本', 'D. 只在出问题时才进行团队沟通'], correct: 0, explanation: '开放沟通、知识共享和相互支持是高效协作团队的三大基石。', difficulty: 'easy' },
+            { id: 'P5_Q2', question: '高效协作团队的特征不包括？', options: ['A. 清晰的目标和角色', 'B. 相互指责和推诿', 'C. 良好的沟通和信任', 'D. 知识共享和学习氛围'], correct: 1, explanation: '相互指责和推诿会破坏团队信任，是高效协作团队的最大杀手。', difficulty: 'easy' },
+            { id: 'P5_Q3', question: '团队章程（Team Charter）的主要作用是什么？', options: ['A. 只是一个形式文件', 'B. 明确团队的沟通规范、决策流程和行为准则', 'C. 仅用于分配任务', 'D. 仅项目经理需要遵守'], correct: 1, explanation: '团队章程是团队共同制定的"宪法"，明确了工作规范和协作方式。', difficulty: 'medium' },
+            { id: 'P5_Q4', question: '冲突在协作团队中应该如何处理？', options: ['A. 完全避免任何冲突', 'B. 建设性的冲突可以促进创新和更好的决策', 'C. 由项目经理单方面裁决', 'D. 让冲突双方自行解决，不加干预'], correct: 1, explanation: '适度的建设性冲突可以激发创新和更全面的思考，关键是有效管理和引导。', difficulty: 'hard' },
+            { id: 'P5_Q5', question: '心理安全（Psychological Safety）对团队协作意味着什么？', options: ['A. 不用承担任何工作压力', 'B. 团队成员可以自由表达意见而不担心被惩罚或嘲笑', 'C. 只允许说正面的话', 'D. 不需要任何问责机制'], correct: 1, explanation: '心理安全让成员敢于表达真实想法、承认错误、提出异议，是高效协作的基础。', difficulty: 'medium' }
+        ],
+        performanceDomains: ['资源绩效域', '治理绩效域', '相关方绩效域']
+    },
+    {
+        number: 6,
+        name: '管家精神',
+        nameEn: 'Demonstrate Stewardship',
+        icon: '\u{1f91d}',
+        summary: '负责任地管理资源，展现管家精神',
+        summaryEn: 'Manage resources responsibly as a steward',
+        description: '负责任地管理组织资源，为组织和相关方的最佳利益行事。管家精神包括诚信行事、关怀团队成员、高效利用资源，以及对社会和环境负责。项目经理是组织资源的管家，而非所有者。',
+        descriptionEn: 'Manage organizational resources responsibly, acting in the best interest of the organization and stakeholders. Stewardship includes integrity, care for team members, efficient resource use, and social/environmental responsibility.',
+        simpleExplain: '说人话：当家做主、不负所托。项目资源不是你的，是组织的。要用好每一分钱、每一个人，对得起组织的信任。不仅要对项目负责，还要对社会和环境负责。',
+        keyAspects: [
+            { icon: '\u{1f3af}', title: '诚信行事', titleEn: 'Act with Integrity', desc: '诚实守信，以组织利益为重' },
+            { icon: '❤️', title: '关怀团队', titleEn: 'Care for People', desc: '关心成员成长、福祉和工作负荷' },
+            { icon: '\u{1f4ca}', title: '资源管理', titleEn: 'Resource Stewardship', desc: '高效、可持续地利用组织资源' },
+            { icon: '\u{1f91d}', title: '建立信任', titleEn: 'Build Trust', desc: '言行一致，赢得相关方信任' }
+        ],
+        example: {
+            title: '实际案例：ERP项目的资源管家',
+            scenario: '某ERP实施项目预算5000万，涉及30人团队和10家供应商。项目经理张华展现了管家精神：',
+            actions: [
+                '✅ 建立透明的资源使用台账，每月向管理委员会汇报资源使用效率（诚信行事）',
+                '✅ 关注团队成员的工作负荷，及时调整任务分配避免 burnout（关怀团队）',
+                '✅ 通过谈判将供应商成本降低15%，同时保证质量不降（资源管理）',
+                '✅ 主动向发起人报告项目风险和改进机会，即使这意味着承认之前的决策需要调整（建立信任）'
+            ],
+            outcome: '项目在预算范围内交付，节省的500万资源被重新分配到其他战略项目，团队零离职率。'
+        },
+        quizzes: [
+            { id: 'P6_Q1', question: 'PMBOK第8版中"管家精神"原则的核心是什么？', options: ['A. 项目经理拥有所有项目资源', 'B. 以组织利益为重，负责任地管理受托资源', 'C. 只管自己的任务', 'D. 最大化个人收益'], correct: 1, explanation: '管家精神强调项目经理是资源的管家而非所有者，要以组织最佳利益来管理资源。', difficulty: 'easy' },
+            { id: 'P6_Q2', question: '以下哪项行为最符合"管家精神"原则？', options: ['A. 隐瞒项目问题，避免被上级批评', 'B. 如实汇报项目状态，即使可能影响自己的绩效评估', 'C. 把项目预算花得一分不剩以争取下期更多', 'D. 把所有决策权都抓在自己手里'], correct: 1, explanation: '如实汇报体现了诚信和以组织利益为重的管家精神。', difficulty: 'medium' },
+            { id: 'P6_Q3', question: '管家精神中的"可持续性"考虑包括？', options: ['A. 只关注经济利益', 'B. 平衡经济、社会和环境三方面的影响', 'C. 忽略环境影响', 'D. 只关注短期结果'], correct: 1, explanation: '管家精神要求考虑项目对经济、社会和环境的长期影响，追求可持续的价值创造。', difficulty: 'hard' },
+            { id: 'P6_Q4', question: '作为项目资源的管家，项目经理应该如何对待团队？', options: ['A. 将团队视为可替换的资源', 'B. 关心成员的发展和福祉，防止过度使用', 'C. 不断加压以获取最大产出', 'D. 只关注技术能力强的成员'], correct: 1, explanation: '管家精神要求项目经理关心团队成员的成长和福祉，避免将人视为可无限使用的资源。', difficulty: 'medium' },
+            { id: 'P6_Q5', question: '管家精神与负责任领导有何关系？', options: ['A. 完全相同没有区别', 'B. 管家精神侧重资源管理责任，负责任领导侧重带领和影响他人', 'C. 两者互不相关', 'D. 管家精神只适用于高级管理层'], correct: 1, explanation: '管家精神侧重对资源的受托责任，负责任领导侧重对人的带领和影响，两者互补。', difficulty: 'easy' }
+        ],
+        performanceDomains: ['治理绩效域', '财务绩效域', '资源绩效域']
+    }
+];
+
+
+// ===== src/js/data/domains.js =====
+/**
+ * PMBOK 第 8 版 - 7 个绩效域数据
+ * 7 Performance Domains of PMBOK 8th Edition (2025/2026)
+ * 含：实际案例、自测题、原则关联
+ */
+const performanceDomains = [
+    {
+        number: 1,
+        name: '治理绩效域',
+        nameEn: 'Governance Performance Domain',
+        icon: '\u{1f3db}',
+        color: '#005A9D',
+        summary: '建立项目治理框架，确保有效监督和决策',
+        summaryEn: 'Establish governance framework for effective oversight and decision-making',
+        description: '治理绩效域涉及建立项目治理框架，包括决策流程、监督机制和与控制其他绩效域的互动。治理确保项目与组织战略保持一致，提供明确的问责制和决策权。',
+        descriptionEn: 'Governance Performance Domain involves establishing project governance frameworks including decision-making processes, oversight mechanisms, and interactions with other performance domains.',
+        keyActivities: [
+            '建立项目治理结构和决策流程',
+            '定义角色、职责和权限',
+            '设置阶段审查和决策点（Gate Reviews）',
+            '提供监督和指导',
+            '确保合规和道德标准'
+        ],
+        expectedOutcomes: [
+            '清晰的治理框架和流程',
+            '有效的决策机制',
+            '透明的监督和报告',
+            '与组织战略保持一致'
+        ],
+        example: {
+            title: '实际案例：大型基建项目治理',
+            scenario: '某大型基础设施项目涉及多个政府部门和私有合作伙伴。项目治理委员会建立了清晰的三层治理架构：',
+            actions: [
+                '✅ 建立战略层（董事会级）、管理层（PMO级）、执行层（项目级）三层治理架构',
+                '✅ 明确定义每个层级的决策权限和升级路径',
+                '✅ 设置5个阶段审查点（Gate 0-4），每个阶段需通过治理委员会审批',
+                '✅ 实施月度治理报告和季度战略对齐审查'
+            ],
+            outcome: '项目决策效率提升50%，重大问题升级路径清晰，无一例决策混乱导致的返工。'
+        },
+        quiz: {
+            question: '项目治理绩效域的主要关注点是什么？',
+            options: [
+                'A. 仅关注项目进度',
+                'B. 建立决策流程、监督机制和问责制度',
+                'C. 只关注成本控制',
+                'D. 替代项目经理进行日常管理'
+            ],
+            correct: 1,
+            explanation: '治理绩效域的核心是建立有效的决策和监督框架，确保项目有清晰的问责和决策路径。'
+        },
+        relatedPrinciples: [4, 6]
+    },
+    {
+        number: 2,
+        name: '范围绩效域',
+        nameEn: 'Scope Performance Domain',
+        icon: '\u{1f3af}',
+        color: '#2E8B57',
+        summary: '定义和管理项目范围，确保交付所需成果',
+        summaryEn: 'Define and manage project scope to deliver required outcomes',
+        description: '范围绩效域涉及定义和管理项目的工作范围，确保项目交付所需的可交付成果，同时防止范围蔓延。范围管理从需求收集开始，贯穿整个项目生命周期。',
+        descriptionEn: 'Scope Performance Domain involves defining and managing the project scope to ensure required deliverables are produced while preventing scope creep.',
+        keyActivities: [
+            '收集和管理相关方需求',
+            '定义项目和产品范围',
+            '创建工作分解结构（WBS）',
+            '管理范围基准',
+            '控制范围变更'
+        ],
+        expectedOutcomes: [
+            '清晰定义的项目范围',
+            '完整的需求文档和跟踪矩阵',
+            '有效的范围变更控制',
+            '防止范围蔓延'
+        ],
+        example: {
+            title: '实际案例：电商平台范围管控',
+            scenario: '某电商平台升级项目初期需求不断膨胀，范围失控风险严重。项目经理建立了严格的范围管控机制：',
+            actions: [
+                '✅ 建立需求跟踪矩阵，每个需求必须关联到具体的商业目标',
+                '✅ 设置变更控制委员会（CCB），所有范围变更必须通过正式评审',
+                '✅ 使用MoSCoW方法将需求分为Must/Should/Could/Would四个等级',
+                '✅ 每周范围健康检查，对比实际完成vs基准计划'
+            ],
+            outcome: '范围蔓延被有效控制，变更通过率从100%降到40%，只有真正有价值的变更被批准。'
+        },
+        quiz: {
+            question: '以下哪项是防止范围蔓延最有效的方法？',
+            options: [
+                'A. 拒绝所有变更请求',
+                'B. 通过正式的变更控制流程评估每个变更的价值和影响',
+                'C. 接受所有客户提出的变更',
+                'D. 在项目开始时把范围尽量做大'
+            ],
+            correct: 1,
+            explanation: '通过正式的变更控制流程，确保每个变更都经过价值评估和影响分析，是最有效的范围管理方法。'
+        },
+        relatedPrinciples: [1, 2, 3]
+    },
+    {
+        number: 3,
+        name: '进度绩效域',
+        nameEn: 'Schedule Performance Domain',
+        icon: '\u{1f4c5}',
+        color: '#0077C8',
+        summary: '规划和管理项目进度，确保按时交付',
+        summaryEn: 'Plan and manage project schedule for timely delivery',
+        description: '进度绩效域涉及规划、管理和控制项目进度，确保项目按时完成。包括活动定义、排序、估算、进度制定、监控和变更管理。',
+        descriptionEn: 'Schedule Performance Domain involves planning, managing, and controlling the project schedule to ensure timely completion.',
+        keyActivities: [
+            '定义和排序项目活动',
+            '估算活动持续时间',
+            '制定项目进度计划（含关键路径）',
+            '监控进度绩效（SV/SPI）',
+            '管理进度变更和赶工'
+        ],
+        expectedOutcomes: [
+            '现实可行的进度计划',
+            '关键路径清晰',
+            '进度偏差受控',
+            '按时或提前交付'
+        ],
+        example: {
+            title: '实际案例：游戏开发项目进度赶工',
+            scenario: '某游戏开发项目因技术难点导致进度滞后2周，离E3展会演示只剩6周。项目经理采取了组合进度策略：',
+            actions: [
+                '✅ 重新分析关键路径，识别出3个真正制约进度的核心任务',
+                '✅ 对核心任务采用赶工（增加资源）和快速跟进（并行化）',
+                '✅ 将非关键路径的任务推迟到演示后，释放资源支援关键路径',
+                '✅ 建立每日进度仪表盘，实时追踪缓冲消耗情况'
+            ],
+            outcome: 'E3演示版本按时交付，核心功能全部就绪，获得媒体好评。次要功能在后续2周内补齐。'
+        },
+        quiz: {
+            question: '关键路径法（CPM）在进度管理中的主要作用是？',
+            options: [
+                'A. 确定项目中所有任务的优先级',
+                'B. 识别决定项目最短工期的任务序列',
+                'C. 分配团队成员的工作',
+                'D. 计算项目的总成本'
+            ],
+            correct: 1,
+            explanation: '关键路径法用于识别项目中决定最短工期的任务序列，帮助项目经理聚焦最关键的活动。'
+        },
+        relatedPrinciples: [1, 2]
+    },
+    {
+        number: 4,
+        name: '财务绩效域',
+        nameEn: 'Finance Performance Domain',
+        icon: '\u{1f4b0}',
+        color: '#D4AF37',
+        summary: '管理项目财务，确保在预算内交付',
+        summaryEn: 'Manage project finances to deliver within budget',
+        description: '财务绩效域涉及规划、管理和控制项目成本和预算，确保项目在批准的财务框架内完成。包括成本估算、预算制定、成本控制和财务风险管理。',
+        descriptionEn: 'Finance Performance Domain involves planning, managing, and controlling project costs and budget to ensure completion within the approved financial framework.',
+        keyActivities: [
+            '估算项目成本',
+            '制定项目预算和成本基准',
+            '监控成本绩效（CV/CPI/EAC）',
+            '管理财务风险和现金流',
+            '控制成本变更'
+        ],
+        expectedOutcomes: [
+            '准确的成本估算',
+            '现实的预算',
+            '成本偏差受控',
+            '在预算内成功交付'
+        ],
+        example: {
+            title: '实际案例：建筑项目成本控制',
+            scenario: '某商业建筑项目因原材料价格波动面临15%的成本超支风险。项目经理实施了主动的成本控制策略：',
+            actions: [
+                '✅ 使用挣值管理（EVM）每周追踪CPI和EAC，提前发现趋势',
+                '✅ 与关键供应商签订价格锁定协议，对冲原材料波动风险',
+                '✅ 识别可替代材料方案，在不影响质量的前提下降低成本',
+                '✅ 建立应急储备释放的审批流程，防止随意动用储备'
+            ],
+            outcome: '项目成本偏差控制在3%以内，管理储备金几乎未被动用。'
+        },
+        quiz: {
+            question: '挣值管理（EVM）中，CPI=0.85表示什么？',
+            options: [
+                'A. 项目进度超前',
+                'B. 每花1元钱只完成了0.85元价值的工作',
+                'C. 项目成本优于计划',
+                'D. 项目应该立即终止'
+            ],
+            correct: 1,
+            explanation: 'CPI（成本绩效指数）=EV/AC，CPI<1意味着实际花费超过了已完成工作的价值，成本效率不佳。'
+        },
+        relatedPrinciples: [2, 6]
+    },
+    {
+        number: 5,
+        name: '相关方绩效域',
+        nameEn: 'Stakeholders Performance Domain',
+        icon: '\u{1f465}',
+        color: '#C71585',
+        summary: '识别和参与相关方，建立有效关系',
+        summaryEn: 'Identify and engage stakeholders to build effective relationships',
+        description: '相关方绩效域涉及识别所有相关方，分析他们的期望和影响力，并制定持续的参与策略。相关方管理是动态的过程，贯穿整个项目生命周期。',
+        descriptionEn: 'Stakeholders Performance Domain involves identifying all stakeholders, analyzing their expectations and influence, and maintaining continuous engagement throughout the project lifecycle.',
+        keyActivities: [
+            '识别所有相关方和个人',
+            '分析相关方期望、利益和影响力',
+            '制定相关方参与策略和沟通计划',
+            '持续沟通和反馈',
+            '管理相关方期望和冲突'
+        ],
+        expectedOutcomes: [
+            '相关方理解和支持项目目标',
+            '有效的相关方沟通机制',
+            '相关方积极参与和贡献',
+            '冲突得到及时妥善解决'
+        ],
+        example: {
+            title: '实际案例：ERP系统的相关方管理',
+            scenario: '某ERP实施项目识别出50+相关方，包括高层、业务部门、IT团队、供应商和最终用户。初期部分业务部门抵制变革。项目经理制定了差异化参与策略：',
+            actions: [
+                '✅ 使用影响力-利益矩阵将所有相关方分为四类，制定不同策略',
+                '✅ 对高影响力低支持度的部门主管，安排一对一会谈和个性化演示',
+                '✅ 邀请关键用户参与需求评审和验收测试，变阻力为参与',
+                '✅ 每月发布项目通讯，展示阶段性成果和用户反馈'
+            ],
+            outcome: '业务部门的支持率从30%提升到85%，关键用户成为最积极的项目推广者。'
+        },
+        quiz: {
+            question: '在管理相关方时，对"高影响力、低支持度"的相关方应该采取什么策略？',
+            options: [
+                'A. 忽视他们，专注支持者',
+                'B. 重点沟通和管理，争取他们的支持或至少消除反对',
+                'C. 只需定期发送邮件通知',
+                'D. 将他们排除在项目之外'
+            ],
+            correct: 1,
+            explanation: '高影响力低支持度的相关方是风险管理的关键对象，需要重点投入沟通和管理精力。'
+        },
+        relatedPrinciples: [1, 4, 5]
+    },
+    {
+        number: 6,
+        name: '资源绩效域',
+        nameEn: 'Resources Performance Domain',
+        icon: '\u{1f4e6}',
+        color: '#4B0082',
+        summary: '获取和管理项目资源，确保有效利用',
+        summaryEn: 'Acquire and manage project resources for effective utilization',
+        description: '资源绩效域涉及识别、获取和管理项目所需的实物资源和团队资源，确保资源的有效利用。包括资源规划、获取、团队建设和绩效管理。',
+        descriptionEn: 'Resources Performance Domain involves identifying, acquiring, and managing both physical and team resources to ensure effective utilization.',
+        keyActivities: [
+            '识别所需的实物资源和人力资源',
+            '获取和分配资源',
+            '建设和管理团队绩效',
+            '优化资源利用和解决冲突',
+            '管理资源变更和释放'
+        ],
+        expectedOutcomes: [
+            '资源及时可用且匹配需求',
+            '团队高效协作',
+            '资源有效利用无浪费',
+            '资源冲突最小化'
+        ],
+        example: {
+            title: '实际案例：多项目资源优化',
+            scenario: '某IT部门同时运行5个项目，核心架构师资源严重冲突。PMO负责人建立了资源优化机制：',
+            actions: [
+                '✅ 建立全部门资源池视图，每周更新资源使用率和预测',
+                '✅ 按项目优先级和商业价值分配稀缺资源',
+                '✅ 识别可以外部采购的非核心工作，释放内部专家资源',
+                '✅ 建立资源共享和轮换机制，避免资源闲置'
+            ],
+            outcome: '核心资源利用率从60%提升到85%，项目排队等待时间减少40%。'
+        },
+        quiz: {
+            question: '资源平衡（Resource Leveling）的主要目的是什么？',
+            options: [
+                'A. 最大化每个资源的加班时间',
+                'B. 在资源约束下优化资源使用，避免过度分配',
+                'C. 尽可能缩短项目工期',
+                'D. 让所有资源平均分配工作'
+            ],
+            correct: 1,
+            explanation: '资源平衡旨在在资源有限的情况下，解决资源过度分配问题，优化资源使用。'
+        },
+        relatedPrinciples: [4, 5, 6]
+    },
+    {
+        number: 7,
+        name: '风险绩效域',
+        nameEn: 'Risk Performance Domain',
+        icon: '⚠️',
+        color: '#FF6347',
+        summary: '识别、分析和管理项目风险与机会',
+        summaryEn: 'Identify, analyze, and manage project risks and opportunities',
+        description: '风险绩效域涉及识别、分析、规划应对和管理项目风险，包括威胁（负面风险）和机会（正面风险）。风险管理应是主动的、持续的，贯穿整个项目生命周期。',
+        descriptionEn: 'Risk Performance Domain involves identifying, analyzing, planning responses, and managing project risks, including both threats and opportunities.',
+        keyActivities: [
+            '识别风险和不确定性来源',
+            '分析风险概率和影响（定性+定量）',
+            '规划风险应对策略（威胁5种+机会5种）',
+            '实施风险应对措施',
+            '持续监控风险触发因素'
+        ],
+        expectedOutcomes: [
+            '充分的风险意识和准备',
+            '适当的应对措施就位',
+            '威胁影响最小化',
+            '机会最大化利用'
+        ],
+        example: {
+            title: '实际案例：供应链风险应对',
+            scenario: '某制造项目关键零部件依赖单一海外供应商，面临地缘政治风险。项目经理采取了全面的风险管理：',
+            actions: [
+                '✅ 识别并评估单一供应商风险为"高概率高影响"（风险分析）',
+                '✅ 采取"减轻"策略：开发本地备选供应商并保持安全库存',
+                '✅ 同时识别到本地供应商报价更低的机会（机会利用）',
+                '✅ 建立供应商风险仪表盘，监控交货准时率、质量合格率、价格波动'
+            ],
+            outcome: '海外供应中断时无缝切换到本地供应商，不仅未受影响，成本还降低了8%。'
+        },
+        quiz: {
+            question: '对"高概率高影响"的负面风险，最合适的应对策略是？',
+            options: [
+                'A. 接受（Accept）',
+                'B. 规避（Avoid）或减轻（Mitigate）',
+                'C. 忽略（Ignore）',
+                'D. 仅记录在风险登记册中'
+            ],
+            correct: 1,
+            explanation: '高概率高影响的风险需要主动应对：规避是消除风险源，减轻是降低概率或影响。'
+        },
+        relatedPrinciples: [1, 2, 3]
+    }
+];
+
+
+// ===== src/js/data/processes.js =====
+/**
+ * PMBOK 第 8 版 - 40 个项目管理流程（完整 ITTO）
+ * 40 Processes with full Inputs, Tools & Techniques, Outputs
+ * 按 5 个焦点领域组织：启动(2) / 规划(20) / 执行(8) / 监控(9) / 收尾(1)
+ */
+const processes = [
+    // ==================== 启动 ====================
+    {
+        number: 1, focusArea: '启动', focusAreaEn: 'Initiating',
+        name: '制定项目章程', nameEn: 'Develop Project Charter',
+        icon: '\u{1f4dc}', color: '#005A9D',
+        description: '正式授权项目或阶段启动的文件。确立项目的存在性，定义项目目标，并授予项目经理调动资源的权力。',
+        descriptionEn: 'Develop Project Charter is the process of developing a document that formally authorizes the existence of a project and provides the project manager with the authority to apply organizational resources.',
+        inputs: ['项目工作说明书 (SOW)', '商业论证', '效益管理计划', '协议', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据收集', '人际关系与团队技能', '会议'],
+        outputs: ['项目章程', '假设日志'],
+        performanceDomain: '治理绩效域'
+    },
+    {
+        number: 2, focusArea: '启动', focusAreaEn: 'Initiating',
+        name: '识别相关方', nameEn: 'Identify Stakeholders',
+        icon: '\u{1f465}', color: '#0077C8',
+        description: '定期识别项目相关方，分析和记录他们的利益、参与度、相互依赖性、影响力和对项目成功的潜在影响。',
+        descriptionEn: 'Identify Stakeholders is the process of identifying project stakeholders regularly and analyzing relevant information regarding their interests and influence.',
+        inputs: ['项目章程', '采购文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据收集', '数据分析', '数据表现', '人际关系与团队技能', '会议'],
+        outputs: ['相关方登记册', '变更请求'],
+        performanceDomain: '相关方绩效域'
+    },
+    // ==================== 规划 ====================
+    {
+        number: 3, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '制定项目管理计划', nameEn: 'Develop Project Management Plan',
+        icon: '\u{1f4cb}', color: '#2E8B57',
+        description: '定义、准备和协调所有子管理计划，并将其整合为综合项目管理计划。',
+        descriptionEn: 'Develop Project Management Plan is the process of defining, preparing, and coordinating all subsidiary plans and integrating them into a comprehensive project management plan.',
+        inputs: ['项目章程', '其他规划过程的输出', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据收集', '人际关系与团队技能', '会议'],
+        outputs: ['项目管理计划'],
+        performanceDomain: '范围绩效域'
+    },
+    {
+        number: 4, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '收集需求', nameEn: 'Collect Requirements',
+        icon: '\u{1f4dd}', color: '#D4AF37',
+        description: '为实现项目目标而确定、记录和管理相关方需求的过程。',
+        descriptionEn: 'Collect Requirements is the process of determining, documenting, and managing stakeholder needs and requirements to meet project objectives.',
+        inputs: ['项目管理计划', '项目文件', '协议', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据收集', '数据分析', '决策', '数据表现', '人际关系与团队技能', '原型法'],
+        outputs: ['需求文件', '需求跟踪矩阵', '变更请求'],
+        performanceDomain: '范围绩效域'
+    },
+    {
+        number: 5, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '定义范围', nameEn: 'Define Scope',
+        icon: '\u{1f3af}', color: '#8B4513',
+        description: '制定项目和产品的详细描述的过程。',
+        descriptionEn: 'Define Scope is the process of developing a detailed description of the project and product.',
+        inputs: ['项目章程', '项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据分析', '决策', '人际关系与团队技能', '产品分析'],
+        outputs: ['范围管理计划', '项目范围说明书', '变更请求'],
+        performanceDomain: '范围绩效域'
+    },
+    {
+        number: 6, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '创建 WBS', nameEn: 'Create WBS',
+        icon: '\u{1f4ca}', color: '#C71585',
+        description: '将项目可交付成果和项目工作分解为更小、更易于管理的组件的过程。',
+        descriptionEn: 'Create WBS is the process of subdividing project deliverables and project work into smaller, more manageable components.',
+        inputs: ['项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '分解'],
+        outputs: ['范围基准', '项目文件更新'],
+        performanceDomain: '范围绩效域'
+    },
+    {
+        number: 7, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '定义活动', nameEn: 'Define Activities',
+        icon: '⚡', color: '#4B0082',
+        description: '识别和记录为完成项目可交付成果而需采取的具体行动的过程。',
+        descriptionEn: 'Define Activities is the process of identifying and documenting the specific actions to be performed to produce the project deliverables.',
+        inputs: ['项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '分解', '滚动式规划', '会议'],
+        outputs: ['活动清单', '活动属性', '里程碑清单', '变更请求'],
+        performanceDomain: '进度绩效域'
+    },
+    {
+        number: 8, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '排列活动顺序', nameEn: 'Sequence Activities',
+        icon: '\u{1f517}', color: '#FF6347',
+        description: '识别和记录项目活动之间逻辑关系的过程。',
+        descriptionEn: 'Sequence Activities is the process of identifying and documenting relationships among the project activities.',
+        inputs: ['项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '提前量和滞后量', '项目管理信息系统', '紧前关系绘图法'],
+        outputs: ['项目进度网络图', '项目文件更新'],
+        performanceDomain: '进度绩效域'
+    },
+    {
+        number: 9, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '估算活动持续时间', nameEn: 'Estimate Activity Durations',
+        icon: '⏱️', color: '#00CED1',
+        description: '根据资源估算的结果，估算完成单项活动所需工作时段数的过程。',
+        descriptionEn: 'Estimate Activity Durations is the process of estimating the number of work periods needed to complete individual activities with estimated resources.',
+        inputs: ['项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '类比估算', '参数估算', '三点估算', '自下而上估算', '数据分析', '会议'],
+        outputs: ['持续时间估算', '项目文件更新'],
+        performanceDomain: '进度绩效域'
+    },
+    {
+        number: 10, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '估算成本', nameEn: 'Estimate Costs',
+        icon: '\u{1f4b0}', color: '#FFD700',
+        description: '对完成项目工作所需资源成本进行近似估算的过程。',
+        descriptionEn: 'Estimate Costs is the process of developing an approximation of the cost of the resources needed to complete project work.',
+        inputs: ['项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '类比估算', '参数估算', '自下而上估算', '数据分析', '项目管理信息系统', '决策'],
+        outputs: ['成本估算', '估算依据', '项目文件更新'],
+        performanceDomain: '财务绩效域'
+    },
+    {
+        number: 11, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '估算资源', nameEn: 'Estimate Activity Resources',
+        icon: '\u{1f9d1}', color: '#32CD32',
+        description: '估算执行项目活动所需的材料、人员、设备或用品的种类和数量的过程。',
+        descriptionEn: 'Estimate Activity Resources is the process of estimating the type and quantities of material, people, equipment, or supplies required to perform project activities.',
+        inputs: ['项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '自下而上估算', '类比估算', '参数估算', '数据分析', '项目管理信息系统', '会议'],
+        outputs: ['资源需求', '估算依据', '资源分解结构', '项目文件更新'],
+        performanceDomain: '资源绩效域'
+    },
+    {
+        number: 12, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '制定进度计划', nameEn: 'Develop Schedule',
+        icon: '\u{1f4c5}', color: '#9370DB',
+        description: '分析活动顺序、持续时间、资源需求和进度制约因素，创建项目进度模型的过程。',
+        descriptionEn: 'Develop Schedule is the process of analyzing activity sequences, durations, resource requirements, and schedule constraints to create the project schedule model.',
+        inputs: ['项目管理计划', '项目文件', '协议', '事业环境因素', '组织过程资产'],
+        tools: ['进度网络分析', '关键路径法', '资源优化', '数据分析', '提前量和滞后量', '进度压缩', '项目管理信息系统'],
+        outputs: ['进度基准', '项目进度计划', '进度数据', '项目日历', '变更请求'],
+        performanceDomain: '进度绩效域'
+    },
+    {
+        number: 13, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '制定预算', nameEn: 'Determine Budget',
+        icon: '\u{1f4b5}', color: '#20B2AA',
+        description: '汇总所有单个活动或工作包的估算成本，建立一个经批准的成本基准的过程。',
+        descriptionEn: 'Determine Budget is the process of aggregating the estimated costs of individual activities or work packages to establish an authorized cost baseline.',
+        inputs: ['项目管理计划', '项目文件', '商业文件', '协议', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '资金限制平衡', '数据分析', '历史信息', '资金筹措'],
+        outputs: ['成本基准', '项目资金需求', '项目文件更新'],
+        performanceDomain: '财务绩效域'
+    },
+    {
+        number: 14, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '规划质量管理', nameEn: 'Plan Quality Management',
+        icon: '⭐', color: '#FF69B4',
+        description: '识别项目及其可交付成果的质量要求和标准，并准备如何确保符合这些要求的过程。',
+        descriptionEn: 'Plan Quality Management is the process of identifying quality requirements and/or standards for the project and its deliverables.',
+        inputs: ['项目章程', '项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据收集', '数据分析', '决策', '数据表现', '测试和检查的规划'],
+        outputs: ['质量管理计划', '质量测量指标', '项目文件更新'],
+        performanceDomain: '范围绩效域'
+    },
+    {
+        number: 15, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '规划资源管理', nameEn: 'Plan Resource Management',
+        icon: '\u{1f4e6}', color: '#DAA520',
+        description: '定义如何估算、获取、管理和利用项目所需的实物资源和团队资源的过程。',
+        descriptionEn: 'Plan Resource Management is the process of defining how to estimate, acquire, manage, and utilize physical and team resources.',
+        inputs: ['项目章程', '项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据表现', '组织理论', '会议'],
+        outputs: ['资源管理计划', '团队章程', '项目文件更新'],
+        performanceDomain: '资源绩效域'
+    },
+    {
+        number: 16, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '规划沟通管理', nameEn: 'Plan Communications Management',
+        icon: '\u{1f4e2}', color: '#4169E1',
+        description: '基于每个相关方或相关方群体的信息需求和要求，制定适当的沟通策略的过程。',
+        descriptionEn: 'Plan Communications Management is the process of developing an appropriate approach and plan for project communications based on stakeholder information needs.',
+        inputs: ['项目章程', '项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '沟通需求分析', '沟通技术', '沟通模型', '沟通方法', '数据表现', '会议'],
+        outputs: ['沟通管理计划', '项目文件更新'],
+        performanceDomain: '相关方绩效域'
+    },
+    {
+        number: 17, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '规划风险管理', nameEn: 'Plan Risk Management',
+        icon: '\u{1f6e1}', color: '#DC143C',
+        description: '定义如何进行风险管理活动的过程。',
+        descriptionEn: 'Plan Risk Management is the process of defining how to conduct risk management activities for a project.',
+        inputs: ['项目章程', '项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据分析', '会议'],
+        outputs: ['风险管理计划'],
+        performanceDomain: '风险绩效域'
+    },
+    {
+        number: 18, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '识别风险', nameEn: 'Identify Risks',
+        icon: '⚠️', color: '#FF4500',
+        description: '识别单个项目风险以及风险来源的整体过程，并记录风险的特征。',
+        descriptionEn: 'Identify Risks is the process of identifying individual project risks as well as source of overall risk, and documenting their characteristics.',
+        inputs: ['项目管理计划', '项目文件', '协议', '采购文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据收集', '数据分析', '风险类别', '提示清单', '会议'],
+        outputs: ['风险登记册', '风险报告', '项目文件更新'],
+        performanceDomain: '风险绩效域'
+    },
+    {
+        number: 19, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '实施定性风险分析', nameEn: 'Perform Qualitative Risk Analysis',
+        icon: '\u{1f4ca}', color: '#8A2BE2',
+        description: '评估和综合分析风险的概率和影响，对风险进行优先排序的过程。',
+        descriptionEn: 'Perform Qualitative Risk Analysis is the process of prioritizing individual project risks for further analysis or action by assessing their probability and impact.',
+        inputs: ['项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据收集', '数据分析', '人际关系与团队技能', '风险分类', '数据表现', '会议'],
+        outputs: ['项目文件更新'],
+        performanceDomain: '风险绩效域'
+    },
+    {
+        number: 20, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '实施定量风险分析', nameEn: 'Perform Quantitative Risk Analysis',
+        icon: '\u{1f4c8}', color: '#00FA9A',
+        description: '就已识别的单个项目风险和其他不确定性来源对项目整体目标的综合影响进行定量分析的过程。',
+        descriptionEn: 'Perform Quantitative Risk Analysis is the process of numerically analyzing the combined effect of identified risks on overall project objectives.',
+        inputs: ['项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据收集', '人际关系与团队技能', '模拟', '敏感性分析', '决策树分析', '影响图'],
+        outputs: ['风险报告', '项目文件更新'],
+        performanceDomain: '风险绩效域'
+    },
+    {
+        number: 21, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '规划风险应对', nameEn: 'Plan Risk Responses',
+        icon: '\u{1f3af}', color: '#FFE4B5',
+        description: '为处理整体项目风险暴露，以及管理单个项目风险而制定可选方案、选择应对策略并商定应对行动的过程。',
+        descriptionEn: 'Plan Risk Responses is the process of developing options, selecting strategies, and agreeing on actions to address overall project risk exposure.',
+        inputs: ['项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据收集', '人际关系与团队技能', '威胁应对策略', '机会应对策略', '应急应对策略', '数据分析', '决策'],
+        outputs: ['变更请求', '项目文件更新'],
+        performanceDomain: '风险绩效域'
+    },
+    {
+        number: 22, focusArea: '规划', focusAreaEn: 'Planning',
+        name: '规划相关方参与', nameEn: 'Plan Stakeholder Engagement',
+        icon: '\u{1f91d}', color: '#1E90FF',
+        description: '基于对相关方需求、利益、潜在影响及参与程度的分析，制定管理策略和行动计划的过程。',
+        descriptionEn: 'Plan Stakeholder Engagement is the process of developing approaches to involve project stakeholders based on their needs and influence.',
+        inputs: ['项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据收集', '数据分析', '决策', '数据表现', '会议'],
+        outputs: ['相关方参与计划', '项目文件更新'],
+        performanceDomain: '相关方绩效域'
+    },
+    // ==================== 执行 ====================
+    {
+        number: 23, focusArea: '执行', focusAreaEn: 'Executing',
+        name: '指导与管理项目工作', nameEn: 'Direct and Manage Project Work',
+        icon: '\u{1f3ac}', color: '#005A9D',
+        description: '领导和执行项目管理计划中所确定的工作，并实施已批准的变更的过程。',
+        descriptionEn: 'Direct and Manage Project Work is the process of leading and performing the work defined in the project management plan and implementing approved changes.',
+        inputs: ['项目管理计划', '项目文件', '批准的变更请求', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '项目管理信息系统', '会议'],
+        outputs: ['可交付成果', '工作绩效数据', '问题日志', '变更请求', '项目文件更新'],
+        performanceDomain: '资源绩效域'
+    },
+    {
+        number: 24, focusArea: '执行', focusAreaEn: 'Executing',
+        name: '获取资源', nameEn: 'Acquire Resources',
+        icon: '\u{1f9d1}', color: '#2E8B57',
+        description: '获取项目所需的团队成员、设施、设备、材料、用品和其他资源的过程。',
+        descriptionEn: 'Acquire Resources is the process of obtaining team members, facilities, equipment, materials, supplies, and other resources necessary to complete project work.',
+        inputs: ['项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '人际关系与团队技能', '预分派', '虚拟团队', '分析'],
+        outputs: ['实物资源分配单', '项目团队派工单', '资源日历', '变更请求', '项目文件更新'],
+        performanceDomain: '资源绩效域'
+    },
+    {
+        number: 25, focusArea: '执行', focusAreaEn: 'Executing',
+        name: '建设团队', nameEn: 'Develop Team',
+        icon: '\u{1f465}', color: '#D4AF37',
+        description: '提高团队成员的能力、互动和整体环境，以增强项目绩效的过程。',
+        descriptionEn: 'Develop Team is the process of improving competencies, team member interaction, and the overall team environment to enhance project performance.',
+        inputs: ['项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['人际关系与团队技能', '培训', '团队建设活动', '集中办公', '虚拟团队', '认可与奖励'],
+        outputs: ['团队绩效评价', '项目文件更新'],
+        performanceDomain: '资源绩效域'
+    },
+    {
+        number: 26, focusArea: '执行', focusAreaEn: 'Executing',
+        name: '管理团队', nameEn: 'Manage Team',
+        icon: '\u{1f91d}', color: '#8B4513',
+        description: '跟踪团队成员绩效、提供反馈、解决问题并管理变更以优化项目绩效的过程。',
+        descriptionEn: 'Manage Team is the process of tracking team member performance, providing feedback, resolving issues, and managing changes to optimize project performance.',
+        inputs: ['项目管理计划', '项目文件', '工作绩效报告', '团队绩效评价', '事业环境因素', '组织过程资产'],
+        tools: ['人际关系与团队技能', '项目管理信息系统'],
+        outputs: ['变更请求', '项目管理计划更新', '项目文件更新'],
+        performanceDomain: '资源绩效域'
+    },
+    {
+        number: 27, focusArea: '执行', focusAreaEn: 'Executing',
+        name: '管理沟通', nameEn: 'Manage Communications',
+        icon: '\u{1f4e1}', color: '#C71585',
+        description: '确保项目信息的生成、收集、分发、存储、检索和最终处置的过程。',
+        descriptionEn: 'Manage Communications is the process of ensuring timely and appropriate collection, distribution, and disposition of project information.',
+        inputs: ['项目管理计划', '项目文件', '工作绩效报告', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '沟通技能', '反馈', '人际关系与团队技能', '项目管理信息系统'],
+        outputs: ['项目沟通', '项目管理计划更新', '项目文件更新'],
+        performanceDomain: '相关方绩效域'
+    },
+    {
+        number: 28, focusArea: '执行', focusAreaEn: 'Executing',
+        name: '实施风险应对', nameEn: 'Implement Risk Responses',
+        icon: '\u{1f3b2}', color: '#4B0082',
+        description: '执行商定的风险应对计划的过程。',
+        descriptionEn: 'Implement Risk Responses is the process of implementing agreed-upon risk response plans.',
+        inputs: ['项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '人际关系与团队技能', '项目管理信息系统'],
+        outputs: ['变更请求', '项目文件更新'],
+        performanceDomain: '风险绩效域'
+    },
+    {
+        number: 29, focusArea: '执行', focusAreaEn: 'Executing',
+        name: '实施采购', nameEn: 'Conduct Procurements',
+        icon: '\u{1f6d2}', color: '#FF6347',
+        description: '获取卖方响应、评估建议、选择卖方并授予合同的过程。',
+        descriptionEn: 'Conduct Procurements is the process of obtaining seller responses, selecting a seller, and awarding a contract.',
+        inputs: ['项目管理计划', '项目文件', '采购文件', '卖方建议书', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '广告', '投标人会议', '建议书评价', '数据分析', '人际关系与团队技能'],
+        outputs: ['选定的卖方', '协议', '变更请求', '项目文件更新'],
+        performanceDomain: '财务绩效域'
+    },
+    {
+        number: 30, focusArea: '执行', focusAreaEn: 'Executing',
+        name: '管理相关方参与', nameEn: 'Manage Stakeholder Engagement',
+        icon: '\u{1f5e3}', color: '#00CED1',
+        description: '与相关方沟通和协作，以满足其需求与期望，解决问题，并促进相关方合理参与的过程。',
+        descriptionEn: 'Manage Stakeholder Engagement is the process of communicating and working with stakeholders to meet their needs, address issues, and foster engagement.',
+        inputs: ['项目管理计划', '项目文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '沟通技能', '反馈', '人际关系与团队技能', '基本规则', '会议'],
+        outputs: ['变更请求', '项目管理计划更新', '项目文件更新'],
+        performanceDomain: '相关方绩效域'
+    },
+    // ==================== 监控 ====================
+    {
+        number: 31, focusArea: '监控', focusAreaEn: 'Monitoring & Controlling',
+        name: '监控项目工作', nameEn: 'Monitor and Control Project Work',
+        icon: '\u{1f4ca}', color: '#FFD700',
+        description: '跟踪、审查和报告整体项目进展，以实现项目管理计划中确定的绩效目标的过程。',
+        descriptionEn: 'Monitor and Control Project Work is the process of tracking, reviewing, and reporting the overall progress to meet the performance objectives.',
+        inputs: ['项目管理计划', '项目文件', '工作绩效信息', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据分析', '决策', '数据表现', '会议'],
+        outputs: ['工作绩效报告', '变更请求', '项目管理计划更新', '项目文件更新'],
+        performanceDomain: '治理绩效域'
+    },
+    {
+        number: 32, focusArea: '监控', focusAreaEn: 'Monitoring & Controlling',
+        name: '实施整体变更控制', nameEn: 'Perform Integrated Change Control',
+        icon: '\u{1f504}', color: '#32CD32',
+        description: '审查所有变更请求、审批变更、管理对可交付成果、项目文件、项目管理计划和项目沟通的变更的过程。',
+        descriptionEn: 'Perform Integrated Change Control is the process of reviewing all change requests; approving changes and managing changes to deliverables.',
+        inputs: ['项目管理计划', '项目文件', '工作绩效报告', '变更请求', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '变更控制工具', '数据分析', '决策', '会议'],
+        outputs: ['批准的变更请求', '变更日志', '项目管理计划更新', '项目文件更新'],
+        performanceDomain: '治理绩效域'
+    },
+    {
+        number: 33, focusArea: '监控', focusAreaEn: 'Monitoring & Controlling',
+        name: '确认范围', nameEn: 'Validate Scope',
+        icon: '✅', color: '#9370DB',
+        description: '正式验收项目已完成的可交付成果的过程。',
+        descriptionEn: 'Validate Scope is the process of formalizing acceptance of the completed project deliverables.',
+        inputs: ['项目管理计划', '项目文件', '核实的可交付成果', '工作绩效数据'],
+        tools: ['专家判断', '检查', '决策'],
+        outputs: ['验收的可交付成果', '变更请求', '工作绩效信息', '项目文件更新'],
+        performanceDomain: '范围绩效域'
+    },
+    {
+        number: 34, focusArea: '监控', focusAreaEn: 'Monitoring & Controlling',
+        name: '控制范围', nameEn: 'Control Scope',
+        icon: '\u{1f4cf}', color: '#20B2AA',
+        description: '监督项目和产品的范围状态，管理范围基准变更的过程。',
+        descriptionEn: 'Control Scope is the process of monitoring the status of the project and product scope and managing changes to the scope baseline.',
+        inputs: ['项目管理计划', '项目文件', '工作绩效数据', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据分析'],
+        outputs: ['工作绩效信息', '变更请求', '项目管理计划更新', '项目文件更新'],
+        performanceDomain: '范围绩效域'
+    },
+    {
+        number: 35, focusArea: '监控', focusAreaEn: 'Monitoring & Controlling',
+        name: '控制进度', nameEn: 'Control Schedule',
+        icon: '⏰', color: '#FF69B4',
+        description: '监督项目状态，以更新项目进度和管理进度基准变更的过程。',
+        descriptionEn: 'Control Schedule is the process of monitoring the status of the project to update the project schedule and manage changes to the schedule baseline.',
+        inputs: ['项目管理计划', '项目文件', '工作绩效数据', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据分析', '关键路径法', '项目管理信息系统'],
+        outputs: ['工作绩效信息', '进度预测', '变更请求', '项目管理计划更新', '项目文件更新'],
+        performanceDomain: '进度绩效域'
+    },
+    {
+        number: 36, focusArea: '监控', focusAreaEn: 'Monitoring & Controlling',
+        name: '控制成本', nameEn: 'Control Costs',
+        icon: '\u{1f4b2}', color: '#DAA520',
+        description: '监督项目状态，以更新项目成本和管理成本基准变更的过程。',
+        descriptionEn: 'Control Costs is the process of monitoring the status of the project to update the project costs and managing changes to the cost baseline.',
+        inputs: ['项目管理计划', '项目文件', '工作绩效数据', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据分析', '完工尚需绩效指数', '项目管理信息系统'],
+        outputs: ['工作绩效信息', '成本预测', '变更请求', '项目管理计划更新', '项目文件更新'],
+        performanceDomain: '财务绩效域'
+    },
+    {
+        number: 37, focusArea: '监控', focusAreaEn: 'Monitoring & Controlling',
+        name: '控制质量', nameEn: 'Control Quality',
+        icon: '\u{1f50d}', color: '#4169E1',
+        description: '评估绩效，确保项目输出完整、正确，并满足客户期望，监督和记录质量管理活动执行结果的过程。',
+        descriptionEn: 'Control Quality is the process of monitoring and recording results of executing quality activities to assess performance.',
+        inputs: ['项目管理计划', '项目文件', '工作绩效数据', '批准的变更请求', '可交付成果', '事业环境因素', '组织过程资产'],
+        tools: ['检查', '测试', '数据收集', '数据分析', '会议'],
+        outputs: ['质量控制测量结果', '核实的可交付成果', '工作绩效信息', '变更请求', '项目文件更新'],
+        performanceDomain: '范围绩效域'
+    },
+    {
+        number: 38, focusArea: '监控', focusAreaEn: 'Monitoring & Controlling',
+        name: '控制沟通', nameEn: 'Monitor Communications',
+        icon: '\u{1f4f1}', color: '#DC143C',
+        description: '确保向项目相关方分发、存储、检索和最终处置项目信息的过程。',
+        descriptionEn: 'Monitor Communications is the process of ensuring the information needs of the project and its stakeholders are met.',
+        inputs: ['项目管理计划', '项目文件', '工作绩效数据', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '项目管理信息系统', '数据表现', '人际关系与团队技能', '会议'],
+        outputs: ['工作绩效信息', '变更请求', '项目管理计划更新', '项目文件更新'],
+        performanceDomain: '相关方绩效域'
+    },
+    {
+        number: 39, focusArea: '监控', focusAreaEn: 'Monitoring & Controlling',
+        name: '监督相关方参与', nameEn: 'Monitor Stakeholder Engagement',
+        icon: '\u{1f441}', color: '#FF4500',
+        description: '监督项目相关方关系，并通过调整参与策略和计划来调动相关方参与的过程。',
+        descriptionEn: 'Monitor Stakeholder Engagement is the process of monitoring project stakeholder relationships and tailoring strategies for engaging stakeholders.',
+        inputs: ['项目管理计划', '项目文件', '工作绩效数据', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据分析', '决策', '数据表现', '人际关系与团队技能', '会议'],
+        outputs: ['工作绩效信息', '变更请求', '项目管理计划更新', '项目文件更新'],
+        performanceDomain: '相关方绩效域'
+    },
+    // ==================== 收尾 ====================
+    {
+        number: 40, focusArea: '收尾', focusAreaEn: 'Closing',
+        name: '结束项目或阶段', nameEn: 'Close Project or Phase',
+        icon: '\u{1f3c1}', color: '#00FA9A',
+        description: '完结所有项目管理过程组的所有活动，以正式结束项目或阶段的过程。',
+        descriptionEn: 'Close Project or Phase is the process of finalizing all activities for the project, phase, or contract.',
+        inputs: ['项目章程', '项目管理计划', '项目文件', '验收的可交付成果', '商业文件', '协议', '采购文件', '事业环境因素', '组织过程资产'],
+        tools: ['专家判断', '数据分析', '会议'],
+        outputs: ['最终产品、服务或成果移交', '最终报告', '项目文件更新', '组织过程资产更新'],
+        performanceDomain: '治理绩效域'
+    }
+];
+
+// 焦点领域配置
+const focusAreaConfig = {
+    '启动': { icon: '\u{1f680}', count: 2, color: '#005A9D', en: 'Initiating' },
+    '规划': { icon: '\u{1f4cb}', count: 20, color: '#2E8B57', en: 'Planning' },
+    '执行': { icon: '⚡', count: 8, color: '#0077C8', en: 'Executing' },
+    '监控': { icon: '\u{1f4ca}', count: 9, color: '#4B0082', en: 'M&C' },
+    '收尾': { icon: '\u{1f3c1}', count: 1, color: '#D4AF37', en: 'Closing' }
+};
+
+
+// ===== src/js/data/agile.js =====
+/**
+ * PMBOK 第 8 版 - 敏捷/混合方法数据
+ * Agile & Hybrid Approaches
+ * 内容：敏捷宣言、Scrum、Kanban、混合方法
+ */
+const agileApproaches = [
+    {
+        number: 1,
+        title: '敏捷宣言',
+        titleEn: 'Agile Manifesto',
+        icon: '\u{1f4dc}',
+        color: '#10b981',
+        summary: '敏捷软件开发的核心价值与原则',
+        summaryEn: 'Core values and principles of agile software development',
+        values: [
+            { title: '个体和互动', titleEn: 'Individuals and Interactions', description: '胜过流程和工具', descriptionEn: 'Over processes and tools' },
+            { title: '可工作的软件', titleEn: 'Working Software', description: '胜过详尽的文档', descriptionEn: 'Over comprehensive documentation' },
+            { title: '客户协作', titleEn: 'Customer Collaboration', description: '胜过合同谈判', descriptionEn: 'Over contract negotiation' },
+            { title: '响应变化', titleEn: 'Responding to Change', description: '胜过遵循计划', descriptionEn: 'Over following a plan' }
+        ],
+        principles: [
+            '最高优先级是通过尽早持续交付有价值的软件来满足客户需求',
+            '欢迎需求变更，即使是在开发后期。敏捷过程利用变更为客户创造竞争优势',
+            '频繁交付可工作的软件，交付间隔从数周到数月，越短越好',
+            '业务人员和开发人员必须在整个项目中每天协作',
+            '围绕有积极性的个体构建项目，信任他们，提供所需的环境和支持',
+            '向开发团队传递信息以及在团队内部传递信息最有效的方法是面对面沟通',
+            '可工作的软件是衡量进度的首要标准',
+            '敏捷过程促进可持续发展。发起人、开发人员和用户应能始终保持稳定节奏',
+            '持续关注技术卓越和良好设计可增强敏捷性',
+            '简单——最大化未完成工作量的艺术——至关重要',
+            '最好的架构、需求和设计来自自组织团队',
+            '团队定期反思如何变得更有效，然后相应地调整行为'
+        ]
+    },
+    {
+        number: 2,
+        title: 'Scrum 框架',
+        titleEn: 'Scrum Framework',
+        icon: '\u{1f3c9}',
+        color: '#059669',
+        summary: '最广泛使用的敏捷框架，以Sprint为核心的迭代增量开发',
+        summaryEn: 'Most popular agile framework with Sprint-based iterative incremental development',
+        roles: [
+            { name: 'Product Owner', nameZh: '产品负责人', icon: '\u{1f464}', responsibility: '最大化产品价值，管理Product Backlog', responsibilityEn: 'Maximize product value, manage Product Backlog' },
+            { name: 'Scrum Master', nameZh: '敏捷教练', icon: '\u{1f465}', responsibility: '确保Scrum被理解和实施，清除障碍', responsibilityEn: 'Ensure Scrum is understood and enacted, remove impediments' },
+            { name: 'Developers', nameZh: '开发团队', icon: '\u{1f4bb}', responsibility: '3-9人跨职能团队，自组织交付增量', responsibilityEn: '3-9 person cross-functional, self-organizing team' }
+        ],
+        events: [
+            { name: 'Sprint Planning', nameZh: 'Sprint计划会', duration: 'Sprint开始时 | 最多8小时/月Sprint', purpose: '确定Sprint目标和Sprint Backlog' },
+            { name: 'Daily Scrum', nameZh: '每日站会', duration: '每天15分钟', purpose: '同步进展，识别障碍，规划当天工作' },
+            { name: 'Sprint Review', nameZh: 'Sprint评审会', duration: 'Sprint结束时 | 最多4小时/月Sprint', purpose: '演示增量，获取反馈，调整Product Backlog' },
+            { name: 'Sprint Retrospective', nameZh: 'Sprint回顾会', duration: 'Sprint结束时 | 最多3小时/月Sprint', purpose: '反思过程，制定改进计划' }
+        ],
+        artifacts: [
+            { name: 'Product Backlog', nameZh: '产品待办列表', description: '按优先级排序的所有已知需求的动态列表' },
+            { name: 'Sprint Backlog', nameZh: 'Sprint待办列表', description: '当前Sprint要完成的工作项+行动计划' },
+            { name: 'Increment', nameZh: '增量', description: 'Sprint结束时完成的、符合DoD的可交付成果' }
+        ]
+    },
+    {
+        number: 3,
+        title: 'Kanban 看板',
+        titleEn: 'Kanban Method',
+        icon: '\u{1f4cb}',
+        color: '#7c3aed',
+        summary: '可视化工作流管理方法，渐进式变革',
+        summaryEn: 'Visual workflow management with evolutionary change',
+        practices: [
+            { name: '可视化工作流', nameEn: 'Visualize the Workflow', icon: '\u{1f3af}', description: '将工作流程可视化在看板上，让所有工作项一目了然' },
+            { name: '限制在制品(WIP)', nameEn: 'Limit WIP', icon: '⚖️', description: '限制每个阶段的同时进行工作数，避免多任务并行' },
+            { name: '管理流动', nameEn: 'Manage Flow', icon: '\u{1f4ca}', description: '测量和优化工作项在看板上的流动效率' },
+            { name: '明确流程规则', nameEn: 'Make Policies Explicit', icon: '\u{1f4dd}', description: '明确定义DoD、准入/准出标准等流程规则' },
+            { name: '实施反馈循环', nameEn: 'Implement Feedback Loops', icon: '\u{1f504}', description: '建立服务交付评审、运营评审等反馈机制' },
+            { name: '协作改进', nameEn: 'Improve Collaboratively', icon: '\u{1f9ea}', description: '基于数据和实验进行持续改进（Kaizen改善）' }
+        ]
+    },
+    {
+        number: 4,
+        title: '混合方法',
+        titleEn: 'Hybrid Approaches',
+        icon: '\u{1f500}',
+        color: '#0284c7',
+        summary: '结合预测型和适应型方法的优势',
+        summaryEn: 'Combine the strengths of predictive and adaptive approaches',
+        models: [
+            { name: '瀑布规划 + 敏捷执行', nameEn: 'Waterfall Planning + Agile Execution', description: '前期进行全面的需求分析和架构规划（瀑布），执行阶段采用Scrum迭代交付。适用于强监管行业或大型系统集成项目。' },
+            { name: '敏捷开发 + 阶段门审批', nameEn: 'Agile Dev + Stage-Gate Approval', description: '开发团队使用Scrum/Kanban，但在关键里程碑设置阶段门（Stage Gate）进行治理审查和资金审批。兼顾敏捷性和治理需求。' },
+            { name: '硬件瀑布 + 软件敏捷', nameEn: 'Hardware Waterfall + Software Agile', description: '适用于软硬结合项目：硬件部分按瀑布式开发（变更成本高），软件部分按敏捷迭代（需求灵活）。' }
+        ],
+        whenToUse: [
+            '组织文化转型期：组织文化偏传统但需要敏捷灵活性 | Organization transitioning from traditional culture',
+            '多样化工作类型：项目包含多种不同性质的工作（如硬件+软件+培训） | Diverse work types in the project',
+            '强监管行业：金融、医疗、航空等监管要求严格但市场变化快的行业 | Regulated industries with fast-changing markets',
+            '渐进式过渡：团队敏捷成熟度不高，需要逐步过渡到敏捷 | Team with low agile maturity transitioning gradually',
+            '多供应商协作：不同供应商使用不同方法，需要统一的混合框架 | Multiple vendors using different approaches'
+        ]
+    }
+];
+
+
+// ===== src/js/ui/modals.js =====
+/**
+ * PMBOK Edition 8 - 弹窗管理模块
+ * Modal Management: 案例弹窗、自测弹窗、案例库弹窗
+ */
+let currentQuizzes = [];
+
+function setCurrentQuizzes(quizzes) { currentQuizzes = quizzes || []; }
+function getCurrentQuizzes() { return currentQuizzes; }
+
+// ============ 案例弹窗 ============
+function _showCaseModalItem(item) {
+    const modal = document.getElementById('caseModal');
+    const content = document.getElementById('caseModalContent');
+    if (!modal || !content) return;
+
+    if (!item || !item.example) {
+        content.innerHTML = '<p style="padding:20px;text-align:center;">暂无案例数据 | No case data available</p>';
+    } else {
+        content.innerHTML = `
+            <h3 style="color:var(--pmi-blue);margin-bottom:15px;">📝 ${item.example.title}</h3>
+            <div style="background:#f5f9fc;padding:15px;border-radius:8px;border-left:4px solid var(--pmi-blue);margin-bottom:15px;">
+                <strong>场景 | Scenario:</strong><br>
+                <span style="color:#555;line-height:1.8;">${item.example.scenario}</span>
+            </div>
+            <div style="margin-bottom:15px;">
+                <strong>采取的行动 | Actions Taken:</strong>
+                <ul style="margin-top:8px;padding-left:20px;line-height:2;">
+                    ${item.example.actions.map(a => `<li>${a}</li>`).join('')}
+                </ul>
+            </div>
+            <div style="background:#f0fdf4;padding:15px;border-radius:8px;border-left:4px solid #10b981;">
+                <strong style="color:#059669;">结果 | Outcome:</strong><br>
+                <span style="color:#555;line-height:1.8;">${item.example.outcome}</span>
+            </div>
+        `;
+    }
+    modal.style.display = 'flex';
+}
+
+// ============ 自测弹窗 ============
+function _showQuizModalFn(item, quizzes) {
+    const modal = document.getElementById('quizModal');
+    const content = document.getElementById('quizModalContent');
+    const title = document.getElementById('quizModalTitle');
+    if (!modal || !content) return;
+
+    if (!quizzes || quizzes.length === 0) {
+        if (title) title.textContent = '自测 | Self-test';
+        content.innerHTML = '<p style="padding:20px;text-align:center;">暂无题目 | No quiz available</p>';
+        modal.style.display = 'flex';
+        return;
+    }
+
+    setCurrentQuizzes(quizzes);
+    if (title) {
+        const label = item.name || item.title || '';
+        title.textContent = `自测：${label} | ${quizzes.length}道题`;
+    }
+
+    content.innerHTML = `
+        <div class="quiz-session">
+            <div class="quiz-progress">${quizzes.map((_, i) => `
+                <div class="quiz-progress-item${i === 0 ? ' current' : ''}" data-qi="${i}">${i + 1}</div>
+            `).join('')}</div>
+            <div id="quizQContainer"></div>
+        </div>
+    `;
+
+    renderQuizQuestion(0, quizzes);
+    modal.style.display = 'flex';
+}
+
+function renderQuizQuestion(index, quizzes) {
+    const container = document.getElementById('quizQContainer');
+    const quiz = quizzes[index];
+    if (!container || !quiz) return;
+
+    container.innerHTML = `
+        <div class="quiz-question-header">
+            <span class="quiz-question-number">第 ${index + 1}/${quizzes.length} 题</span>
+            ${quiz.difficulty ? `<span class="quiz-difficulty-tag" style="background:${getDiffBg(quiz.difficulty)};color:${getDiffColor(quiz.difficulty)}">${getDiffText(quiz.difficulty)}</span>` : ''}
+        </div>
+        <div class="quiz-question">${quiz.question}</div>
+        <div class="quiz-options">
+            ${quiz.options.map((opt, i) => `
+                <button class="quiz-option" onclick="window.handleQuizAnswer(${index}, ${i}, ${quiz.correct})" data-oi="${i}">${opt}</button>
+            `).join('')}
+        </div>
+        <div class="quiz-feedback" id="quizFeedback"></div>
+        <div class="quiz-navigation">
+            <button class="quiz-nav-btn" onclick="window.navigateQuiz(${index - 1})" ${index === 0 ? 'disabled' : ''}>← 上一题</button>
+            <button class="quiz-nav-btn" onclick="window.navigateQuiz(${index + 1})" ${index === quizzes.length - 1 ? 'disabled' : ''}>下一题 →</button>
+        </div>
+    `;
+
+    updateProgressDots(index, quizzes.length);
+}
+
+function updateProgressDots(current, total) {
+    document.querySelectorAll('.quiz-progress-item').forEach((dot, i) => {
+        dot.classList.remove('current', 'correct', 'incorrect');
+        if (i < current && !dot.classList.contains('correct') && !dot.classList.contains('incorrect')) {
+            // 未答题保持默认
+        }
+        if (i === current) dot.classList.add('current');
+    });
+}
+
+window.handleQuizAnswer = (index, selected, correct) => {
+    const container = document.getElementById('quizQContainer');
+    if (!container) return;
+    const options = container.querySelectorAll('.quiz-option');
+    const feedback = document.getElementById('quizFeedback');
+    const quiz = getCurrentQuizzes()[index];
+
+    options.forEach(o => o.classList.add('disabled'));
+    options[correct].classList.add('correct');
+    if (selected !== correct) options[selected].classList.add('incorrect');
+
+    const isCorrect = selected === correct;
+    feedback.className = 'quiz-feedback show ' + (isCorrect ? 'correct-fb' : 'incorrect-fb');
+    feedback.innerHTML = `
+        <div style="font-weight:600;margin-bottom:6px;">${isCorrect ? '✅ 正确！' : '❌ 错误。正确答案是 ' + ['A','B','C','D'][correct]}</div>
+        <div>${quiz.explanation}</div>
+    `;
+
+    const dot = document.querySelector(`.quiz-progress-item[data-qi="${index}"]`);
+    if (dot) { dot.classList.remove('current'); dot.classList.add(isCorrect ? 'correct' : 'incorrect'); dot.textContent = isCorrect ? '✓' : '✗'; }
+};
+
+window.navigateQuiz = (index) => {
+    const quizzes = getCurrentQuizzes();
+    if (index >= 0 && index < quizzes.length) renderQuizQuestion(index, quizzes);
+};
+
+function getDiffBg(d) { return { easy: '#d1fae5', medium: '#fef3c7', hard: '#fee2e2' }[d] || '#e5e7eb'; }
+function getDiffColor(d) { return { easy: '#059669', medium: '#b45309', hard: '#dc2626' }[d] || '#6b7280'; }
+function getDiffText(d) { return { easy: '简单', medium: '中等', hard: '困难' }[d] || '未知'; }
+
+// ============ 关闭弹窗 ============
+function closeCaseModal() {
+    const m = document.getElementById('caseModal'); if (m) m.style.display = 'none';
+}
+function closeQuizModal() {
+    const m = document.getElementById('quizModal'); if (m) m.style.display = 'none';
+}
+function closeCaseOverlay() {
+    const m = document.getElementById('caseOverlay'); if (m) m.style.display = 'none';
+}
+
+// ============ 初始化 ============
+function initModals() {
+    window.addEventListener('click', (e) => {
+        if (e.target.id === 'caseModal') closeCaseModal();
+        if (e.target.id === 'quizModal') closeQuizModal();
+        if (e.target.id === 'caseOverlay') closeCaseOverlay();
+    });
+    document.querySelectorAll('.modal-close').forEach(btn => {
+        btn.addEventListener('click', () => { closeCaseModal(); closeQuizModal(); closeCaseOverlay(); });
+    });
+}
+
+
+// ===== app.js =====
+/**
+ * PMBOK Guide Edition 8 - 主应用入口
+ * Main Application — 4 Views: 原则 | 绩效域 | 流程 | 敏捷
+ */
+
+
+
+
+
+
+
+
+// ==================== 12 个完整案例库 ====================
+const caseStudies = [
+    { id:1, title:'某银行数字化转型项目', industry:'金融', challenge:'传统核心系统老旧，无法满足数字化业务需求，系统迁移风险极高', solution:'采用双模IT策略：稳定核心系统保持瀑布式，创新业务线采用敏捷迭代', result:'18个月完成转型，新业务上线速度提升300%，核心系统零故障', tags:['混合方法','双模IT','风险管理'], difficulty:'困难' },
+    { id:2, title:'电商平台微服务重构', industry:'互联网', challenge:'单体架构难支撑业务增长，技术债务严重，团队效率低下', solution:'微服务拆分+Scrum敏捷，按业务域划分团队，每2周迭代交付', result:'6个月完成核心服务拆分，部署频率从月提升到天，故障率下降80%', tags:['Scrum','微服务','DevOps'], difficulty:'中等' },
+    { id:3, title:'医疗设备软件合规项目', industry:'医疗', challenge:'FDA合规要求严格，文档工作量大，但市场需求变化快', solution:'敏捷开发+合规文档自动化，每个Sprint结束自动生成合规文档', result:'顺利通过FDA认证，产品上市时间缩短40%', tags:['合规','敏捷','自动化'], difficulty:'困难' },
+    { id:4, title:'汽车制造MES系统', industry:'制造业', challenge:'多工厂协同需求复杂，生产环境不能中断', solution:'看板方法管理需求流，分阶段灰度发布，建立快速回滚机制', result:'覆盖12个工厂，系统可用性99.9%，生产效率提升25%', tags:['Kanban','灰度发布','高可用'], difficulty:'中等' },
+    { id:5, title:'政府政务云平台', industry:'政府', challenge:'安全等级要求高，采购流程复杂，多供应商协作困难', solution:'SAFe规模化敏捷框架，协调8个敏捷团队，统一PI规划', result:'按期交付，支持50+委办局业务，获数字政府创新奖', tags:['SAFe','规模化敏捷','多团队'], difficulty:'困难' },
+    { id:6, title:'创业公司MVP开发', industry:'创业', challenge:'资源有限，需要快速验证商业模式', solution:'精益创业+极限编程，每周迭代，持续A/B测试', result:'3个月上线MVP，6个月实现PMF，获得A轮融资', tags:['精益创业','XP','MVP'], difficulty:'简单' },
+    { id:7, title:'跨国ERP实施', industry:'企业软件', challenge:'20+国家，多种语言法规，业务流程差异大', solution:'敏捷+瀑布混合：核心模块瀑布实施，本地化适配敏捷迭代', result:'覆盖全球业务，本地化满意度95%，投资回报周期缩短30%', tags:['混合方法','全球化','ERP'], difficulty:'困难' },
+    { id:8, title:'3A游戏开发项目', industry:'娱乐', challenge:'创意需求变化快，技术实现复杂，上线时间紧迫', solution:'Scrum of Scrums协调5个团队，自动化测试和CI/CD流水线', result:'如期上线，首月用户破百万，应用商店评分4.8', tags:['Scrum','SoS','CI/CD'], difficulty:'中等' },
+    { id:9, title:'电信计费系统升级', industry:'电信', challenge:'7×24小时不能中断，数据量TB级，迁移风险极高', solution:'双轨运行+增量迁移，完整监控和应急体系', result:'零中断完成迁移，处理性能提升10倍，运营成本降低40%', tags:['双轨运行','增量迁移','高可用'], difficulty:'困难' },
+    { id:10, title:'在线教育平台扩展', industry:'教育', challenge:'疫情影响需求暴增，并发量从万级到百万级', solution:'敏捷响应+云原生架构，弹性扩容，功能快速迭代', result:'支撑千万级用户在线学习，业务增长500%', tags:['云原生','弹性扩容','敏捷'], difficulty:'中等' },
+    { id:11, title:'物流IoT追踪系统', industry:'物流', challenge:'IoT设备种类繁多，数据实时性要求高，网络环境复杂', solution:'看板管理需求，边缘计算+云端协同，分区域灰度上线', result:'覆盖全国3000+网点，追踪准确率99.5%，时效提升35%', tags:['IoT','Kanban','边缘计算'], difficulty:'中等' },
+    { id:12, title:'保险核心业务系统重构', industry:'金融', challenge:'遗留系统复杂，业务规则繁多，合规要求严格', solution:'绞杀者模式渐进重构，Scrum迭代交付，自动化测试保障质量', result:'24个月完成重构，技术债务清零，新业务上线周期从月缩短到周', tags:['重构','Scrum','自动化测试'], difficulty:'困难' }
+];
+
+// ==================== 全局视图状态 ====================
+let currentView = 'principles';
+let selectedPrinciple = null;
+let selectedDomain = null;
+let selectedProcess = null;
+let selectedAgile = null;
+
+// ==================== 初始化 ====================
+function initApp() {
+    loadState();
+    initModals();
+    bindEvents();
+    exposeGlobals();
+    switchView('principles');
+    updateAccountUI();
+}
+
+function bindEvents() {
+    document.querySelectorAll('.view-tab').forEach(tab => {
+        tab.addEventListener('click', e => switchView(e.currentTarget.dataset.view));
+    });
+    const ab = document.getElementById('accountBtn');
+    const ad = document.getElementById('accountDropdown');
+    if (ab) ab.addEventListener('click', e => { e.stopPropagation(); ad.classList.toggle('show'); });
+    document.addEventListener('click', () => ad?.classList.remove('show'));
+}
+
+function exposeGlobals() {
+    Object.assign(window, {
+        selectPrinciple, selectDomain, selectProcess, selectAgile,
+        switchToDomain, switchToPrinciple,
+        closeCaseModal, closeQuizModal, closeCaseOverlay,
+        showCaseModal, showQuizModalForItem, showDomainCaseModal,
+        showDomainQuizModal, showProcessQuizModal,
+        openCaseLibrary, closeCaseLibrary, filterCases, viewCaseDetail, renderAllCases,
+        openPremiumModal, closePremiumModal, activateLicense,
+        updateAccountUI
+    });
+}
+
+// ==================== 视图切换 ====================
+function switchView(view) {
+    currentView = view;
+    selectedPrinciple = null; selectedDomain = null; selectedProcess = null; selectedAgile = null;
+    document.querySelectorAll('.view-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
+    renderOverview();
+    renderSidebar();
+    showWelcome();
+    // Auto-select first
+    if (view === 'principles') selectPrinciple(1);
+    else if (view === 'domains') selectDomain(1);
+    else if (view === 'processes') selectProcess(1);
+    else if (view === 'agile') selectAgile(0);
+}
+
+function showWelcome() {
+    const ds = document.getElementById('detailSection');
+    const os = document.getElementById('overviewSection');
+    if (os) os.style.display = 'block';
+    if (ds) ds.innerHTML = `
+        <div class="welcome-state">
+            <div class="welcome-icon">📘</div>
+            <h2 class="welcome-title">PMBOK 第 8 版 · ${currentView==='principles'?'6 项原则':currentView==='domains'?'7 个绩效域':currentView==='processes'?'40 个流程':'敏捷/混合方法'}</h2>
+            <p class="welcome-desc">${currentView==='principles'?'点击左侧原则查看详细内容、实际案例和自测题':currentView==='domains'?'点击左侧绩效域查看详细内容、实际案例和自测题':currentView==='processes'?'点击左侧流程查看完整ITTO（输入/工具/输出）':currentView==='agile'?'了解敏捷宣言、Scrum、Kanban和混合方法'}</p>
+        </div>
+    `;
+}
+
+// ==================== 概览区 ====================
+function renderOverview() {
+    const c = document.getElementById('overviewSection');
+    if (!c) return;
+    if (currentView === 'principles') {
+        c.innerHTML = `<h3 class="overview-title">📘 6 项项目管理原则 | 6 Principles</h3><p class="overview-sub">PMBOK 第8版将第7版12项原则精简整合为6项核心原则</p>
+            <div class="domain-map">${principles.map(p => `<div class="domain-card" onclick="selectPrinciple(${p.number})"><div class="domain-icon">${p.icon}</div><div class="domain-name-cn">原则${p.number}: ${p.name}</div><div class="domain-name-en">${p.nameEn}</div></div>`).join('')}</div>`;
+    } else if (currentView === 'domains') {
+        c.innerHTML = `<h3 class="overview-title">🌐 7 个绩效域 | 7 Performance Domains</h3><p class="overview-sub">PMBOK 第8版官方7个绩效关键领域</p>
+            <div class="domain-map">${performanceDomains.map(d => `<div class="domain-card" onclick="selectDomain(${d.number})" style="border-color:${d.color}"><div class="domain-icon">${d.icon}</div><div class="domain-name-cn">${d.name}</div><div class="domain-name-en">${d.nameEn}</div></div>`).join('')}</div>`;
+    } else if (currentView === 'processes') {
+        const fas = Object.entries(focusAreaConfig);
+        c.innerHTML = `<h3 class="overview-title">🔄 40 个流程 | 40 Processes</h3><p class="overview-sub">按 5 个焦点领域组织，含完整 ITTO 数据</p>
+            <div class="domain-map processes-map">${fas.map(([name, cfg]) => `<div class="domain-card process-card" onclick="window._toggleFA('${name}')" style="border-color:${cfg.color}"><div class="domain-icon">${cfg.icon}</div><div class="domain-name-cn">${name}</div><div class="domain-name-en">${cfg.count} 个流程</div></div>`).join('')}</div>`;
+    } else {
+        c.innerHTML = `<h3 class="overview-title">🚀 敏捷/混合方法 | Agile & Hybrid</h3><p class="overview-sub">敏捷宣言、Scrum、Kanban、混合方法的完整指南</p>
+            <div class="domain-map agile-map">${agileApproaches.map((a,i) => `<div class="domain-card" onclick="selectAgile(${i})" style="border-color:${a.color}"><div class="domain-icon">${a.icon}</div><div class="domain-name-cn">${a.title}</div><div class="domain-name-en">${a.titleEn}</div></div>`).join('')}</div>`;
+    }
+}
+
+// ==================== 侧边栏 ====================
+function renderSidebar() {
+    const c = document.getElementById('sidebarContent');
+    if (!c) return;
+
+    if (currentView === 'principles') {
+        c.innerHTML = `<div class="sidebar-header">6 项原则</div><div class="content-list">${principles.map(p => `
+            <div class="content-item${selectedPrinciple===p.number?' active':''}" onclick="selectPrinciple(${p.number})">
+                <span class="content-number">${p.number}</span><div style="flex:1"><div class="content-title-cn">${p.icon} ${p.name}</div><div class="content-title-en">${p.nameEn}</div><div class="content-desc">${p.summary}</div></div>
+            </div>`).join('')}</div>`;
+    } else if (currentView === 'domains') {
+        c.innerHTML = `<div class="sidebar-header">7 个绩效域</div><div class="content-list">${performanceDomains.map(d => `
+            <div class="content-item${selectedDomain===d.number?' active':''}" onclick="selectDomain(${d.number})">
+                <span class="content-number" style="background:${d.color}">${d.number}</span><div style="flex:1"><div class="content-title-cn">${d.icon} ${d.name}</div><div class="content-title-en">${d.nameEn}</div><div class="content-desc">${d.summary}</div></div>
+            </div>`).join('')}</div>`;
+    } else if (currentView === 'processes') {
+        const fas = Object.keys(focusAreaConfig);
+        c.innerHTML = `<div class="sidebar-header">40 个流程</div><div class="content-list">${fas.map(fa => {
+            const fps = processes.filter(p => p.focusArea === fa);
+            return `<div style="border-bottom:1px solid #eee"><div style="padding:12px 18px;background:${focusAreaConfig[fa].color};color:#fff;font-size:13px;font-weight:600;cursor:pointer" onclick="window._toggleFA('${fa}')">${fa} | ${focusAreaConfig[fa].en} · ${fps.length}个</div><div id="fa_${fa}" style="display:block">${fps.map(p => `
+                <div class="content-item${selectedProcess===p.number?' active':''}" onclick="selectProcess(${p.number})">
+                    <span class="content-number" style="background:${p.color};width:24px;height:24px;font-size:11px;line-height:24px">${p.number}</span><div style="flex:1"><div class="content-title-cn">${p.icon} ${p.name}</div><div class="content-title-en">${p.nameEn}</div></div>
+                </div>`).join('')}</div></div>`;
+        }).join('')}</div>`;
+    } else {
+        c.innerHTML = `<div class="sidebar-header">敏捷方法</div><div class="content-list">${agileApproaches.map((a,i) => `
+            <div class="content-item${selectedAgile===i?' active':''}" onclick="selectAgile(${i})">
+                <span class="content-number" style="background:${a.color}">${i+1}</span><div style="flex:1"><div class="content-title-cn">${a.icon} ${a.title}</div><div class="content-title-en">${a.titleEn}</div><div class="content-desc">${a.summary}</div></div>
+            </div>`).join('')}</div>`;
+    }
+}
+
+// Focus area toggle
+window._toggleFA = (fa) => {
+    const el = document.getElementById(`fa_${fa}`);
+    if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+};
+
+// ==================== 选择原则 ====================
+function selectPrinciple(number) {
+    selectedPrinciple = number; selectedDomain = null; selectedProcess = null;
+    const p = principles.find(x => x.number === number);
+    if (!p) return;
+    const ds = document.getElementById('detailSection');
+    document.getElementById('overviewSection').style.display = 'none';
+    ds.style.display = 'block';
+    ds.innerHTML = `
+        <div class="detail-header">
+            <div><span class="detail-number">原则 ${p.number}</span><h2>${p.name} | ${p.nameEn}</h2><div class="detail-meta">${p.icon} ${p.summary}</div></div>
+            <div class="detail-header-actions">
+                <button class="detail-header-btn" onclick="showCaseModal(${p.number})">📝 实际案例</button>
+                <button class="detail-header-btn" onclick="showQuizModalForItem(${p.number})">✅ 自测 (${p.quizzes.length}题)</button>
+            </div>
+        </div>
+        <div class="detail-body">
+            <div class="principle-card"><h4>📘 原则说明 | Description</h4><p>${p.description}</p><p class="en">${p.descriptionEn}</p></div>
+            <div class="simple-explain"><strong>💡 说人话：</strong>${p.simpleExplain}</div>
+            <div class="key-aspects">${p.keyAspects.map(a => `
+                <div class="aspect-item"><div class="aspect-icon">${a.icon}</div><div class="aspect-title">${a.title} | ${a.titleEn}</div><div class="aspect-desc">${a.desc}</div></div>
+            `).join('')}</div>
+            ${p.performanceDomains ? `<div style="margin-top:25px"><h4 style="color:var(--pmi-dark);margin-bottom:15px">🔗 相关绩效域 | Related Performance Domains</h4>
+                <div style="display:flex;flex-wrap:wrap;gap:10px">${p.performanceDomains.map(dn => {
+                    const d = performanceDomains.find(pd => pd.name === dn);
+                    return d ? `<a href="#" onclick="switchToDomain(${d.number});return false" class="cross-ref-link"><span>${d.icon}</span> ${d.name}</a>` : '';
+                }).join('')}</div></div>` : ''}
+        </div>`;
+    renderSidebar();
+}
+
+// ==================== 选择绩效域 ====================
+function selectDomain(number) {
+    selectedDomain = number; selectedPrinciple = null; selectedProcess = null;
+    const d = performanceDomains.find(x => x.number === number);
+    if (!d) return;
+    const ds = document.getElementById('detailSection');
+    document.getElementById('overviewSection').style.display = 'none';
+    ds.style.display = 'block';
+    ds.innerHTML = `
+        <div class="detail-header" style="background:linear-gradient(135deg,${d.color},${d.color})">
+            <div><span class="detail-number">绩效域 ${d.number}</span><h2>${d.name} | ${d.nameEn}</h2><div class="detail-meta">${d.icon} ${d.summary}</div></div>
+            <div class="detail-header-actions">
+                <button class="detail-header-btn" onclick="showDomainCaseModal(${d.number})">📝 实际案例</button>
+                <button class="detail-header-btn" onclick="showDomainQuizModal(${d.number})">✅ 自测</button>
+            </div>
+        </div>
+        <div class="detail-body">
+            <div class="principle-card"><h4>📘 绩效域说明 | Description</h4><p>${d.description}</p><p class="en">${d.descriptionEn}</p></div>
+            <div style="margin-top:20px"><h4 style="color:${d.color};margin-bottom:15px">📋 主要活动 | Key Activities</h4>
+                <ul style="padding-left:20px;line-height:2">${d.keyActivities.map(a => `<li>${a}</li>`).join('')}</ul></div>
+            <div style="margin-top:20px"><h4 style="color:${d.color};margin-bottom:15px">✅ 预期成果 | Expected Outcomes</h4>
+                <ul style="padding-left:20px;line-height:2">${d.expectedOutcomes.map(o => `<li>✅ ${o}</li>`).join('')}</ul></div>
+            ${d.relatedPrinciples ? `<div style="margin-top:25px"><h4 style="color:var(--pmi-dark);margin-bottom:15px">🔗 相关原则 | Related Principles</h4>
+                <div style="display:flex;flex-wrap:wrap;gap:10px">${d.relatedPrinciples.map(pn => {
+                    const p = principles.find(pr => pr.number === pn);
+                    return p ? `<a href="#" onclick="switchToPrinciple(${p.number});return false" class="cross-ref-link"><span>${p.icon}</span> 原则${p.number}: ${p.name}</a>` : '';
+                }).join('')}</div></div>` : ''}
+        </div>`;
+    renderSidebar();
+}
+
+// ==================== 选择流程 ====================
+function selectProcess(number) {
+    selectedProcess = number; selectedPrinciple = null; selectedDomain = null;
+    const p = processes.find(x => x.number === number);
+    if (!p) return;
+    const ds = document.getElementById('detailSection');
+    document.getElementById('overviewSection').style.display = 'none';
+    ds.style.display = 'block';
+    ds.innerHTML = `
+        <div class="detail-header" style="background:linear-gradient(135deg,${p.color},${p.color})">
+            <div><span class="detail-number">${p.focusArea}</span><h2>${p.name} | ${p.nameEn}</h2><div class="detail-meta">${p.icon} 流程 #${p.number} · ${p.performanceDomain}</div></div>
+        </div>
+        <div class="detail-body">
+            <div class="principle-card"><h4>📘 流程说明 | Description</h4><p>${p.description}</p><p class="en">${p.descriptionEn}</p></div>
+            <h4 style="color:var(--pmi-dark);margin:20px 0 15px">📋 输入、工具与输出 | ITTO</h4>
+            <div class="key-aspects" style="grid-template-columns:1fr 1fr 1fr">
+                <div class="aspect-item"><div class="aspect-icon">📥</div><div class="aspect-title">输入 | Inputs</div><ul style="padding-left:15px;font-size:12px;line-height:1.8;margin-top:8px">${p.inputs.map(i => `<li>${i}</li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">🔧</div><div class="aspect-title">工具 | Tools</div><ul style="padding-left:15px;font-size:12px;line-height:1.8;margin-top:8px">${p.tools.map(t => `<li>${t}</li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">📤</div><div class="aspect-title">输出 | Outputs</div><ul style="padding-left:15px;font-size:12px;line-height:1.8;margin-top:8px">${p.outputs.map(o => `<li>${o}</li>`).join('')}</ul></div>
+            </div>
+        </div>`;
+    renderSidebar();
+}
+
+// ==================== 选择敏捷 ====================
+function selectAgile(index) {
+    selectedAgile = index; selectedPrinciple = null; selectedDomain = null; selectedProcess = null;
+    const a = agileApproaches[index];
+    if (!a) return;
+    const ds = document.getElementById('detailSection');
+    document.getElementById('overviewSection').style.display = 'none';
+    ds.style.display = 'block';
+
+    let content = '';
+    if (a.values) {
+        content = `<h4 style="color:var(--pmi-dark);margin:20px 0 15px">📘 四项价值 | Four Values</h4>
+            <div class="key-aspects" style="grid-template-columns:1fr 1fr">
+                <div class="aspect-item"><div class="aspect-icon">💚</div><div class="aspect-title">核心价值</div>
+                    <ul style="padding-left:15px;font-size:12px;line-height:2.2;margin-top:8px;list-style:none">${a.values.map(v => `<li><strong>${v.title}</strong> ${v.description}<br><span style="color:#666;font-size:11px"><em>${v.titleEn}</em> ${v.descriptionEn}</span></li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">📋</div><div class="aspect-title">十二原则 | 12 Principles</div>
+                    <ul style="padding-left:15px;font-size:12px;line-height:2;margin-top:8px;list-style:none">${a.principles.map((pr,i) => `<li>${['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟','1️⃣1️⃣','1️⃣2️⃣'][i]} ${pr}</li>`).join('')}</ul></div></div>`;
+    } else if (a.roles) {
+        content = `<h4 style="color:var(--pmi-dark);margin:20px 0 15px">👥 三个角色 | Three Roles</h4>
+            <div class="key-aspects" style="grid-template-columns:1fr 1fr 1fr">${a.roles.map(r => `<div class="aspect-item" style="text-align:center"><div class="aspect-icon" style="font-size:32px">${r.icon}</div><div class="aspect-title">${r.name}</div><div style="font-size:12px;color:#666;margin-top:5px">${r.nameZh}</div><div style="font-size:11px;color:#999;margin-top:3px">${r.responsibility}</div></div>`).join('')}</div>
+            <h4 style="color:var(--pmi-dark);margin:20px 0 15px">📅 四个仪式 | Four Events</h4>
+            <div class="key-aspects" style="grid-template-columns:1fr 1fr 1fr 1fr">${a.events.map(e => `<div class="aspect-item"><div class="aspect-title">${e.name}</div><div style="font-size:11px;color:#666;margin-top:5px">${e.nameZh}</div><div style="font-size:10px;color:#999;margin-top:3px">${e.duration}</div><div style="font-size:10px;color:#999;margin-top:2px">${e.purpose}</div></div>`).join('')}</div>
+            <h4 style="color:var(--pmi-dark);margin:20px 0 15px">📦 三个工件 | Three Artifacts</h4>
+            <div class="key-aspects" style="grid-template-columns:1fr 1fr 1fr">${a.artifacts.map(ar => `<div class="aspect-item"><div class="aspect-title">${ar.name}</div><div style="font-size:11px;color:#666;margin-top:5px">${ar.nameZh}</div><div style="font-size:10px;color:#999;margin-top:3px">${ar.description}</div></div>`).join('')}</div>`;
+    } else if (a.practices) {
+        content = `<h4 style="color:var(--pmi-dark);margin:20px 0 15px">🎯 六大核心实践 | 6 Core Practices</h4>
+            <div class="key-aspects" style="grid-template-columns:1fr 1fr 1fr">${a.practices.map(pr => `<div class="aspect-item"><div class="aspect-icon">${pr.icon}</div><div class="aspect-title">${pr.name}</div><div style="font-size:11px;color:#666;margin-top:5px">${pr.nameEn}</div><div style="font-size:11px;color:#999;margin-top:3px">${pr.description}</div></div>`).join('')}</div>`;
+    } else if (a.models) {
+        content = `<h4 style="color:var(--pmi-dark);margin:20px 0 15px">💡 常见混合模式 | Common Hybrid Models</h4>
+            <div style="display:grid;gap:15px;margin-bottom:20px">${a.models.map(m => `<div class="principle-card" style="margin:0"><h4>${m.name}</h4><div style="font-size:12px;color:#666;margin-bottom:8px">${m.nameEn}</div><div style="font-size:13px;color:#555;line-height:1.6">${m.description}</div></div>`).join('')}</div>
+            <h4 style="color:var(--pmi-dark);margin:20px 0 15px">✅ 何时选择混合方法 | When to Choose Hybrid</h4>
+            <div class="key-aspects" style="grid-template-columns:1fr 1fr">${a.whenToUse.map(w => `<div class="aspect-item"><div class="aspect-icon">✅</div><div class="aspect-title">${w.split('|')[0]}</div><div style="font-size:12px;color:#666;margin-top:5px">${w.split('|')[1]||''}</div></div>`).join('')}</div>`;
+    }
+
+    ds.innerHTML = `
+        <div class="detail-header" style="background:linear-gradient(135deg,${a.color},${a.color})">
+            <div><span class="detail-number">${a.title}</span><h2>${a.title} | ${a.titleEn}</h2><div class="detail-meta">${a.summary}</div></div>
+            ${index===3 ? `<div class="detail-header-actions"><button class="detail-header-btn" onclick="openCaseLibrary()">📚 案例库</button></div>` : ''}
+        </div>
+        <div class="detail-body">${content}</div>`;
+    renderSidebar();
+}
+
+// ==================== 案例弹窗桥接 ====================
+window.showCaseModal = (num) => { const p = principles.find(x => x.number === num); if (p) _showCaseModalItem(p); };
+window.showDomainCaseModal = (num) => { const d = performanceDomains.find(x => x.number === num); if (d) _showCaseModalItem(d); };
+window.showQuizModalForItem = (num) => { const p = principles.find(x => x.number === num); if (p?.quizzes) _showQuizModalFn(p, p.quizzes); };
+window.showDomainQuizModal = (num) => { const d = performanceDomains.find(x => x.number === num); if (d?.quiz) _showQuizModalFn(d, [d.quiz]); };
+window.showProcessQuizModal = () => { alert('流程自测题目开发中... | Process quizzes coming soon'); };
+
+// ==================== 案例库弹窗 ====================
+function openCaseLibrary() {
+    const modal = document.getElementById('caseOverlay');
+    const body = document.getElementById('caseOverlayBody');
+    if (!modal || !body) return;
+
+    const byIndustry = caseStudies.reduce((acc, c) => { if (!acc[c.industry]) acc[c.industry] = []; acc[c.industry].push(c); return acc; }, {});
+
+    body.innerHTML = `
+        <div style="margin-bottom:25px"><p style="font-size:14px;color:#666;line-height:1.8">真实项目案例库，涵盖12个案例，跨多个行业的敏捷/混合/预测型项目实践。</p></div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px" id="filterBar">
+            <button class="filter-btn active" onclick="renderAllCases()">全部 (12)</button>
+            ${Object.keys(byIndustry).map(ind => `<button class="filter-btn" onclick="filterCases('${ind}')">${ind}</button>`).join('')}
+        </div>
+        <div id="caseList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:20px">${renderCaseCards(caseStudies)}</div>
+    `;
+    modal.style.display = 'flex';
+}
+
+function renderCaseCards(cases) {
+    return cases.map(c => `
+        <div class="case-card" onclick="viewCaseDetail(${c.id})">
+            <div class="case-header"><h4 style="color:#1f2937;font-size:15px;margin:0">${c.title}</h4><span class="difficulty-tag ${c.difficulty==='简单'?'easy':c.difficulty==='中等'?'medium':'hard'}">${c.difficulty}</span></div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+                <span class="industry-tag">🏢 ${c.industry}</span>
+                ${c.tags.slice(0,3).map(t => `<span class="tech-tag">${t}</span>`).join('')}
+            </div>
+            <p style="font-size:13px;color:#6b7280;line-height:1.6;margin:0">${c.challenge}</p>
+            <div style="margin-top:12px;text-align:right"><span style="font-size:12px;color:#8b5cf6">点击查看详情 →</span></div>
+        </div>
+    `).join('');
+}
+
+window.renderAllCases = () => {
+    document.querySelectorAll('#filterBar .filter-btn').forEach(b => { b.classList.remove('active'); if (b.textContent.startsWith('全部')) b.classList.add('active'); });
+    document.getElementById('caseList').innerHTML = renderCaseCards(caseStudies);
+};
+
+window.filterCases = (industry) => {
+    document.querySelectorAll('#filterBar .filter-btn').forEach(b => { b.classList.toggle('active', b.textContent === industry); });
+    document.getElementById('caseList').innerHTML = renderCaseCards(caseStudies.filter(c => c.industry === industry));
+};
+
+window.viewCaseDetail = (id) => {
+    const c = caseStudies.find(x => x.id === id);
+    const body = document.getElementById('caseOverlayBody');
+    body.innerHTML = `
+        <button onclick="openCaseLibrary()" style="margin-bottom:20px;padding:8px 16px;background:#f3f4f6;color:#374151;border:none;border-radius:8px;cursor:pointer;font-size:13px">← 返回列表</button>
+        <div style="background:linear-gradient(135deg,#f0fdf4,#ecfdf5);padding:25px;border-radius:12px;margin-bottom:20px">
+            <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:15px">
+                <h2 style="color:#059669;font-size:20px;margin:0">${c.title}</h2>
+                <span class="difficulty-tag ${c.difficulty==='简单'?'easy':c.difficulty==='中等'?'medium':'hard'}" style="font-size:12px;padding:6px 12px">难度：${c.difficulty}</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <span style="font-size:12px;padding:6px 12px;background:white;color:#374151;border-radius:20px;border:1px solid #e5e7eb">🏢 ${c.industry}</span>
+                ${c.tags.map(t => `<span style="font-size:12px;padding:6px 12px;background:white;color:#6b7280;border-radius:20px;border:1px solid #e5e7eb">${t}</span>`).join('')}
+            </div>
+        </div>
+        <div style="display:grid;gap:20px">
+            <div class="case-section challenge"><h3 style="font-size:15px;margin-bottom:10px">🔴 挑战 | Challenge</h3><p style="line-height:1.8;font-size:14px">${c.challenge}</p></div>
+            <div class="case-section solution"><h3 style="font-size:15px;margin-bottom:10px">🟢 解决方案 | Solution</h3><p style="line-height:1.8;font-size:14px">${c.solution}</p></div>
+            <div class="case-section result"><h3 style="font-size:15px;margin-bottom:10px">🔵 成果 | Results</h3><p style="line-height:1.8;font-size:14px">${c.result}</p></div>
+        </div>
+    `;
+};
+
+window.closeCaseLibrary = () => { const m = document.getElementById('caseOverlay'); if (m) m.style.display = 'none'; };
+
+// ==================== 导航桥接 ====================
+function switchToDomain(number) { switchView('domains'); setTimeout(() => selectDomain(number), 50); }
+function switchToPrinciple(number) { switchView('principles'); setTimeout(() => selectPrinciple(number), 50); }
+window.switchToDomain = switchToDomain;
+window.switchToPrinciple = switchToPrinciple;
+
+// ==================== 账户/Premium ====================
+function updateAccountUI() {
+    const btn = document.getElementById('accountBtn');
+    if (!btn) return;
+    if (state.isPremiumUser) {
+        btn.innerHTML = '<span class="account-icon">👑</span><span class="account-text">Premium</span><span class="account-arrow">▼</span>';
+        const dd = document.getElementById('accountDropdown');
+        if (dd) dd.innerHTML = `<div class="dropdown-item"><span class="item-icon">👑</span><span class="item-text">Premium 会员</span><span class="item-badge">已激活</span></div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-item" onclick="alert('功能开发中...')"><span class="item-icon">📊</span><span class="item-text">学习进度</span></div>
+            <div class="dropdown-item" onclick="alert('功能开发中...')"><span class="item-icon">⭐</span><span class="item-text">收藏内容</span></div>`;
+    } else {
+        btn.innerHTML = '<span class="account-icon">👤</span><span class="account-text">免费用户</span><span class="account-arrow">▼</span>';
+        const dd = document.getElementById('accountDropdown');
+        if (dd) dd.innerHTML = `<div class="dropdown-item" onclick="openPremiumModal()"><span class="item-icon">👑</span><span class="item-text">升级 Premium</span><span class="item-tag premium">推荐</span></div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-item"><span class="item-icon">📘</span><span class="item-text">6 项原则（免费）</span></div>
+            <div class="dropdown-item"><span class="item-icon">🌐</span><span class="item-text">7 个绩效域（免费）</span></div>
+            <div class="dropdown-item"><span class="item-icon">🔄</span><span class="item-text">40 个流程（免费）</span></div>
+            <div class="dropdown-item"><span class="item-icon">🚀</span><span class="item-text">敏捷方法（免费）</span></div>`;
+    }
+}
+
+window.openPremiumModal = () => {
+    // 简单创建 premium 弹窗
+    let modal = document.getElementById('premiumModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'premiumModal';
+        modal.className = 'modal-overlay';
+        modal.innerHTML = `<div class="modal-content"><div class="modal-header" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)"><h3>👑 升级 Premium</h3><button class="modal-close" onclick="closePremiumModal()">×</button></div><div class="modal-body" id="premiumBody"></div></div>`;
+        document.body.appendChild(modal);
+        modal.addEventListener('click', e => { if (e.target === modal) closePremiumModal(); });
+    }
+    document.getElementById('premiumBody').innerHTML = getTrialUpgradeMessage();
+    modal.style.display = 'flex';
+};
+window.closePremiumModal = () => { const m = document.getElementById('premiumModal'); if (m) m.style.display = 'none'; };
+
+window.activateLicense = () => {
+    const input = document.getElementById('licenseKeyInput');
+    const status = document.getElementById('licenseStatus');
+    const key = input?.value?.trim();
+    if (!key) { if (status) { status.textContent = '请输入 License Key'; status.className = 'license-status inactive'; } return; }
+    // TODO: 接入 Supabase 验证 License
+    if (key.length >= 8) {
+        state.isPremiumUser = true;
+        state.licenseKey = key;
+        setToStorage(STORAGE_KEYS.PREMIUM, true);
+        setToStorage(STORAGE_KEYS.LICENSE_KEY, key);
+        if (status) { status.textContent = '✅ License 激活成功！'; status.className = 'license-status active'; }
+        updateAccountUI();
+        setTimeout(() => closePremiumModal(), 1000);
+    } else {
+        if (status) { status.textContent = '❌ License Key 无效'; status.className = 'license-status inactive'; }
+    }
+};
+
+// ==================== 启动 ====================
+document.addEventListener('DOMContentLoaded', initApp);
+
+</script>
 </body>
 </html>
