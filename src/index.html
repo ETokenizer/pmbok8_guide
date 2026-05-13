@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMBOK Guide Edition 8 - 项目管理指南 (第 8 版)</title>
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/premium.css">
+    <link rel="stylesheet" href="./css/quiz.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">📘</div>
+            <div>
+                <h1>PMBOK Guide Edition 8 <span class="edition-badge">2026</span></h1>
+                <div class="logo-sub">项目管理知识体系指南 (第 8 版) | 6 Principles & 7 Performance Domains</div>
+            </div>
+        </div>
+        <div class="account-menu">
+            <button class="account-btn" id="accountBtn">
+                <span class="account-icon">👤</span>
+                <span class="account-text">免费用户</span>
+                <span class="account-arrow">▼</span>
+            </button>
+            <div class="account-dropdown" id="accountDropdown"></div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="view-tabs">
+                <button class="view-tab active" data-view="principles">
+                    📘 原则<br><span class="tab-en">Principles</span>
+                </button>
+                <button class="view-tab" data-view="domains">
+                    🌐 绩效域<br><span class="tab-en">Domains</span>
+                </button>
+                <button class="view-tab" data-view="processes">
+                    🔄 流程<br><span class="tab-en">Processes</span>
+                </button>
+                <button class="view-tab" data-view="agile">
+                    🚀 敏捷<br><span class="tab-en">Agile</span>
+                </button>
+            </div>
+            <div class="sidebar-content" id="sidebarContent"></div>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="content-area">
+            <section class="overview-section" id="overviewSection"></section>
+            <section class="detail-section" id="detailSection" style="display:none"></section>
+        </main>
+    </div>
+
+    <!-- 实际案例弹窗 -->
+    <div class="modal-overlay" id="caseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📝 实际案例 | Real-world Example</h3>
+                <button class="modal-close" onclick="closeCaseModal()">×</button>
+            </div>
+            <div class="modal-body" id="caseModalContent"></div>
+        </div>
+    </div>
+
+    <!-- 自测弹窗 -->
+    <div class="modal-overlay" id="quizModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="quizModalTitle">自测 | Self-test</h3>
+                <button class="modal-close" onclick="closeQuizModal()">×</button>
+            </div>
+            <div class="modal-body" id="quizModalContent"></div>
+        </div>
+    </div>
+
+    <!-- 案例库弹窗 -->
+    <div class="modal-overlay" id="caseOverlay">
+        <div class="modal-content wide">
+            <div class="modal-header" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">
+                <h3>📚 案例分析库 | Case Study Library</h3>
+                <button class="modal-close" onclick="closeCaseLibrary()">×</button>
+            </div>
+            <div class="modal-body" id="caseOverlayBody"></div>
+        </div>
+    </div>
+
+    <!-- ES6 Module Entry -->
+    <script type="module" src="./js/app.js"></script>
+</body>
+</html>

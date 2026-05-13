@@ -1,0 +1,153 @@
+/* PMBOK Edition 8 - Component Styles */
+
+/* Modal Overlay */
+.modal-overlay {
+    display: none; position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6); z-index: 1000;
+    justify-content: center; align-items: center;
+    backdrop-filter: blur(3px);
+}
+.modal-overlay.active { display: flex !important; }
+
+.modal-content {
+    background: var(--white); border-radius: var(--radius-lg);
+    max-width: 900px; max-height: 85vh;
+    overflow-y: auto; width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    position: relative;
+}
+.modal-content.wide { max-width: 1200px; }
+
+.modal-header {
+    background: linear-gradient(135deg, var(--pmi-dark), var(--pmi-blue));
+    color: var(--white); padding: 16px 24px;
+    display: flex; justify-content: space-between;
+    align-items: center; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.modal-header h3 { font-size: 17px; font-weight: 600; }
+
+.modal-close {
+    background: none; border: none;
+    color: var(--white); font-size: 28px;
+    cursor: pointer; opacity: 0.8;
+    transition: opacity 0.2s;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+}
+.modal-close:hover { opacity: 1; background: rgba(255,255,255,0.1); }
+
+.modal-body { padding: 30px; }
+
+/* Case Study Cards */
+.case-card {
+    background: #f8f9fa; padding: 20px;
+    border-radius: var(--radius-lg); border: 1px solid #e9ecef;
+    cursor: pointer; transition: var(--transition);
+}
+.case-card:hover { box-shadow: var(--shadow-lg); }
+
+.case-header {
+    display: flex; justify-content: space-between;
+    align-items: start; margin-bottom: 12px;
+}
+
+.industry-tag {
+    font-size: 11px; padding: 4px 10px;
+    background: #e0e7ff; color: #3730a3;
+    border-radius: 20px;
+}
+
+.tech-tag {
+    font-size: 11px; padding: 4px 10px;
+    background: #f3f4f6; color: #6b7280;
+    border-radius: 20px;
+}
+
+.difficulty-tag {
+    font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 600;
+}
+.difficulty-tag.easy { background: #d1fae5; color: #059669; }
+.difficulty-tag.medium { background: #fef3c7; color: #b45309; }
+.difficulty-tag.hard { background: #fee2e2; color: #dc2626; }
+
+/* Filter Buttons */
+.filter-btn {
+    padding: 8px 16px; border-radius: 20px;
+    cursor: pointer; font-size: 13px; border: none;
+    transition: var(--transition);
+}
+.filter-btn.active { background: #8b5cf6; color: white; }
+.filter-btn:not(.active) { background: #f3f4f6; color: #374151; }
+.filter-btn:not(.active):hover { background: #e5e7eb; }
+
+/* Case Detail Sections */
+.case-section {
+    padding: 20px; border-radius: var(--radius-lg);
+    border: 1px solid; margin-bottom: 15px;
+}
+.case-section.challenge { background: #fef2f2; border-color: #fecaca; }
+.case-section.challenge h3 { color: #dc2626; }
+.case-section.challenge p { color: #7f1d1d; }
+.case-section.solution { background: #f0fdf4; border-color: #bbf7d0; }
+.case-section.solution h3 { color: #16a34a; }
+.case-section.solution p { color: #14532d; }
+.case-section.result { background: #eff6ff; border-color: #bfdbfe; }
+.case-section.result h3 { color: #2563eb; }
+.case-section.result p { color: #1e3a8a; }
+
+/* Premium Section */
+.premium-section .sidebar-section-header { background: var(--pmi-blue); }
+.premium-section .sidebar-section-header:hover { background: var(--pmi-dark); }
+
+.premium-nav-list { display: flex; flex-direction: column; }
+.premium-nav-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px; background: #f5f9fc;
+    border: none; border-bottom: 1px solid #e0e8f0;
+    cursor: pointer; transition: var(--transition);
+    text-align: left; width: 100%;
+}
+.premium-nav-item:hover { background: #e8f4fc; }
+.premium-nav-icon { font-size: 20px; }
+.premium-nav-text { display: flex; flex-direction: column; gap: 2px; }
+.premium-nav-title { font-weight: 600; font-size: 13px; color: var(--pmi-dark); }
+.premium-nav-subtitle { font-size: 11px; color: #666; }
+
+/* Premium Features Home */
+.premium-features-home {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 15px; margin: 30px auto; max-width: 900px;
+}
+.premium-feature-card {
+    background: linear-gradient(135deg, #FFF8E7, #FFE8A3);
+    border: 2px solid var(--pmi-gold); border-radius: var(--radius-lg);
+    padding: 20px 15px; cursor: pointer;
+    transition: var(--transition); position: relative;
+}
+.premium-feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(212,175,55,0.3);
+}
+.card-icon { font-size: 36px; margin-bottom: 8px; text-align: center; }
+.card-badge {
+    position: absolute; top: 10px; right: 10px;
+    background: linear-gradient(135deg, var(--pmi-gold), #FFD700);
+    color: #333; padding: 2px 8px;
+    border-radius: 10px; font-size: 10px; font-weight: 600;
+}
+.card-title { font-weight: 600; color: #8B6914; margin-bottom: 8px; font-size: 14px; text-align: center; }
+.card-desc { font-size: 11px; color: #666; line-height: 1.5; text-align: center; }
+
+/* Focus area header in sidebar */
+
+/* Cross-reference links */
+.cross-ref-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 15px; background: #f0f7ff;
+    border-radius: var(--radius); text-decoration: none;
+    color: var(--pmi-blue); border: 1px solid #bfdbfe;
+    transition: var(--transition);
+}
+.cross-ref-link:hover { background: #e0f2fe; }

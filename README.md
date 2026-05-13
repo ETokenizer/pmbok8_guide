@@ -1,76 +1,83 @@
 # PMBOK Guide Edition 8 - 项目管理指南 (第 8 版)
 
-> PMBOK 第 8 版 2026 新版 | 6 大原则 & 7 大绩效域
+> PMBOK 第 8 版 (2025/2026) | 6 Principles & 7 Performance Domains
 
 ## 项目简介
 
-PMBOK Wizard Edition 8 是一个交互式 Web 应用，帮助项目管理专业人士学习和参考 PMI PMBOK 指南第 8 版（2025/2026）中定义的**6 项项目管理原则**和**7 个绩效域**。
+PMBOK Wizard Edition 8 是一个功能完整的交互式 Web 应用，帮助项目管理专业人士学习和参考 PMI PMBOK 指南第 8 版中定义的**6 项项目管理原则**、**7 个绩效域**、**40 个流程**和**敏捷/混合方法**。
 
-## 第 8 版重大变化（vs 第 7 版）
+## 核心功能
 
-| 第 7 版 (2021) | 第 8 版 (2025/2026) |
-|--------------|-------------------|
-| 12 项原则 | **6 项原则** (精简整合) |
-| 8 个绩效域 | **7 个绩效域** (重构) |
-| 40 个流程 | **40 个流程** (保留，强调非强制性) |
-| 较少涉及 AI/ESG | **新增 AI、ESG、价值流** |
+| 模块 | 说明 |
+|------|------|
+| 📘 6 项原则 | 整体视角、聚焦价值、融入质量、负责任领导、协作团队、管家精神 |
+| 🌐 7 个绩效域 | 治理、范围、进度、财务、相关方、资源、风险 |
+| 🔄 40 个流程 | 完整 ITTO 数据（输入/工具/输出），按 5 焦点领域组织 |
+| 🚀 敏捷/混合 | 敏捷宣言(4价值+12原则)、Scrum(3角色/4仪式/3工件)、Kanban(6实践)、混合方法(3模式) |
+| 📝 实际案例 | 每项原则和绩效域配备真实案例，含场景/行动/结果 |
+| 📚 案例库 | 12 个跨行业完整案例研究，含行业筛选和详情视图 |
+| ✅ 自测题库 | 原则 30 题 + 绩效域 7 题，含答题交互/进度追踪/正误反馈 |
+| 💬 白话解释 | 每条原则配备"说人话"通俗解释 |
+| 🔗 跨引用 | 原则 ↔ 绩效域双向导航 |
+| 👑 Premium | 用户账户菜单、License 激活（Supabase 待接入） |
 
-## PMBOK 第 8 版核心结构
+## 文件结构
 
-### 6 项项目管理原则（草案）
-
-根据 PMI 官方信息，第 8 版将 12 项原则精简为 6 项核心原则：
-
-1. **系统思维 (Systems Thinking)** - 整合整体观、复杂性、适应性
-2. **价值交付 (Value Delivery)** - 聚焦成果和商业价值
-3. **相关方协作 (Stakeholder Collaboration)** - 整合相关方参与和团队协作
-4. **领导力和管家 (Leadership & Stewardship)** - 整合领导力、管家、质量
-5. **适应性与韧性 (Adaptability & Resilience)** - 整合风险、裁剪、变革
-6. **可持续性 (Sustainability)** - 新增 ESG 整合
-
-### 7 个绩效域（重构）
-
-1. **项目治理绩效域 (Project Governance)**
-2. **团队绩效域 (Team)**
-3. **开发方法与生命周期绩效域 (Development Approach & Life Cycle)**
-4. **规划绩效域 (Planning)**
-5. **交付绩效域 (Delivery)**
-6. **测量绩效域 (Measurement)**
-7. **不确定性绩效域 (Uncertainty)**
-
-### 5 个焦点领域 (Focus Areas) - 40 个流程
-
-PMBOK 第 8 版保留了 40 个流程的概念，但强调它们是非强制性的，可以根据项目需要进行裁剪。
-
-1. **启动 (Initiating)** - 2 个流程
-2. **规划 (Planning)** - 20 个流程
-3. **执行 (Executing)** - 8 个流程
-4. **监控 (Monitoring & Controlling)** - 9 个流程
-5. **收尾 (Closing)** - 1 个流程
+```
+pmbok8_guide/
+├── index.html                   # 入口 → 重定向到 src/
+├── README.md
+├── src/
+│   ├── index.html               # 主应用 SPA
+│   ├── css/
+│   │   ├── variables.css        # CSS 变量
+│   │   ├── main.css             # 主布局
+│   │   ├── components.css       # 组件样式
+│   │   ├── premium.css          # Premium 样式
+│   │   └── quiz.css             # 自测样式
+│   └── js/
+│       ├── app.js               # 主应用逻辑
+│       ├── core/
+│       │   └── state.js         # 状态管理
+│       ├── data/
+│       │   ├── principles.js    # 6 项原则数据
+│       │   ├── domains.js       # 7 个绩效域数据
+│       │   ├── processes.js     # 40 个流程 ITTO 数据
+│       │   ├── agile.js         # 敏捷/混合方法数据
+│       │   └── trial.js         # 试用/Premium 管理
+│       └── ui/
+│           └── modals.js        # 弹窗管理
+```
 
 ## 使用方法
 
-直接在浏览器中打开 `index.html` 文件即可启动应用。
+```bash
+# 直接打开
+open src/index.html
+
+# 或使用本地服务器
+npx http-server -p 8080 -o src/index.html
+```
 
 ## 技术栈
 
-- HTML5
-- CSS3 (Flexbox, Grid)
-- Vanilla JavaScript (ES6+)
-- 响应式设计
+- HTML5 + CSS3 (Grid, Flexbox, Custom Properties)
+- Vanilla JavaScript ES6 Modules
+- localStorage 持久化
+- 零框架依赖
+
+## PMBOK 第 8 版 vs 第 7 版
+
+| 方面 | 第 7 版 (2021) | 第 8 版 (2025/2026) |
+|------|-------------|-------------------|
+| 原则数量 | 12 项 | **6 项** (精简整合) |
+| 绩效域 | 8 个 | **7 个** (重构) |
+| 流程 | 40 个 (保留) | **40 个** (非强制性) |
+| 新增主题 | - | AI、ESG、价值流 |
 
 ## 版本信息
 
-- **当前版本**: 8.0.0 (开发中)
+- **当前版本**: 2.0.0
 - **PMBOK 版本**: 第 8 版 (2025/2026)
 - **创建日期**: 2026-04-07
-
-## 参考资料
-
-- PMBOK Guide 8th Edition (PMI, 2025)
-- PMP Exam Content Outline 2026
-- [PMI 官方网站](https://www.pmi.org)
-
----
-
-**PMBOK Wizard Edition 8** - 你的项目管理学习助手
+- **最后更新**: 2026-05-13

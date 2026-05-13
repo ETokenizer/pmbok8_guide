@@ -1,0 +1,23 @@
+/* PMBOK Edition 8 - CSS Variables */
+:root {
+    --pmi-blue: #005A9D;
+    --pmi-dark: #003366;
+    --pmi-light: #0077C8;
+    --pmi-gold: #D4AF37;
+    --pmi-green: #10b981;
+    --pmi-bg: #F0F8FF;
+    --white: #fff;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --border: #e5e7eb;
+    --radius: 8px;
+    --radius-lg: 12px;
+    --shadow: 0 2px 10px rgba(0, 90, 157, 0.15);
+    --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.12);
+    --transition: all 0.25s ease;
+}

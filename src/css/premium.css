@@ -1,0 +1,77 @@
+/* PMBOK Edition 8 - Premium & Trial Styles */
+
+.upgrade-banner {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    padding: 20px; border-radius: var(--radius-lg);
+    margin-top: 20px; border: 2px solid #f59e0b;
+}
+
+.upgrade-banner-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 15px;
+}
+
+.upgrade-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-bottom: 15px;
+}
+
+.upgrade-item {
+    background: white; padding: 10px;
+    border-radius: var(--radius);
+}
+
+.upgrade-item .check { color: #059669; font-weight: 600; font-size: 13px; }
+.upgrade-item .en { color: #6b7280; font-size: 11px; }
+
+.upgrade-btn {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white; border: none;
+    padding: 10px 20px; border-radius: var(--radius);
+    cursor: pointer; font-weight: 600; font-size: 14px;
+    width: 100%; transition: var(--transition);
+}
+.upgrade-btn:hover { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+
+/* Trial lock indicator */
+.trial-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: 10px;
+    font-size: 10px; font-weight: 600;
+}
+.trial-badge.free { background: #d1fae5; color: #059669; }
+.trial-badge.locked { background: #fee2e2; color: #dc2626; }
+
+/* License key input */
+.license-section {
+    padding: 15px; background: #f9fafb;
+    border-radius: var(--radius); border: 1px dashed #d1d5db;
+    margin-top: 15px;
+}
+
+.license-input-group {
+    display: flex; gap: 8px; margin-top: 10px;
+}
+
+.license-input {
+    flex: 1; padding: 8px 12px;
+    border: 1px solid #d1d5db; border-radius: var(--radius);
+    font-size: 14px; font-family: monospace;
+}
+.license-input:focus { outline: none; border-color: var(--pmi-blue); }
+
+.license-btn {
+    padding: 8px 16px; border-radius: var(--radius);
+    background: var(--pmi-blue); color: white;
+    border: none; cursor: pointer; font-size: 13px;
+    transition: var(--transition);
+}
+.license-btn:hover { background: var(--pmi-dark); }
+
+.license-status {
+    font-size: 12px; margin-top: 8px;
+    display: flex; align-items: center; gap: 6px;
+}
+.license-status.active { color: #059669; }
+.license-status.inactive { color: #dc2626; }
+.license-status.unknown { color: #6b7280; }
