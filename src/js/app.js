@@ -60,7 +60,6 @@ function exposeGlobals() {
         closeCaseModal, closeQuizModal, closeCaseOverlay,
         showCaseModal, showQuizModalForItem, showDomainCaseModal,
         showDomainQuizModal, showProcessQuizModal,
-        handleQuizAnswer, navigateQuiz,
         openCaseLibrary, closeCaseLibrary, filterCases, viewCaseDetail, renderAllCases,
         openPremiumModal, closePremiumModal, activateLicense,
         updateAccountUI
