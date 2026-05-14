@@ -202,7 +202,7 @@ export function showIttoModal(itemName, itemType) {
             ${Object.entries(grouped).map(([fa, procs]) => `
                 <div class="itto-fa-group">
                     <div class="itto-fa-header" style="background:${getFAColor(fa)}">${fa} <small>(${procs.length}个)</small></div>
-                    <div class="itto-chain-list">${procs.map(p => `<span class="itto-process-tag" style="border-color:${getFAColor(fa)}" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.ne}">#${p.n} ${p.n.split('').slice(0,8).join('')}...</span>`).join('')}</div>
+                    <div class="itto-chain-list">${procs.map(p => `<span class="itto-process-tag" style="border-color:${getFAColor(fa)}" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.ne}">#${p.n} ${p.name.substring(0,10)}${p.name.length>10?'…':''}</span>`).join('')}</div>
                 </div>`).join('')}
         </div>`;
     }
@@ -216,7 +216,7 @@ export function showIttoModal(itemName, itemType) {
             ${Object.entries(grouped).map(([fa, procs]) => `
                 <div class="itto-fa-group">
                     <div class="itto-fa-header" style="background:${getFAColor(fa)}">${fa} · ${ittoFocusAreas[fa]?.en||''} <small>(${procs.length}个流程)</small></div>
-                    <div class="itto-chain-list">${procs.map(p => `<span class="itto-process-tag" style="border-color:${getFAColor(fa)}" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.ne}">#${p.n} ${p.n}</span>`).join('')}</div>
+                    <div class="itto-chain-list">${procs.map(p => `<span class="itto-process-tag" style="border-color:${getFAColor(fa)}" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.ne}">#${p.n} ${p.name}</span>`).join('')}</div>
                 </div>`).join('')}
         </div>`;
     }

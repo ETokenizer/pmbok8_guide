@@ -32,6 +32,7 @@ let selectedPrinciple = null;
 let selectedDomain = null;
 let selectedProcess = null;
 let selectedAgile = null;
+let expandedFocusAreas = {};
 
 // ==================== 初始化 ====================
 function initApp() {
@@ -59,7 +60,7 @@ function exposeGlobals() {
         switchToDomain, switchToPrinciple,
         closeCaseModal, closeQuizModal, closeCaseOverlay, closeIttoModal,
         showCaseModal, showQuizModalForItem, showDomainCaseModal,
-        showDomainQuizModal, showProcessQuizModal, showIttoModal,
+        showDomainQuizModal, showProcessQuizModal, showIttoModal, showIttoModalSafe,
         openCaseLibrary, closeCaseLibrary, filterCases, viewCaseDetail, renderAllCases,
         openPremiumModal, closePremiumModal, activateLicense,
         updateAccountUI
@@ -70,11 +71,12 @@ function exposeGlobals() {
 function switchView(view) {
     currentView = view;
     selectedPrinciple = null; selectedDomain = null; selectedProcess = null; selectedAgile = null;
+    // Initialize all focus areas as expanded for process view
+    expandedFocusAreas = { '启动': true, '规划': true, '执行': true, '监控': true, '收尾': true };
     document.querySelectorAll('.view-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
     renderOverview();
     renderSidebar();
     showWelcome();
-    // Auto-select first
     if (view === 'principles') selectPrinciple(1);
     else if (view === 'domains') selectDomain(1);
     else if (view === 'processes') selectProcess(1);
@@ -146,10 +148,11 @@ function renderSidebar() {
     }
 }
 
-// Focus area toggle
+// Focus area toggle with expand state tracking
 window._toggleFA = (fa) => {
+    expandedFocusAreas[fa] = !expandedFocusAreas[fa];
     const el = document.getElementById(`fa_${fa}`);
-    if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+    if (el) el.style.display = expandedFocusAreas[fa] ? 'block' : 'none';
 };
 
 // ==================== 选择原则 ====================
@@ -219,6 +222,8 @@ function selectProcess(number) {
     selectedProcess = number; selectedPrinciple = null; selectedDomain = null;
     const p = processes.find(x => x.number === number);
     if (!p) return;
+    // Collapse all focus areas except the selected one
+    Object.keys(expandedFocusAreas).forEach(fa => { expandedFocusAreas[fa] = (fa === p.focusArea); });
     const ds = document.getElementById('detailSection');
     document.getElementById('overviewSection').style.display = 'none';
     ds.style.display = 'block';
@@ -230,12 +235,17 @@ function selectProcess(number) {
             <div class="principle-card"><h4>📘 流程说明 | Description</h4><p>${p.description}</p><p class="en">${p.descriptionEn}</p></div>
             <h4 style="color:var(--pmi-dark);margin:20px 0 15px">📋 输入、工具与输出 | ITTO <span style="font-size:11px;color:#888;font-weight:400">(点击查看详情)</span></h4>
             <div class="key-aspects" style="grid-template-columns:1fr 1fr 1fr">
-                <div class="aspect-item"><div class="aspect-icon">📥</div><div class="aspect-title">输入 | Inputs</div><ul class="itto-list">${p.inputs.map(i => `<li class="itto-item" onclick="showIttoModal(\`${i.replace(/`/g,'\\`')}\`,'input')" title="点击查看: ${i} 的定义和关联流程">🔗 ${i}</li>`).join('')}</ul></div>
-                <div class="aspect-item"><div class="aspect-icon">🔧</div><div class="aspect-title">工具 | Tools</div><ul class="itto-list">${p.tools.map(t => `<li class="itto-item" onclick="showIttoModal(\`${t.replace(/`/g,'\\`')}\`,'tool')" title="点击查看: ${t} 的定义和使用流程">🔗 ${t}</li>`).join('')}</ul></div>
-                <div class="aspect-item"><div class="aspect-icon">📤</div><div class="aspect-title">输出 | Outputs</div><ul class="itto-list">${p.outputs.map(o => `<li class="itto-item" onclick="showIttoModal(\`${o.replace(/`/g,'\\`')}\`,'output')" title="点击查看: ${o} 的定义和关联流程">🔗 ${o}</li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">📥</div><div class="aspect-title">输入 | Inputs</div><ul class="itto-list">${p.inputs.map(i => `<li class="itto-item" data-itto="${i.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="input" onclick="showIttoModalSafe(this)" title="点击查看定义和关联流程">🔗 ${i}</li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">🔧</div><div class="aspect-title">工具 | Tools</div><ul class="itto-list">${p.tools.map(t => `<li class="itto-item" data-itto="${t.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="tool" onclick="showIttoModalSafe(this)" title="点击查看定义和使用流程">🔗 ${t}</li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">📤</div><div class="aspect-title">输出 | Outputs</div><ul class="itto-list">${p.outputs.map(o => `<li class="itto-item" data-itto="${o.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="output" onclick="showIttoModalSafe(this)" title="点击查看定义和关联流程">🔗 ${o}</li>`).join('')}</ul></div>
             </div>
         </div>`;
     renderSidebar();
+    // Apply collapse state after render
+    Object.keys(expandedFocusAreas).forEach(fa => {
+        const el = document.getElementById(`fa_${fa}`);
+        if (el) el.style.display = expandedFocusAreas[fa] ? 'block' : 'none';
+    });
 }
 
 // ==================== 选择敏捷 ====================
@@ -280,6 +290,13 @@ function selectAgile(index) {
         <div class="detail-body">${content}</div>`;
     renderSidebar();
 }
+
+// ==================== ITTO安全桥接（避免内联onclick转义问题）============
+window.showIttoModalSafe = (el) => {
+    const name = el.getAttribute('data-itto');
+    const type = el.getAttribute('data-type');
+    if (name && type) showIttoModal(name, type);
+};
 
 // ==================== 案例弹窗桥接 ====================
 window.showCaseModal = (num) => { const p = principles.find(x => x.number === num); if (p) showCaseModal(p); };
