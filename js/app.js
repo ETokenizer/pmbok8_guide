@@ -7,7 +7,7 @@ import { principles } from './data/principles.js';
 import { performanceDomains } from './data/domains.js';
 import { processes, focusAreaConfig } from './data/processes.js';
 import { agileApproaches } from './data/agile.js';
-import { initModals, showCaseModal, showQuizModal, closeCaseModal, closeQuizModal, closeCaseOverlay, setCurrentQuizzes } from './ui/modals.js';
+import { initModals, showCaseModal, showQuizModal, closeCaseModal, closeQuizModal, closeCaseOverlay, closeIttoModal, showIttoModal, setCurrentQuizzes } from './ui/modals.js';
 import { canAccessContent, getTrialUpgradeMessage } from './data/trial.js';
 
 // ==================== 12 个完整案例库 ====================
@@ -57,9 +57,9 @@ function exposeGlobals() {
     Object.assign(window, {
         selectPrinciple, selectDomain, selectProcess, selectAgile,
         switchToDomain, switchToPrinciple,
-        closeCaseModal, closeQuizModal, closeCaseOverlay,
+        closeCaseModal, closeQuizModal, closeCaseOverlay, closeIttoModal,
         showCaseModal, showQuizModalForItem, showDomainCaseModal,
-        showDomainQuizModal, showProcessQuizModal,
+        showDomainQuizModal, showProcessQuizModal, showIttoModal,
         openCaseLibrary, closeCaseLibrary, filterCases, viewCaseDetail, renderAllCases,
         openPremiumModal, closePremiumModal, activateLicense,
         updateAccountUI
@@ -228,11 +228,11 @@ function selectProcess(number) {
         </div>
         <div class="detail-body">
             <div class="principle-card"><h4>📘 流程说明 | Description</h4><p>${p.description}</p><p class="en">${p.descriptionEn}</p></div>
-            <h4 style="color:var(--pmi-dark);margin:20px 0 15px">📋 输入、工具与输出 | ITTO</h4>
+            <h4 style="color:var(--pmi-dark);margin:20px 0 15px">📋 输入、工具与输出 | ITTO <span style="font-size:11px;color:#888;font-weight:400">(点击查看详情)</span></h4>
             <div class="key-aspects" style="grid-template-columns:1fr 1fr 1fr">
-                <div class="aspect-item"><div class="aspect-icon">📥</div><div class="aspect-title">输入 | Inputs</div><ul style="padding-left:15px;font-size:12px;line-height:1.8;margin-top:8px">${p.inputs.map(i => `<li>${i}</li>`).join('')}</ul></div>
-                <div class="aspect-item"><div class="aspect-icon">🔧</div><div class="aspect-title">工具 | Tools</div><ul style="padding-left:15px;font-size:12px;line-height:1.8;margin-top:8px">${p.tools.map(t => `<li>${t}</li>`).join('')}</ul></div>
-                <div class="aspect-item"><div class="aspect-icon">📤</div><div class="aspect-title">输出 | Outputs</div><ul style="padding-left:15px;font-size:12px;line-height:1.8;margin-top:8px">${p.outputs.map(o => `<li>${o}</li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">📥</div><div class="aspect-title">输入 | Inputs</div><ul class="itto-list">${p.inputs.map(i => `<li class="itto-item" onclick="showIttoModal(\`${i.replace(/`/g,'\\`')}\`,'input')" title="点击查看: ${i} 的定义和关联流程">🔗 ${i}</li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">🔧</div><div class="aspect-title">工具 | Tools</div><ul class="itto-list">${p.tools.map(t => `<li class="itto-item" onclick="showIttoModal(\`${t.replace(/`/g,'\\`')}\`,'tool')" title="点击查看: ${t} 的定义和使用流程">🔗 ${t}</li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">📤</div><div class="aspect-title">输出 | Outputs</div><ul class="itto-list">${p.outputs.map(o => `<li class="itto-item" onclick="showIttoModal(\`${o.replace(/`/g,'\\`')}\`,'output')" title="点击查看: ${o} 的定义和关联流程">🔗 ${o}</li>`).join('')}</ul></div>
             </div>
         </div>`;
     renderSidebar();

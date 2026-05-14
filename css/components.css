@@ -151,3 +151,75 @@
     transition: var(--transition);
 }
 .cross-ref-link:hover { background: #e0f2fe; }
+
+/* ITTO Clickable Items */
+.itto-list { padding-left: 0; list-style: none; margin-top: 8px; }
+.itto-item {
+    padding: 5px 0; font-size: 12px; line-height: 1.7;
+    cursor: pointer; color: var(--pmi-blue);
+    transition: var(--transition);
+    display: flex; align-items: flex-start; gap: 4px;
+}
+.itto-item:hover { color: var(--pmi-dark); text-decoration: underline; padding-left: 4px; }
+
+/* ITTO Definition Card */
+.itto-def-card {
+    background: #f8fafc; padding: 20px; border-radius: var(--radius-lg);
+    margin-bottom: 20px;
+}
+
+/* ITTO Chain Section */
+.itto-chain-section {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px; margin-bottom: 12px;
+}
+.itto-chain-section h4 {
+    font-size: 14px; color: var(--pmi-dark); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 6px;
+}
+
+/* ITTO Process Tags */
+.itto-chain-list {
+    display: flex; flex-wrap: wrap; gap: 6px;
+}
+.itto-process-tag {
+    display: inline-block; padding: 4px 10px;
+    background: #f9fafb; border: 1px solid #d1d5db;
+    border-left: 3px solid #666; border-radius: 4px;
+    font-size: 11px; cursor: pointer;
+    transition: var(--transition); white-space: nowrap;
+}
+.itto-process-tag:hover {
+    background: var(--pmi-bg); transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.itto-process-tag small { color: #999; font-weight: normal; }
+
+/* ITTO Focus Area Group */
+.itto-fa-group { margin-bottom: 10px; }
+.itto-fa-header {
+    display: inline-block; padding: 4px 10px;
+    color: #fff; border-radius: 4px;
+    font-size: 11px; font-weight: 600; margin-bottom: 6px;
+}
+.itto-fa-header small { opacity: 0.85; font-weight: normal; }
+
+/* ITTO Flow Chain Visualization */
+.itto-flow-chain {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 6px; padding: 12px 0;
+}
+.flow-node {
+    display: inline-block; padding: 5px 10px;
+    border-radius: 4px; font-size: 11px;
+    cursor: pointer; transition: var(--transition);
+    white-space: nowrap;
+}
+.flow-node:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+.flow-node.output { background: #d1fae5; border: 1px solid #6ee7b7; color: #065f46; }
+.flow-node.input { background: #dbeafe; border: 1px solid #93c5fd; color: #1e40af; }
+.flow-node.current { box-shadow: 0 0 0 3px rgba(0,0,0,0.1); }
+.flow-node.more { background: #f3f4f6; color: #6b7280; cursor: default; font-style: italic; }
+.flow-arrow { font-size: 16px; color: #9ca3af; font-weight: bold; }
+
+.chain-viz { background: linear-gradient(135deg, #f8fafc, #f1f5f9); }

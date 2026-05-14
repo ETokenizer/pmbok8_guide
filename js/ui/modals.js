@@ -1,7 +1,10 @@
 /**
  * PMBOK Edition 8 - 弹窗管理模块
- * Modal Management: 案例弹窗、自测弹窗、案例库弹窗
+ * Modal Management: 案例弹窗、自测弹窗、案例库弹窗、ITTO详情弹窗
  */
+import { ittoRegistry, ittoProcLookup, ittoFocusAreas } from '../data/itto-registry.js';
+import { ittoDefinitions } from '../data/itto-definitions.js';
+
 let currentQuizzes = [];
 
 export function setCurrentQuizzes(quizzes) { currentQuizzes = quizzes || []; }
@@ -147,6 +150,129 @@ export function closeQuizModal() {
 export function closeCaseOverlay() {
     const m = document.getElementById('caseOverlay'); if (m) m.style.display = 'none';
 }
+export function closeIttoModal() {
+    const m = document.getElementById('ittoModal'); if (m) m.style.display = 'none';
+}
+
+// ============ ITTO 详情弹窗 ============
+export function showIttoModal(itemName, itemType) {
+    // Create modal if not exists
+    let modal = document.getElementById('ittoModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'ittoModal';
+        modal.className = 'modal-overlay';
+        modal.innerHTML = `<div class="modal-content wide">
+            <div class="modal-header"><h3 id="ittoModalTitle">ITTO 详情</h3><button class="modal-close" onclick="closeIttoModal()">×</button></div>
+            <div class="modal-body" id="ittoModalBody"></div></div>`;
+        document.body.appendChild(modal);
+        modal.addEventListener('click', e => { if (e.target === modal) closeIttoModal(); });
+    }
+
+    const body = document.getElementById('ittoModalBody');
+    const title = document.getElementById('ittoModalTitle');
+    const reg = ittoRegistry[itemName];
+    if (!reg) { body.innerHTML = '<p>未找到该条目信息</p>'; modal.style.display = 'flex'; return; }
+
+    const item = ittoDefinitions[itemName];
+    const def = item || { zh: `"${itemName}"`, en: `"${itemName}"` };
+    const typeLabel = itemType === 'input' ? '📥 输入 | Input' : itemType === 'output' ? '📤 输出 | Output' : '🔧 工具与技术 | Tool & Technique';
+    const typeColor = itemType === 'input' ? '#3b82f6' : itemType === 'output' ? '#10b981' : '#8b5cf6';
+
+    title.innerHTML = `${typeLabel} — ${itemName}`;
+
+    // Build produced-by section (for I/O)
+    let producedHTML = '';
+    if (reg.o.length > 0) {
+        producedHTML = `<div class="itto-chain-section">
+            <h4>📤 产生自流程 | Produced By</h4>
+            <div class="itto-chain-list">${reg.o.map(n => {
+                const p = ittoProcLookup[n];
+                return p ? `<span class="itto-process-tag" style="border-color:${getFAColor(p.fa)}" onclick="window.selectProcess(${n});window.closeIttoModal()" title="${p.n} | ${p.ne}">#${n} ${p.n} <small>${p.fa}</small></span>` : '';
+            }).join('')}</div>
+        </div>`;
+    }
+
+    // Build consumed-by section (for I/O)
+    let consumedHTML = '';
+    if (reg.i.length > 0) {
+        const grouped = groupByFA(reg.i);
+        consumedHTML = `<div class="itto-chain-section">
+            <h4>📥 被以下流程使用 | Consumed By</h4>
+            ${Object.entries(grouped).map(([fa, procs]) => `
+                <div class="itto-fa-group">
+                    <div class="itto-fa-header" style="background:${getFAColor(fa)}">${fa} <small>(${procs.length}个)</small></div>
+                    <div class="itto-chain-list">${procs.map(p => `<span class="itto-process-tag" style="border-color:${getFAColor(fa)}" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.ne}">#${p.n} ${p.n.split('').slice(0,8).join('')}...</span>`).join('')}</div>
+                </div>`).join('')}
+        </div>`;
+    }
+
+    // Build tools section (for TT)
+    let toolsHTML = '';
+    if (reg.t.length > 0) {
+        const grouped = groupByFA(reg.t);
+        toolsHTML = `<div class="itto-chain-section">
+            <h4>🔧 在以下流程中使用 | Used In</h4>
+            ${Object.entries(grouped).map(([fa, procs]) => `
+                <div class="itto-fa-group">
+                    <div class="itto-fa-header" style="background:${getFAColor(fa)}">${fa} · ${ittoFocusAreas[fa]?.en||''} <small>(${procs.length}个流程)</small></div>
+                    <div class="itto-chain-list">${procs.map(p => `<span class="itto-process-tag" style="border-color:${getFAColor(fa)}" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.ne}">#${p.n} ${p.n}</span>`).join('')}</div>
+                </div>`).join('')}
+        </div>`;
+    }
+
+    // Build chain visualization for I/O items
+    let chainHTML = '';
+    if ((itemType === 'input' || itemType === 'output') && (reg.o.length > 0 || reg.i.length > 0)) {
+        chainHTML = `<div class="itto-chain-section chain-viz">
+            <h4>🔗 数据流链条 | Data Flow Chain</h4>
+            <div class="itto-flow-chain">
+                ${reg.o.map(n => `<span class="flow-node output" onclick="window.selectProcess(${n});window.closeIttoModal()">🏭 #${n} ${ittoProcLookup[n]?.n||''}</span>`).join('')}
+                ${reg.o.length > 0 ? `<span class="flow-arrow">→</span>` : ''}
+                <span class="flow-node current ${itemType==='output'?'output':'input'}" style="background:${typeColor};color:#fff;font-weight:700;font-size:13px;padding:6px 14px">📦 ${itemName.length > 20 ? itemName.substring(0,20)+'...' : itemName}</span>
+                ${reg.i.length > 0 ? `<span class="flow-arrow">→</span>` : ''}
+                ${reg.i.slice(0,8).map(n => `<span class="flow-node input" onclick="window.selectProcess(${n});window.closeIttoModal()">📋 #${n} ${ittoProcLookup[n]?.n.substring(0,8)||''}</span>`).join('')}
+                ${reg.i.length > 8 ? `<span class="flow-node more">...+${reg.i.length-8}个</span>` : ''}
+            </div>
+        </div>`;
+    }
+
+    body.innerHTML = `
+        <div class="itto-def-card" style="border-left:4px solid ${typeColor}">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+                <span style="font-size:32px">${itemType==='input'?'📥':itemType==='output'?'📤':'🔧'}</span>
+                <div>
+                    <div style="font-weight:700;font-size:16px;color:#1f2937">${itemName}</div>
+                    <div style="font-size:12px;color:#6b7280">${typeLabel}</div>
+                </div>
+            </div>
+            <p style="font-size:14px;color:#555;line-height:1.8;margin-bottom:8px">${def.zh}</p>
+            <p style="font-size:13px;color:#888;font-style:italic;line-height:1.7">${def.en}</p>
+        </div>
+        ${chainHTML}
+        ${producedHTML}
+        ${consumedHTML}
+        ${toolsHTML}
+    `;
+    modal.style.display = 'flex';
+}
+
+// Helper: group process numbers by focus area
+function groupByFA(nums) {
+    const groups = {};
+    nums.forEach(n => {
+        const p = ittoProcLookup[n];
+        if (!p) return;
+        const fa = p.fa;
+        if (!groups[fa]) groups[fa] = [];
+        groups[fa].push({ n, ne: p.ne, name: p.n });
+    });
+    return groups;
+}
+
+function getFAColor(fa) {
+    return { '启动': '#005A9D', '规划': '#2E8B57', '执行': '#0077C8', '监控': '#4B0082', '收尾': '#D4AF37' }[fa] || '#666';
+}
 
 // ============ 初始化 ============
 export function initModals() {
@@ -154,8 +280,9 @@ export function initModals() {
         if (e.target.id === 'caseModal') closeCaseModal();
         if (e.target.id === 'quizModal') closeQuizModal();
         if (e.target.id === 'caseOverlay') closeCaseOverlay();
+        if (e.target.id === 'ittoModal') closeIttoModal();
     });
     document.querySelectorAll('.modal-close').forEach(btn => {
-        btn.addEventListener('click', () => { closeCaseModal(); closeQuizModal(); closeCaseOverlay(); });
+        btn.addEventListener('click', () => { closeCaseModal(); closeQuizModal(); closeCaseOverlay(); closeIttoModal(); });
     });
 }
