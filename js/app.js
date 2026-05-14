@@ -148,6 +148,14 @@ function renderSidebar() {
     }
 }
 
+// Helper: scroll active sidebar item into view
+function scrollActiveIntoView() {
+    setTimeout(() => {
+        const active = document.querySelector('#sidebarContent .content-item.active');
+        if (active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 50);
+}
+
 // Focus area toggle with expand state tracking
 window._toggleFA = (fa) => {
     expandedFocusAreas[fa] = !expandedFocusAreas[fa];
@@ -184,6 +192,7 @@ function selectPrinciple(number) {
                 }).join('')}</div></div>` : ''}
         </div>`;
     renderSidebar();
+    scrollActiveIntoView();
 }
 
 // ==================== 选择绩效域 ====================
@@ -215,6 +224,7 @@ function selectDomain(number) {
                 }).join('')}</div></div>` : ''}
         </div>`;
     renderSidebar();
+    scrollActiveIntoView();
 }
 
 // ==================== 选择流程 ====================
@@ -241,11 +251,11 @@ function selectProcess(number) {
             </div>
         </div>`;
     renderSidebar();
-    // Apply collapse state after render
     Object.keys(expandedFocusAreas).forEach(fa => {
         const el = document.getElementById(`fa_${fa}`);
         if (el) el.style.display = expandedFocusAreas[fa] ? 'block' : 'none';
     });
+    scrollActiveIntoView();
 }
 
 // ==================== 选择敏捷 ====================
@@ -289,6 +299,7 @@ function selectAgile(index) {
         </div>
         <div class="detail-body">${content}</div>`;
     renderSidebar();
+    scrollActiveIntoView();
 }
 
 // ==================== ITTO安全桥接（避免内联onclick转义问题）============
