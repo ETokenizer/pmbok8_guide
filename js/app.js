@@ -123,12 +123,12 @@ function renderSidebar() {
 
     if (currentView === 'principles') {
         c.innerHTML = `<div class="sidebar-header">6 项原则</div><div class="content-list">${principles.map(p => `
-            <div class="content-item${selectedPrinciple===p.number?' active':''}" onclick="selectPrinciple(${p.number})">
+            <div class="content-item${selectedPrinciple===p.number?' active':''}" data-pnum="${p.number}" onclick="selectPrinciple(${p.number})">
                 <span class="content-number">${p.number}</span><div style="flex:1"><div class="content-title-cn">${p.icon} ${p.name}</div><div class="content-title-en">${p.nameEn}</div><div class="content-desc">${p.summary}</div></div>
             </div>`).join('')}</div>`;
     } else if (currentView === 'domains') {
         c.innerHTML = `<div class="sidebar-header">7 个绩效域</div><div class="content-list">${performanceDomains.map(d => `
-            <div class="content-item${selectedDomain===d.number?' active':''}" onclick="selectDomain(${d.number})">
+            <div class="content-item${selectedDomain===d.number?' active':''}" data-dnum="${d.number}" onclick="selectDomain(${d.number})">
                 <span class="content-number" style="background:${d.color}">${d.number}</span><div style="flex:1"><div class="content-title-cn">${d.icon} ${d.name}</div><div class="content-title-en">${d.nameEn}</div><div class="content-desc">${d.summary}</div></div>
             </div>`).join('')}</div>`;
     } else if (currentView === 'processes') {
@@ -136,24 +136,47 @@ function renderSidebar() {
         c.innerHTML = `<div class="sidebar-header">40 个流程</div><div class="content-list">${fas.map(fa => {
             const fps = processes.filter(p => p.focusArea === fa);
             return `<div style="border-bottom:1px solid #eee"><div style="padding:12px 18px;background:${focusAreaConfig[fa].color};color:#fff;font-size:13px;font-weight:600;cursor:pointer" onclick="window._toggleFA('${fa}')">${fa} | ${focusAreaConfig[fa].en} · ${fps.length}个</div><div id="fa_${fa}" style="display:block">${fps.map(p => `
-                <div class="content-item${selectedProcess===p.number?' active':''}" onclick="selectProcess(${p.number})">
+                <div class="content-item${selectedProcess===p.number?' active':''}" data-pid="${p.number}" onclick="selectProcess(${p.number})">
                     <span class="content-number" style="background:${p.color};width:24px;height:24px;font-size:11px;line-height:24px">${p.number}</span><div style="flex:1"><div class="content-title-cn">${p.icon} ${p.name}</div><div class="content-title-en">${p.nameEn}</div></div>
                 </div>`).join('')}</div></div>`;
         }).join('')}</div>`;
     } else {
         c.innerHTML = `<div class="sidebar-header">敏捷方法</div><div class="content-list">${agileApproaches.map((a,i) => `
-            <div class="content-item${selectedAgile===i?' active':''}" onclick="selectAgile(${i})">
+            <div class="content-item${selectedAgile===i?' active':''}" data-aid="${i}" onclick="selectAgile(${i})">
                 <span class="content-number" style="background:${a.color}">${i+1}</span><div style="flex:1"><div class="content-title-cn">${a.icon} ${a.title}</div><div class="content-title-en">${a.titleEn}</div><div class="content-desc">${a.summary}</div></div>
             </div>`).join('')}</div>`;
     }
 }
 
-// Helper: scroll active sidebar item into view
-function scrollActiveIntoView() {
-    setTimeout(() => {
-        const active = document.querySelector('#sidebarContent .content-item.active');
-        if (active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 50);
+// 无抖动更新：只切换active class，不重建DOM
+function refreshSidebarActive() {
+    const sb = document.getElementById('sidebarContent');
+    if (!sb) return;
+    // Remove active from all items
+    sb.querySelectorAll('.content-item.active').forEach(el => el.classList.remove('active'));
+
+    let target = null;
+    if (currentView === 'principles' && selectedPrinciple) {
+        target = sb.querySelector(`.content-item[data-pnum="${selectedPrinciple}"]`);
+    } else if (currentView === 'domains' && selectedDomain) {
+        target = sb.querySelector(`.content-item[data-dnum="${selectedDomain}"]`);
+    } else if (currentView === 'processes' && selectedProcess) {
+        // Collapse all FAs except the one containing selected process
+        const p = processes.find(x => x.number === selectedProcess);
+        Object.keys(expandedFocusAreas).forEach(fa => { expandedFocusAreas[fa] = (fa === p.focusArea); });
+        Object.keys(expandedFocusAreas).forEach(fa => {
+            const el = document.getElementById(`fa_${fa}`);
+            if (el) el.style.display = expandedFocusAreas[fa] ? 'block' : 'none';
+        });
+        target = sb.querySelector(`.content-item[data-pid="${selectedProcess}"]`);
+    } else if (currentView === 'agile' && selectedAgile !== null) {
+        target = sb.querySelector(`.content-item[data-aid="${selectedAgile}"]`);
+    }
+
+    if (target) {
+        target.classList.add('active');
+        target.scrollIntoView({ block: 'nearest' });
+    }
 }
 
 // Focus area toggle with expand state tracking
@@ -191,8 +214,7 @@ function selectPrinciple(number) {
                     return d ? `<a href="#" onclick="switchToDomain(${d.number});return false" class="cross-ref-link"><span>${d.icon}</span> ${d.name}</a>` : '';
                 }).join('')}</div></div>` : ''}
         </div>`;
-    renderSidebar();
-    scrollActiveIntoView();
+    refreshSidebarActive();
 }
 
 // ==================== 选择绩效域 ====================
@@ -223,8 +245,7 @@ function selectDomain(number) {
                     return p ? `<a href="#" onclick="switchToPrinciple(${p.number});return false" class="cross-ref-link"><span>${p.icon}</span> 原则${p.number}: ${p.name}</a>` : '';
                 }).join('')}</div></div>` : ''}
         </div>`;
-    renderSidebar();
-    scrollActiveIntoView();
+    refreshSidebarActive();
 }
 
 // ==================== 选择流程 ====================
@@ -250,12 +271,7 @@ function selectProcess(number) {
                 <div class="aspect-item"><div class="aspect-icon">📤</div><div class="aspect-title">输出 | Outputs</div><ul class="itto-list">${p.outputs.map(o => `<li class="itto-item" data-itto="${o.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="output" onclick="showIttoModalSafe(this)" title="点击查看定义和关联流程">🔗 ${o}</li>`).join('')}</ul></div>
             </div>
         </div>`;
-    renderSidebar();
-    Object.keys(expandedFocusAreas).forEach(fa => {
-        const el = document.getElementById(`fa_${fa}`);
-        if (el) el.style.display = expandedFocusAreas[fa] ? 'block' : 'none';
-    });
-    scrollActiveIntoView();
+    refreshSidebarActive();
 }
 
 // ==================== 选择敏捷 ====================
@@ -298,8 +314,7 @@ function selectAgile(index) {
             ${index===3 ? `<div class="detail-header-actions"><button class="detail-header-btn" onclick="openCaseLibrary()">📚 案例库</button></div>` : ''}
         </div>
         <div class="detail-body">${content}</div>`;
-    renderSidebar();
-    scrollActiveIntoView();
+    refreshSidebarActive();
 }
 
 // ==================== ITTO安全桥接（避免内联onclick转义问题）============
