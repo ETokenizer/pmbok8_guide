@@ -5,7 +5,7 @@
 import { getProgressSummary, getWeakAreas, getPrincipleProgress, getDomainProgress, resetProgress } from './progress.js';
 import { getWrongBookStats, getWrongAnswers, markMastered, removeWrongAnswer, clearWrongBook } from './wrong-book.js';
 import { startExam, getExamState, goToQuestion, nextQuestion, prevQuestion, answerQuestion, toggleFlag, submitExam, getScore, getCurrentQuestion, getAnswerStatus, renderExamNavGrid, clearExam } from './exam.js';
-import { getQuestionCount, isCloudAvailable, getBankSize } from './question-bank.js';
+import { getQuestionCount, isCloudAvailable, getBankSize, getCategoryStats, fetchCloudQuestions } from './question-bank.js';
 import { state } from '../core/state.js';
 
 // ==================== 学习中心主弹窗 ====================
@@ -30,6 +30,8 @@ export function openLearningCenter() {
     currentTab = 'dashboard';
     renderLearningCenter();
     modal.style.display = 'flex';
+    // Preload cloud questions in background
+    fetchCloudQuestions().then(n => { if (n) { const el = document.getElementById('lcContent'); if (el && currentTab === 'exam') el.innerHTML = renderExamEntry(); } });
 }
 
 export function closeLearningCenter() {
@@ -124,7 +126,7 @@ function renderExamEntry() {
                 <div style="font-size:48px;margin-bottom:10px">📝</div>
                 <h3>PMP 模拟考试 | Mock Exam</h3>
                 <p style="color:#666;margin:10px 0">模拟真实 PMP 考试环境，计时答题，检验学习成果</p>
-                <p style="font-size:12px;color:#888">云端题库 ${isCloudAvailable()?'✅ 已连接':'⚠️ 未连接'} | 本地题库: ${getBankSize()} 题</p>
+                <p style="font-size:12px;color:#888">☁️ 云端题库: ${isCloudAvailable()?getBankSize()+'题 ✅':'连接中...'} | 📦 本地题库: 30题</p>
             </div>
             <div class="lc-exam-options">
                 <div class="lc-exam-card" onclick="window.startMockExam(50,60,'exam')">
@@ -150,8 +152,8 @@ function renderExamEntry() {
 }
 
 // ==================== 考试界面 ====================
-window.startMockExam = (count, minutes, mode) => {
-    startExam(count, minutes, mode);
+window.startMockExam = async (count, minutes, mode) => {
+    await startExam(count, minutes, mode);
     switchLCTabContent('exam');
 };
 
@@ -290,8 +292,8 @@ function renderWeakAnalysis() {
         </div>`;
 }
 
-window.practiceWeak = (type, id) => {
-    startExam(type === 'principle' ? 5 : 3, 0, 'practice');
+window.practiceWeak = async (type, id) => {
+    await startExam(type === 'principle' ? 5 : 3, 0, 'practice');
     switchLCTabContent('exam');
 };
 

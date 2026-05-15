@@ -21,9 +21,9 @@ let examState = {
 
 export function getExamState() { return examState; }
 
-// Start exam
-export function startExam(questionCount = 50, timeMinutes = 60, mode = 'exam') {
-    examState.questions = generateExamQuestions(questionCount);
+// Start exam (async to fetch from cloud)
+export async function startExam(questionCount = 50, timeMinutes = 60, mode = 'exam') {
+    examState.questions = await generateExamQuestions(questionCount);
     examState.currentIndex = 0;
     examState.answers = {};
     examState.flagged = [];
@@ -37,9 +37,13 @@ export function startExam(questionCount = 50, timeMinutes = 60, mode = 'exam') {
     return examState;
 }
 
-// Start practice mode (single category, untimed)
-export function startPractice(category = 'all', count = 10) {
-    examState.questions = generateExamQuestions(count); // will filter if needed
+// Start practice mode (async to fetch from cloud)
+export async function startPractice(category = 'all', count = 10) {
+    const { getQuestions } = await import('./question-bank.js');
+    examState.questions = getQuestions(category, count);
+    if (examState.questions.length === 0) {
+        examState.questions = getQuestions('all', count);
+    }
     examState.currentIndex = 0;
     examState.answers = {};
     examState.flagged = [];
