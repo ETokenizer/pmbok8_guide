@@ -12,7 +12,8 @@ import { canAccessContent } from './data/trial.js';
 import { openLearningCenter, closeLearningCenter } from './learning/learning-center.js';
 import { recordPrincipleView, recordDomainView } from './learning/progress.js';
 import { addWrongAnswer } from './learning/wrong-book.js';
-import { initAuth, updateAccountUI, openAuthModal, closeAuthModal, isLoggedIn, isPremium } from './auth/auth-ui.js';
+import { initAuth, updateAccountUI, openAuthModal, closeAuthModal } from './auth/auth-ui.js';
+import { isLoggedIn, isPremium } from './auth/auth-service.js';
 
 // ==================== 12 个完整案例库 ====================
 const caseStudies = [
