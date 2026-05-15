@@ -4,6 +4,8 @@
  */
 import { ittoRegistry, ittoProcLookup, ittoFocusAreas } from '../data/itto-registry.js';
 import { ittoDefinitions } from '../data/itto-definitions.js';
+import { recordQuizAnswer } from '../learning/progress.js';
+import { addWrongAnswer } from '../learning/wrong-book.js';
 
 let currentQuizzes = [];
 
@@ -121,6 +123,13 @@ window.handleQuizAnswer = (index, selected, correct) => {
     if (selected !== correct) options[selected].classList.add('incorrect');
 
     const isCorrect = selected === correct;
+    // Record in learning progress and wrong book
+    const cat = quiz.category || 'principle';
+    const catId = quiz.categoryId || 0;
+    recordQuizAnswer(cat, catId, quiz.id || ('quiz_'+Date.now()), quiz.difficulty||'medium', isCorrect);
+    if (!isCorrect) {
+        addWrongAnswer(quiz.id||('quiz_'+Date.now()), quiz.question, quiz.options, correct, selected, quiz.explanation, cat, catId, quiz.difficulty||'medium');
+    }
     feedback.className = 'quiz-feedback show ' + (isCorrect ? 'correct-fb' : 'incorrect-fb');
     feedback.innerHTML = `
         <div style="font-weight:600;margin-bottom:6px;">${isCorrect ? '✅ 正确！' : '❌ 错误。正确答案是 ' + ['A','B','C','D'][correct]}</div>

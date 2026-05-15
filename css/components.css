@@ -222,4 +222,89 @@
 .flow-node.more { background: #f3f4f6; color: #6b7280; cursor: default; font-style: italic; }
 .flow-arrow { font-size: 16px; color: #9ca3af; font-weight: bold; }
 
+/* ============ Learning Center ============ */
+.lc-tabs { display: flex; border-bottom: 2px solid #e5e7eb; background: #f9fafb; }
+.lc-tab { flex:1; padding:14px 8px; text-align:center; cursor:pointer; background:none; border:none; font-size:14px; font-weight:600; color:#6b7280; transition:var(--transition); line-height:1.4; }
+.lc-tab:hover { background:#f3f4f6; }
+.lc-tab.active { background:#fff; color:#1e40af; border-bottom:3px solid #3b82f6; margin-bottom:-2px; }
+.lc-tab small { font-size:10px; font-weight:400; opacity:0.7; display:block; }
+.lc-content { padding:20px; max-height:60vh; overflow-y:auto; }
+
+.lc-dashboard, .lc-exam-entry, .lc-wrongbook, .lc-analysis { }
+.lc-stat-cards { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; }
+.lc-stat-card { text-align:center; padding:15px 10px; background:#f8fafc; border-radius:var(--radius); border:1px solid #e5e7eb; }
+.lc-stat-val { font-size:24px; font-weight:700; color:var(--pmi-blue); }
+.lc-stat-lbl { font-size:11px; color:#888; margin-top:4px; }
+
+.lc-card { background:#fff; border:1px solid #e5e7eb; border-radius:var(--radius); padding:16px; }
+.lc-card h4 { margin-bottom:12px; font-size:14px; color:var(--pmi-dark); }
+
+.lc-progress-bar { display:flex; align-items:center; gap:8px; margin:6px 0; }
+.lc-bar-label { width:70px; font-size:12px; text-align:right; color:#555; flex-shrink:0; }
+.lc-bar { flex:1; height:8px; background:#e5e7eb; border-radius:4px; overflow:hidden; }
+.lc-bar-fill { height:100%; border-radius:4px; transition:width 0.5s; }
+.lc-bar-pct { font-size:11px; color:#888; width:80px; flex-shrink:0; }
+
+.lc-btn { padding:8px 16px; border-radius:6px; border:none; cursor:pointer; font-size:13px; font-weight:500; background:var(--pmi-blue); color:#fff; transition:var(--transition); }
+.lc-btn:hover { background:var(--pmi-dark); }
+.lc-btn.small { padding:4px 10px; font-size:11px; }
+.lc-btn.danger { background:#ef4444; }
+.lc-btn.danger:hover { background:#dc2626; }
+
+/* Exam Entry */
+.lc-exam-options { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; margin-top:20px; }
+.lc-exam-card { text-align:center; padding:25px 15px; background:#f8fafc; border:2px solid #e5e7eb; border-radius:var(--radius-lg); cursor:pointer; transition:var(--transition); }
+.lc-exam-card:hover { border-color:var(--pmi-blue); transform:translateY(-3px); box-shadow:var(--shadow-lg); }
+.lc-exam-icon { font-size:36px; margin-bottom:10px; }
+.lc-exam-card h4 { font-size:15px; color:var(--pmi-dark); margin-bottom:5px; }
+.lc-exam-card p { font-size:12px; color:#888; }
+
+/* Exam Interface */
+.exam-container { }
+.exam-topbar { display:flex; align-items:center; gap:15px; padding:12px 16px; background:#1e293b; color:#fff; border-radius:var(--radius) var(--radius) 0 0; }
+.exam-timer { font-size:22px; font-weight:700; font-family:monospace; min-width:65px; }
+.exam-progress-text { flex:1; font-size:14px; }
+
+.exam-btn { padding:8px 16px; border-radius:6px; border:none; cursor:pointer; font-size:13px; background:#3b82f6; color:#fff; transition:var(--transition); }
+.exam-btn:hover { opacity:0.9; }
+.exam-btn:disabled { opacity:0.4; cursor:not-allowed; }
+.exam-btn.small { padding:5px 10px; font-size:11px; }
+.exam-btn.danger { background:#ef4444; }
+
+.exam-question-area { background:#fff; padding:25px; }
+.exam-q-meta { display:flex; gap:10px; align-items:center; margin-bottom:15px; font-size:12px; }
+.exam-diff-tag { padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+.exam-diff-tag.easy { background:#d1fae5; color:#059669; }
+.exam-diff-tag.medium { background:#fef3c7; color:#b45309; }
+.exam-diff-tag.hard { background:#fee2e2; color:#dc2626; }
+.exam-question { font-size:16px; font-weight:600; color:#1f2937; line-height:1.7; margin-bottom:20px; }
+.exam-options { display:flex; flex-direction:column; gap:10px; }
+
+.exam-option { display:flex; align-items:center; gap:10px; padding:14px 18px; background:#f9fafb; border:2px solid #e5e7eb; border-radius:var(--radius); cursor:pointer; font-size:14px; text-align:left; transition:var(--transition); width:100%; color:#374151; }
+.exam-option:hover:not(:disabled) { border-color:var(--pmi-light); background:var(--pmi-bg); }
+.exam-option:disabled { cursor:default; opacity:0.85; }
+.exam-option.correct { border-color:#10b981; background:#f0fdf4; color:#065f46; }
+.exam-option.incorrect { border-color:#ef4444; background:#fef2f2; color:#991b1b; }
+.exam-opt-letter { width:28px; height:28px; border-radius:50%; background:#e5e7eb; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex-shrink:0; }
+.exam-option.correct .exam-opt-letter { background:#10b981; color:#fff; }
+.exam-option.incorrect .exam-opt-letter { background:#ef4444; color:#fff; }
+
+.exam-feedback { margin-top:18px; padding:15px; border-radius:var(--radius); border-left:4px solid; font-size:13px; line-height:1.7; }
+.exam-feedback.correct { background:#f0fdf4; border-color:#10b981; color:#065f46; }
+.exam-feedback.incorrect { background:#fef2f2; border-color:#ef4444; color:#991b1b; }
+
+.exam-nav-btns { display:flex; justify-content:space-between; padding:15px 25px; background:#fff; border-top:1px solid #e5e7eb; }
+.exam-nav-grid { width:200px; padding:15px; display:flex; flex-wrap:wrap; gap:4px; align-content:flex-start; border-left:1px solid #e5e7eb; }
+.exam-nav-dot { width:28px; height:28px; border-radius:4px; background:#e5e7eb; display:flex; align-items:center; justify-content:center; font-size:10px; cursor:pointer; transition:var(--transition); }
+.exam-nav-dot.current { background:var(--pmi-blue); color:#fff; font-weight:700; transform:scale(1.2); }
+.exam-nav-dot.correct { background:#10b981; color:#fff; }
+.exam-nav-dot.wrong { background:#ef4444; color:#fff; }
+
+/* Wrong Book Item */
+.wb-item { display:flex; align-items:center; gap:10px; padding:10px 14px; margin:6px 0; background:#f9fafb; border-radius:var(--radius); border:1px solid #e5e7eb; font-size:13px; }
+.wb-item:hover { background:#f3f4f6; }
+
+/* Weak Card */
+.weak-card { padding:14px; margin:8px 0; background:#fef2f2; border-radius:var(--radius); border:1px solid #fecaca; }
+
 .chain-viz { background: linear-gradient(135deg, #f8fafc, #f1f5f9); }

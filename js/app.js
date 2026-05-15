@@ -9,6 +9,9 @@ import { processes, focusAreaConfig } from './data/processes.js';
 import { agileApproaches } from './data/agile.js';
 import { initModals, showCaseModal, showQuizModal, closeCaseModal, closeQuizModal, closeCaseOverlay, closeIttoModal, showIttoModal, setCurrentQuizzes } from './ui/modals.js';
 import { canAccessContent, getTrialUpgradeMessage } from './data/trial.js';
+import { openLearningCenter, closeLearningCenter } from './learning/learning-center.js';
+import { recordPrincipleView, recordDomainView } from './learning/progress.js';
+import { addWrongAnswer } from './learning/wrong-book.js';
 
 // ==================== 12 个完整案例库 ====================
 const caseStudies = [
@@ -61,6 +64,7 @@ function exposeGlobals() {
         closeCaseModal, closeQuizModal, closeCaseOverlay, closeIttoModal,
         showCaseModal, showQuizModalForItem, showDomainCaseModal,
         showDomainQuizModal, showProcessQuizModal, showIttoModal, showIttoModalSafe,
+        openLearningCenter, closeLearningCenter,
         openCaseLibrary, closeCaseLibrary, filterCases, viewCaseDetail, renderAllCases,
         openPremiumModal, closePremiumModal, activateLicense,
         updateAccountUI
@@ -189,6 +193,7 @@ window._toggleFA = (fa) => {
 // ==================== 选择原则 ====================
 function selectPrinciple(number) {
     selectedPrinciple = number; selectedDomain = null; selectedProcess = null;
+    recordPrincipleView(number);
     const p = principles.find(x => x.number === number);
     if (!p) return;
     const ds = document.getElementById('detailSection');
@@ -220,6 +225,7 @@ function selectPrinciple(number) {
 // ==================== 选择绩效域 ====================
 function selectDomain(number) {
     selectedDomain = number; selectedPrinciple = null; selectedProcess = null;
+    recordDomainView(number);
     const d = performanceDomains.find(x => x.number === number);
     if (!d) return;
     const ds = document.getElementById('detailSection');
@@ -414,8 +420,8 @@ function updateAccountUI() {
         const dd = document.getElementById('accountDropdown');
         if (dd) dd.innerHTML = `<div class="dropdown-item"><span class="item-icon">👑</span><span class="item-text">Premium 会员</span><span class="item-badge">已激活</span></div>
             <div class="dropdown-divider"></div>
-            <div class="dropdown-item" onclick="alert('功能开发中...')"><span class="item-icon">📊</span><span class="item-text">学习进度</span></div>
-            <div class="dropdown-item" onclick="alert('功能开发中...')"><span class="item-icon">⭐</span><span class="item-text">收藏内容</span></div>`;
+            <div class="dropdown-item" onclick="openLearningCenter()"><span class="item-icon">🎓</span><span class="item-text">学习中心</span></div>
+            <div class="dropdown-item" onclick="openLearningCenter()"><span class="item-icon">📊</span><span class="item-text">学习进度</span></div>`;
     } else {
         btn.innerHTML = '<span class="account-icon">👤</span><span class="account-text">免费用户</span><span class="account-arrow">▼</span>';
         const dd = document.getElementById('accountDropdown');
@@ -424,7 +430,9 @@ function updateAccountUI() {
             <div class="dropdown-item"><span class="item-icon">📘</span><span class="item-text">6 项原则（免费）</span></div>
             <div class="dropdown-item"><span class="item-icon">🌐</span><span class="item-text">7 个绩效域（免费）</span></div>
             <div class="dropdown-item"><span class="item-icon">🔄</span><span class="item-text">40 个流程（免费）</span></div>
-            <div class="dropdown-item"><span class="item-icon">🚀</span><span class="item-text">敏捷方法（免费）</span></div>`;
+            <div class="dropdown-item"><span class="item-icon">🚀</span><span class="item-text">敏捷方法（免费）</span></div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-item" onclick="openLearningCenter()"><span class="item-icon">🎓</span><span class="item-text">学习中心</span></div>`;
     }
 }
 
