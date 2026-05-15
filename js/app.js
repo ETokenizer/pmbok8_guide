@@ -8,10 +8,11 @@ import { performanceDomains } from './data/domains.js';
 import { processes, focusAreaConfig } from './data/processes.js';
 import { agileApproaches } from './data/agile.js';
 import { initModals, showCaseModal, showQuizModal, closeCaseModal, closeQuizModal, closeCaseOverlay, closeIttoModal, showIttoModal, setCurrentQuizzes } from './ui/modals.js';
-import { canAccessContent, getTrialUpgradeMessage } from './data/trial.js';
+import { canAccessContent } from './data/trial.js';
 import { openLearningCenter, closeLearningCenter } from './learning/learning-center.js';
 import { recordPrincipleView, recordDomainView } from './learning/progress.js';
 import { addWrongAnswer } from './learning/wrong-book.js';
+import { initAuth, updateAccountUI, openAuthModal, closeAuthModal, isLoggedIn, isPremium } from './auth/auth-ui.js';
 
 // ==================== 12 个完整案例库 ====================
 const caseStudies = [
@@ -44,7 +45,12 @@ function initApp() {
     bindEvents();
     exposeGlobals();
     switchView('principles');
-    updateAccountUI();
+    initAuth().then(() => {
+        // Preload questions if premium
+        if (isPremium()) {
+            import('./learning/question-bank.js').then(m => m.fetchCloudQuestions());
+        }
+    });
 }
 
 function bindEvents() {
@@ -66,8 +72,7 @@ function exposeGlobals() {
         showDomainQuizModal, showProcessQuizModal, showIttoModal, showIttoModalSafe,
         openLearningCenter, closeLearningCenter,
         openCaseLibrary, closeCaseLibrary, filterCases, viewCaseDetail, renderAllCases,
-        openPremiumModal, closePremiumModal, activateLicense,
-        updateAccountUI
+        openAuthModal, closeAuthModal, updateAccountUI
     });
 }
 
@@ -410,66 +415,6 @@ function switchToDomain(number) { switchView('domains'); setTimeout(() => select
 function switchToPrinciple(number) { switchView('principles'); setTimeout(() => selectPrinciple(number), 50); }
 window.switchToDomain = switchToDomain;
 window.switchToPrinciple = switchToPrinciple;
-
-// ==================== 账户/Premium ====================
-function updateAccountUI() {
-    const btn = document.getElementById('accountBtn');
-    if (!btn) return;
-    if (state.isPremiumUser) {
-        btn.innerHTML = '<span class="account-icon">👑</span><span class="account-text">Premium</span><span class="account-arrow">▼</span>';
-        const dd = document.getElementById('accountDropdown');
-        if (dd) dd.innerHTML = `<div class="dropdown-item"><span class="item-icon">👑</span><span class="item-text">Premium 会员</span><span class="item-badge">已激活</span></div>
-            <div class="dropdown-divider"></div>
-            <div class="dropdown-item" onclick="openLearningCenter()"><span class="item-icon">🎓</span><span class="item-text">学习中心</span></div>
-            <div class="dropdown-item" onclick="openLearningCenter()"><span class="item-icon">📊</span><span class="item-text">学习进度</span></div>`;
-    } else {
-        btn.innerHTML = '<span class="account-icon">👤</span><span class="account-text">免费用户</span><span class="account-arrow">▼</span>';
-        const dd = document.getElementById('accountDropdown');
-        if (dd) dd.innerHTML = `<div class="dropdown-item" onclick="openPremiumModal()"><span class="item-icon">👑</span><span class="item-text">升级 Premium</span><span class="item-tag premium">推荐</span></div>
-            <div class="dropdown-divider"></div>
-            <div class="dropdown-item"><span class="item-icon">📘</span><span class="item-text">6 项原则（免费）</span></div>
-            <div class="dropdown-item"><span class="item-icon">🌐</span><span class="item-text">7 个绩效域（免费）</span></div>
-            <div class="dropdown-item"><span class="item-icon">🔄</span><span class="item-text">40 个流程（免费）</span></div>
-            <div class="dropdown-item"><span class="item-icon">🚀</span><span class="item-text">敏捷方法（免费）</span></div>
-            <div class="dropdown-divider"></div>
-            <div class="dropdown-item" onclick="openLearningCenter()"><span class="item-icon">🎓</span><span class="item-text">学习中心</span></div>`;
-    }
-}
-
-window.openPremiumModal = () => {
-    // 简单创建 premium 弹窗
-    let modal = document.getElementById('premiumModal');
-    if (!modal) {
-        modal = document.createElement('div');
-        modal.id = 'premiumModal';
-        modal.className = 'modal-overlay';
-        modal.innerHTML = `<div class="modal-content"><div class="modal-header" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)"><h3>👑 升级 Premium</h3><button class="modal-close" onclick="closePremiumModal()">×</button></div><div class="modal-body" id="premiumBody"></div></div>`;
-        document.body.appendChild(modal);
-        modal.addEventListener('click', e => { if (e.target === modal) closePremiumModal(); });
-    }
-    document.getElementById('premiumBody').innerHTML = getTrialUpgradeMessage();
-    modal.style.display = 'flex';
-};
-window.closePremiumModal = () => { const m = document.getElementById('premiumModal'); if (m) m.style.display = 'none'; };
-
-window.activateLicense = () => {
-    const input = document.getElementById('licenseKeyInput');
-    const status = document.getElementById('licenseStatus');
-    const key = input?.value?.trim();
-    if (!key) { if (status) { status.textContent = '请输入 License Key'; status.className = 'license-status inactive'; } return; }
-    // TODO: 接入 Supabase 验证 License
-    if (key.length >= 8) {
-        state.isPremiumUser = true;
-        state.licenseKey = key;
-        setToStorage(STORAGE_KEYS.PREMIUM, true);
-        setToStorage(STORAGE_KEYS.LICENSE_KEY, key);
-        if (status) { status.textContent = '✅ License 激活成功！'; status.className = 'license-status active'; }
-        updateAccountUI();
-        setTimeout(() => closePremiumModal(), 1000);
-    } else {
-        if (status) { status.textContent = '❌ License Key 无效'; status.className = 'license-status inactive'; }
-    }
-};
 
 // ==================== 启动 ====================
 document.addEventListener('DOMContentLoaded', initApp);

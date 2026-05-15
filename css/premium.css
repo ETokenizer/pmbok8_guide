@@ -75,3 +75,21 @@
 .license-status.active { color: #059669; }
 .license-status.inactive { color: #dc2626; }
 .license-status.unknown { color: #6b7280; }
+
+/* ============ Auth Modal ============ */
+.auth-tabs { display:flex; gap:0; margin-bottom:20px; border-bottom:2px solid #e5e7eb; }
+.auth-tab { flex:1; padding:10px; text-align:center; cursor:pointer; background:none; border:none; font-size:14px; font-weight:600; color:#6b7280; transition:var(--transition); }
+.auth-tab.active { color:#3b82f6; border-bottom:2px solid #3b82f6; margin-bottom:-2px; }
+.auth-tab:hover:not(.active) { color:#374151; }
+
+.auth-field { margin-bottom:16px; }
+.auth-field label { display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px; }
+.auth-input { width:100%; padding:10px 14px; border:2px solid #e5e7eb; border-radius:var(--radius); font-size:14px; transition:var(--transition); }
+.auth-input:focus { outline:none; border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,0.1); }
+
+.auth-submit-btn { width:100%; padding:12px; border:none; border-radius:var(--radius); background:linear-gradient(135deg,#3b82f6,#2563eb); color:#fff; font-size:15px; font-weight:600; cursor:pointer; transition:var(--transition); margin-top:8px; }
+.auth-submit-btn:hover { background:linear-gradient(135deg,#2563eb,#1d4ed8); }
+.auth-submit-btn:disabled { opacity:0.6; cursor:not-allowed; }
+
+.auth-error { padding:10px 14px; background:#fef2f2; border-left:3px solid #ef4444; border-radius:0 6px 6px 0; color:#991b1b; font-size:13px; margin:10px 0; }
+.auth-success { padding:10px 14px; background:#f0fdf4; border-left:3px solid #10b981; border-radius:0 6px 6px 0; color:#065f46; font-size:13px; margin:10px 0; }

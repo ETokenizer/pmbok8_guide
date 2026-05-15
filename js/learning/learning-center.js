@@ -6,7 +6,7 @@ import { getProgressSummary, getWeakAreas, getPrincipleProgress, getDomainProgre
 import { getWrongBookStats, getWrongAnswers, markMastered, removeWrongAnswer, clearWrongBook } from './wrong-book.js';
 import { startExam, getExamState, goToQuestion, nextQuestion, prevQuestion, answerQuestion, toggleFlag, submitExam, getScore, getCurrentQuestion, getAnswerStatus, renderExamNavGrid, clearExam } from './exam.js';
 import { getQuestionCount, isCloudAvailable, getBankSize, getCategoryStats, fetchCloudQuestions } from './question-bank.js';
-import { state } from '../core/state.js';
+import { isLoggedIn, isPremium } from '../auth/auth-service.js';
 
 // ==================== 学习中心主弹窗 ====================
 let currentTab = 'dashboard';
@@ -119,6 +119,15 @@ function renderDashboard() {
 function renderExamEntry() {
     const st = getExamState();
     if (st.running) return renderExamInProgress();
+
+    if (!isLoggedIn()) {
+        return `<div class="lc-exam-entry" style="text-align:center;padding:40px">
+            <div style="font-size:48px;margin-bottom:10px">🔐</div>
+            <h3>请先登录</h3>
+            <p style="color:#666;margin:10px 0">登录后即可使用模拟考试功能</p>
+            <button class="auth-submit-btn" style="max-width:300px" onclick="closeLearningCenter();openAuthModal('login')">🔐 登录 / 注册</button>
+        </div>`;
+    }
 
     return `
         <div class="lc-exam-entry">
