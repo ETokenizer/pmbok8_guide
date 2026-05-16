@@ -9,10 +9,21 @@ const AUTH_KEY = 'sb_publishable_fIEpAlMH3j4qgc9CXDP6Dw__31BR7pN';
 
 let authClient = null;
 
-// Get or create auth client
-function getAuth() {
+// Wait for Supabase SDK to load (retry up to 10s)
+async function waitForSupabase() {
+    if (window.supabase) return true;
+    for (let i = 0; i < 100; i++) {
+        await new Promise(r => setTimeout(r, 100));
+        if (window.supabase) return true;
+    }
+    return false;
+}
+
+// Get or create auth client (async to wait for SDK)
+async function getAuth() {
     if (authClient) return authClient;
-    if (!window.supabase) return null;
+    const ready = await waitForSupabase();
+    if (!ready) return null;
     authClient = window.supabase.createClient(AUTH_URL, AUTH_KEY, {
         auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
     });
@@ -23,7 +34,7 @@ function getAuth() {
 
 // Sign up
 export async function signUp(email, password) {
-    const auth = getAuth();
+    const auth = await getAuth();
     if (!auth) return { error: 'Supabase SDK 未加载' };
     const { data, error } = await auth.auth.signUp({ email, password });
     if (error) return { error: error.message };
@@ -36,7 +47,7 @@ export async function signUp(email, password) {
 
 // Sign in
 export async function signIn(email, password) {
-    const auth = getAuth();
+    const auth = await getAuth();
     if (!auth) return { error: 'Supabase SDK 未加载' };
     const { data, error } = await auth.auth.signInWithPassword({ email, password });
     if (error) return { error: error.message };
@@ -51,7 +62,7 @@ export async function signIn(email, password) {
 
 // Sign out
 export async function signOut() {
-    const auth = getAuth();
+    const auth = await getAuth();
     if (auth) await auth.auth.signOut();
     state.currentUser = null;
     state.isPremiumUser = false;
@@ -61,7 +72,7 @@ export async function signOut() {
 
 // Get current session
 export async function getSession() {
-    const auth = getAuth();
+    const auth = await getAuth();
     if (!auth) return null;
     const { data } = await auth.auth.getSession();
     if (data?.session?.user) {
@@ -77,7 +88,7 @@ export async function getSession() {
 
 // Activate license key
 export async function activateLicense(licenseKey) {
-    const auth = getAuth();
+    const auth = await getAuth();
     if (!auth) return { error: 'Supabase SDK 未加载' };
     if (!state.currentUser) return { error: '请先登录后再激活 License' };
 
@@ -132,7 +143,7 @@ export async function activateLicense(licenseKey) {
 
 // Check license status for current user
 export async function checkLicenseStatus(email) {
-    const auth = getAuth();
+    const auth = await getAuth();
     if (!auth || !email) return false;
 
     try {
@@ -161,7 +172,7 @@ export async function checkLicenseStatus(email) {
 
 // Sync learning progress to Supabase
 export async function syncProgressToCloud() {
-    const auth = getAuth();
+    const auth = await getAuth();
     if (!auth || !state.isPremiumUser || !state.currentUser) return;
 
     try {
