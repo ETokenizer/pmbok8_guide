@@ -302,3 +302,33 @@ body {
 ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 5px; }
 ::-webkit-scrollbar-thumb { background: var(--pmi-light); border-radius: 5px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--pmi-blue); }
+
+/* ============ Premium Sidebar Section ============ */
+.sidebar-premium { flex-shrink: 0; background: #fafafa; }
+.premium-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--pmi-gold), transparent); margin: 0 15px; }
+.premium-title { padding: 10px 18px 6px; font-size: 13px; font-weight: 700; color: #8B6914; }
+.premium-links { display: flex; flex-direction: column; padding: 0 10px; }
+.premium-link-item {
+    display: flex; flex-direction: column; align-items: flex-start;
+    padding: 8px 10px; margin: 2px 0; border-radius: 6px; border: none;
+    background: transparent; cursor: pointer; font-size: 13px; font-weight: 600;
+    color: #374151; transition: var(--transition); text-align: left; width: 100%;
+}
+.premium-link-item:hover { background: #fef9e7; color: #8B6914; }
+.premium-link-en { font-size: 9px; color: #9ca3af; font-weight: 400; }
+.premium-link-item.locked { opacity: 0.5; pointer-events: none; }
+.premium-link-item.locked::after { content: '🔒'; font-size: 10px; margin-top: 2px; }
+
+.premium-ad {
+    margin: 8px 10px 10px; padding: 12px;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-radius: 8px; border: 1px solid #f59e0b;
+}
+.premium-ad-text { font-size: 11px; color: #92400e; line-height: 1.5; margin-bottom: 8px; font-weight: 500; }
+.premium-ad-btn {
+    width: 100%; padding: 6px; border: none; border-radius: 6px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff; font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: var(--transition);
+}
+.premium-ad-btn:hover { background: linear-gradient(135deg, #d97706, #b45309); }

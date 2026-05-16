@@ -19,7 +19,7 @@ export function openLearningCenter() {
         modal.className = 'modal-overlay';
         modal.innerHTML = `<div class="modal-content wide" style="max-width:1100px;max-height:90vh">
             <div class="modal-header" style="background:linear-gradient(135deg,#1e40af,#3b82f6)">
-                <h3>🎓 学习中心 | Learning Center</h3>
+                <h3>🎯 进阶中心 | Premium</h3>
                 <button class="modal-close" onclick="window.closeLearningCenter()">×</button>
             </div>
             <div class="modal-body" id="learningCenterBody" style="padding:0"></div>

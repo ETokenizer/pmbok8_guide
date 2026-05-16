@@ -39,16 +39,49 @@ function renderAuthContent() {
     const title = document.getElementById('authModalTitle');
     if (!body) return;
 
-    const tabs = ['login', 'register', 'license'];
+    // Filter tabs based on login state
+    let tabs = isLoggedIn() ? ['license'] : ['login', 'register'];
     const tabLabels = { login: '登录', register: '注册', license: '激活码' };
+    if (!tabs.includes(authTab)) authTab = tabs[0];
 
     body.innerHTML = `
-        <div class="auth-tabs">${tabs.map(t => `
+        ${tabs.length > 1 ? `<div class="auth-tabs">${tabs.map(t => `
             <button class="auth-tab${authTab===t?' active':''}" onclick="window.switchAuthTab('${t}')">${tabLabels[t]}</button>
-        `).join('')}</div>
+        `).join('')}</div>` : ''}
         <div id="authFormContent">${renderAuthForm()}</div>
     `;
     if (title) title.textContent = authTab === 'login' ? '🔐 登录 | Sign In' : authTab === 'register' ? '📝 注册 | Sign Up' : '🔑 激活 License | Activate';
+}
+
+// ==================== Premium Sidebar ====================
+export function updatePremiumSidebar() {
+    const links = document.getElementById('premiumLinks');
+    const ad = document.getElementById('premiumAd');
+    if (!links) return;
+
+    if (isPremium()) {
+        links.innerHTML = `
+            <button class="premium-link-item" onclick="openLearningCenter()">🎯 模拟考试<span class="premium-link-en">Mock Exam</span></button>
+            <button class="premium-link-item" onclick="openLearningCenter()">📕 错题复习<span class="premium-link-en">Wrong Book</span></button>
+            <button class="premium-link-item" onclick="openLearningCenter()">📊 学习分析<span class="premium-link-en">Analytics</span></button>`;
+        if (ad) ad.innerHTML = `<div style="text-align:center;padding:8px;font-size:11px;color:#8B6914">👑 Premium 会员已激活</div>`;
+    } else if (isLoggedIn()) {
+        links.innerHTML = `
+            <button class="premium-link-item locked" onclick="openAuthModal('license')">🔑 激活 License<span class="premium-link-en">Activate</span></button>
+            <button class="premium-link-item locked">🎯 模拟考试<span class="premium-link-en">Mock Exam</span></button>
+            <button class="premium-link-item locked">📊 学习分析<span class="premium-link-en">Analytics</span></button>`;
+        if (ad) ad.innerHTML = `
+            <div class="premium-ad-text">🔓 登录成功！激活 License 解锁全部进阶功能</div>
+            <button class="premium-ad-btn" onclick="openAuthModal('license')">立即激活</button>`;
+    } else {
+        links.innerHTML = `
+            <button class="premium-link-item" onclick="openAuthModal('login')">🔐 登录激活<span class="premium-link-en">Sign In</span></button>
+            <button class="premium-link-item locked">🎯 模拟考试<span class="premium-link-en">Mock Exam</span></button>
+            <button class="premium-link-item locked">📊 学习分析<span class="premium-link-en">Analytics</span></button>`;
+        if (ad) ad.innerHTML = `
+            <div class="premium-ad-text">🔥 1292 题云端题库<br>登录解锁模拟考试和错题本</div>
+            <button class="premium-ad-btn" onclick="openAuthModal('login')">立即登录</button>`;
+    }
 }
 
 function renderAuthForm() {
@@ -178,9 +211,7 @@ export function updateAccountUI() {
         if (dd) dd.innerHTML = `
             <div class="dropdown-item"><span class="item-icon">👑</span><span class="item-text">Premium 会员</span><span class="item-badge">已激活</span></div>
             <div class="dropdown-divider"></div>
-            <div class="dropdown-item" onclick="openLearningCenter()"><span class="item-icon">🎓</span><span class="item-text">学习中心</span></div>
             <div class="dropdown-item" onclick="openAuthModal('license')"><span class="item-icon">🔑</span><span class="item-text">License 管理</span></div>
-            <div class="dropdown-divider"></div>
             <div class="dropdown-item" onclick="window.handleSignOut()"><span class="item-icon">🚪</span><span class="item-text">退出登录</span></div>`;
     } else if (state.currentUser) {
         btn.innerHTML = `<span class="account-icon">👤</span><span class="account-text">${state.currentUser.email?.split('@')[0] || '用户'}</span><span class="account-arrow">▼</span>`;
@@ -188,22 +219,21 @@ export function updateAccountUI() {
         if (dd) dd.innerHTML = `
             <div class="dropdown-item" onclick="openAuthModal('license')"><span class="item-icon">🔑</span><span class="item-text">激活 License</span><span class="item-tag premium">升级</span></div>
             <div class="dropdown-divider"></div>
-            <div class="dropdown-item" onclick="openLearningCenter()"><span class="item-icon">🎓</span><span class="item-text">学习中心</span></div>
-            <div class="dropdown-divider"></div>
             <div class="dropdown-item" onclick="window.handleSignOut()"><span class="item-icon">🚪</span><span class="item-text">退出登录</span></div>`;
     } else {
         btn.innerHTML = '<span class="account-icon">👤</span><span class="account-text">未登录</span><span class="account-arrow">▼</span>';
         const dd = document.getElementById('accountDropdown');
         if (dd) dd.innerHTML = `
-            <div class="dropdown-item" onclick="openAuthModal('login')"><span class="item-icon">🔐</span><span class="item-text">登录 / 注册</span><span class="item-tag premium">免费</span></div>
+            <div class="dropdown-item" onclick="openAuthModal('login')"><span class="item-icon">🔐</span><span class="item-text">登录 / 注册</span></div>
             <div class="dropdown-divider"></div>
-            <div class="dropdown-item" onclick="openLearningCenter()"><span class="item-icon">🎓</span><span class="item-text">学习中心</span></div>
+            <div class="dropdown-item" onclick="openAuthModal('license')"><span class="item-icon">🔑</span><span class="item-text">激活 License</span></div>
             <div class="dropdown-divider"></div>
             <div class="dropdown-item"><span class="item-icon">📘</span><span class="item-text">6 项原则（免费）</span></div>
             <div class="dropdown-item"><span class="item-icon">🌐</span><span class="item-text">7 个绩效域（免费）</span></div>
             <div class="dropdown-item"><span class="item-icon">🔄</span><span class="item-text">40 个流程（免费）</span></div>
             <div class="dropdown-item"><span class="item-icon">🚀</span><span class="item-text">敏捷方法（免费）</span></div>`;
     }
+    updatePremiumSidebar();
 }
 
 window.handleSignOut = async () => {
@@ -218,7 +248,7 @@ window.handleSignOut = async () => {
 export async function initAuth() {
     await getSession();
     updateAccountUI();
-    // Sync if premium
+    updatePremiumSidebar();
     if (state.isPremiumUser) {
         syncProgressToCloud();
     }
