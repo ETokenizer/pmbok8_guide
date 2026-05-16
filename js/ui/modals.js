@@ -237,13 +237,13 @@ export function showIttoModal(itemName, itemType) {
             <h4>🔗 数据流链条 | Data Flow Chain</h4>
             <div class="itto-flow-chain-v2">
                 ${reg.o.map(n => `<div class="flow-step workshop" onclick="window.selectProcess(${n});window.closeIttoModal()" title="${ittoProcLookup[n]?.n} | ${ittoProcLookup[n]?.ne}"><span class="flow-step-icon">⚙️</span><span class="flow-step-label">#${n} ${ittoProcLookup[n]?.n.substring(0,10)||''}${(ittoProcLookup[n]?.n?.length||0)>10?'…':''}</span><span class="flow-step-tag">流程</span></div>`).join('')}
-                ${reg.o.length > 0 ? `<div class="flow-connector"><span class="flow-arrow-text">产出</span><span class="flow-arrow-icon"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>` : ''}
+                ${reg.o.length > 0 ? `<div class="flow-connector"><span class="flow-arrow-text">输出</span><span class="flow-connector-icon">📦<span class="pack-drop"></span></span><span class="flow-arrow-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>` : ''}
                 <div class="flow-product ${itemType==='output'?'out':'in'}">
                     <span class="flow-product-icon">📦</span>
                     <span class="flow-product-name">${itemName.length > 24 ? itemName.substring(0,24)+'…' : itemName}</span>
                     <span class="flow-product-type">${itemType==='output'?'输出 Output':'输入 Input'}</span>
                 </div>
-                ${reg.i.length > 0 ? `<div class="flow-connector"><span class="flow-arrow-text">输入</span><span class="flow-arrow-icon"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>` : ''}
+                ${reg.i.length > 0 ? `<div class="flow-connector"><span class="flow-arrow-text">输入</span><span class="flow-connector-icon">🏭<span class="feed-drop"></span></span><span class="flow-arrow-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>` : ''}
                 ${reg.i.slice(0,8).map(n => `<div class="flow-step workshop" onclick="window.selectProcess(${n});window.closeIttoModal()" title="${ittoProcLookup[n]?.n} | ${ittoProcLookup[n]?.ne}"><span class="flow-step-icon">⚙️</span><span class="flow-step-label">#${n} ${ittoProcLookup[n]?.n.substring(0,10)||''}${(ittoProcLookup[n]?.n?.length||0)>10?'…':''}</span><span class="flow-step-tag">流程</span></div>`).join('')}
                 ${reg.i.length > 8 ? `<div class="flow-step more">+${reg.i.length-8} 个流程</div>` : ''}
             </div>
