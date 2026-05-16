@@ -96,9 +96,8 @@ body {
 /* Sidebar */
 .sidebar {
     background: var(--white); border-radius: 10px;
-    box-shadow: var(--shadow); overflow: hidden;
+    box-shadow: var(--shadow); overflow: visible;
     display: flex; flex-direction: column;
-    height: calc(100vh - 95px);
 }
 
 .sidebar-header {
@@ -303,32 +302,31 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--pmi-light); border-radius: 5px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--pmi-blue); }
 
-/* ============ Premium Sidebar Section ============ */
-.sidebar-premium { flex-shrink: 0; background: #fafafa; }
-.premium-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--pmi-gold), transparent); margin: 0 15px; }
-.premium-title { padding: 10px 18px 6px; font-size: 13px; font-weight: 700; color: #8B6914; }
-.premium-links { display: flex; flex-direction: column; padding: 0 10px; }
-.premium-link-item {
-    display: flex; flex-direction: column; align-items: flex-start;
-    padding: 8px 10px; margin: 2px 0; border-radius: 6px; border: none;
-    background: transparent; cursor: pointer; font-size: 13px; font-weight: 600;
-    color: #374151; transition: var(--transition); text-align: left; width: 100%;
+/* ============ Premium Nav in Sidebar (PMBOK7 style) ============ */
+.premium-nav-section { padding: 0; }
+.premium-nav-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--pmi-gold), transparent); margin: 8px 15px; }
+.premium-nav-title { padding: 8px 18px 4px; font-size: 13px; font-weight: 700; color: #8B6914; }
+.premium-nav-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 18px; background: transparent;
+    border: none; border-bottom: 1px solid #f3f4f6;
+    cursor: pointer; transition: var(--transition);
+    text-align: left; width: 100%; position: relative;
 }
-.premium-link-item:hover { background: #fef9e7; color: #8B6914; }
-.premium-link-en { font-size: 9px; color: #9ca3af; font-weight: 400; }
-.premium-link-item.locked { opacity: 0.5; pointer-events: none; }
-.premium-link-item.locked::after { content: '🔒'; font-size: 10px; margin-top: 2px; }
-
-.premium-ad {
-    margin: 8px 10px 10px; padding: 12px;
+.premium-nav-item:hover { background: #fef9e7; }
+.premium-nav-item.locked { opacity: 0.5; pointer-events: none; cursor: default; }
+.premium-nav-icon { font-size: 18px; flex-shrink: 0; }
+.premium-nav-text { display: flex; flex-direction: column; gap: 1px; }
+.premium-nav-label { font-weight: 600; font-size: 13px; color: var(--pmi-dark); }
+.premium-nav-en { font-size: 10px; color: #888; }
+.premium-nav-badge {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    background: linear-gradient(135deg, var(--pmi-gold), #FFD700);
+    color: #333; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600;
+}
+.premium-nav-ad {
+    margin: 8px 14px; padding: 12px 14px;
     background: linear-gradient(135deg, #fef3c7, #fde68a);
-    border-radius: 8px; border: 1px solid #f59e0b;
+    border-radius: 8px; border: 1px solid #fcd34d;
+    font-size: 11px; color: #92400e; line-height: 1.5; text-align: center;
 }
-.premium-ad-text { font-size: 11px; color: #92400e; line-height: 1.5; margin-bottom: 8px; font-weight: 500; }
-.premium-ad-btn {
-    width: 100%; padding: 6px; border: none; border-radius: 6px;
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: #fff; font-size: 12px; font-weight: 600; cursor: pointer;
-    transition: var(--transition);
-}
-.premium-ad-btn:hover { background: linear-gradient(135deg, #d97706, #b45309); }

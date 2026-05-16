@@ -53,37 +53,6 @@ function renderAuthContent() {
     if (title) title.textContent = authTab === 'login' ? '🔐 登录 | Sign In' : authTab === 'register' ? '📝 注册 | Sign Up' : '🔑 激活 License | Activate';
 }
 
-// ==================== Premium Sidebar ====================
-export function updatePremiumSidebar() {
-    const links = document.getElementById('premiumLinks');
-    const ad = document.getElementById('premiumAd');
-    if (!links) return;
-
-    if (isPremium()) {
-        links.innerHTML = `
-            <button class="premium-link-item" onclick="openLearningCenter()">🎯 模拟考试<span class="premium-link-en">Mock Exam</span></button>
-            <button class="premium-link-item" onclick="openLearningCenter()">📕 错题复习<span class="premium-link-en">Wrong Book</span></button>
-            <button class="premium-link-item" onclick="openLearningCenter()">📊 学习分析<span class="premium-link-en">Analytics</span></button>`;
-        if (ad) ad.innerHTML = `<div style="text-align:center;padding:8px;font-size:11px;color:#8B6914">👑 Premium 会员已激活</div>`;
-    } else if (isLoggedIn()) {
-        links.innerHTML = `
-            <button class="premium-link-item locked" onclick="openAuthModal('license')">🔑 激活 License<span class="premium-link-en">Activate</span></button>
-            <button class="premium-link-item locked">🎯 模拟考试<span class="premium-link-en">Mock Exam</span></button>
-            <button class="premium-link-item locked">📊 学习分析<span class="premium-link-en">Analytics</span></button>`;
-        if (ad) ad.innerHTML = `
-            <div class="premium-ad-text">🔓 登录成功！激活 License 解锁全部进阶功能</div>
-            <button class="premium-ad-btn" onclick="openAuthModal('license')">立即激活</button>`;
-    } else {
-        links.innerHTML = `
-            <button class="premium-link-item" onclick="openAuthModal('login')">🔐 登录激活<span class="premium-link-en">Sign In</span></button>
-            <button class="premium-link-item locked">🎯 模拟考试<span class="premium-link-en">Mock Exam</span></button>
-            <button class="premium-link-item locked">📊 学习分析<span class="premium-link-en">Analytics</span></button>`;
-        if (ad) ad.innerHTML = `
-            <div class="premium-ad-text">🔥 1292 题云端题库<br>登录解锁模拟考试和错题本</div>
-            <button class="premium-ad-btn" onclick="openAuthModal('login')">立即登录</button>`;
-    }
-}
-
 function renderAuthForm() {
     switch (authTab) {
         case 'login': return `
@@ -233,7 +202,7 @@ export function updateAccountUI() {
             <div class="dropdown-item"><span class="item-icon">🔄</span><span class="item-text">40 个流程（免费）</span></div>
             <div class="dropdown-item"><span class="item-icon">🚀</span><span class="item-text">敏捷方法（免费）</span></div>`;
     }
-    updatePremiumSidebar();
+    if (window._refreshSidebar) window._refreshSidebar();
 }
 
 window.handleSignOut = async () => {
@@ -248,7 +217,7 @@ window.handleSignOut = async () => {
 export async function initAuth() {
     await getSession();
     updateAccountUI();
-    updatePremiumSidebar();
+    if (window._refreshSidebar) window._refreshSidebar();
     if (state.isPremiumUser) {
         syncProgressToCloud();
     }
