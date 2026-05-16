@@ -9,7 +9,9 @@ import { processes, focusAreaConfig } from './data/processes.js';
 import { agileApproaches } from './data/agile.js';
 import { initModals, showCaseModal, showQuizModal, closeCaseModal, closeQuizModal, closeCaseOverlay, closeIttoModal, showIttoModal, setCurrentQuizzes } from './ui/modals.js';
 import { canAccessContent } from './data/trial.js';
-import { openLearningCenter, closeLearningCenter } from './learning/learning-center.js';
+import { openDashboard, closeDashboard } from './learning/dashboard.js';
+import { openWrongBook, closeWrongBook } from './learning/wrong-book-ui.js';
+import { openWeakAnalysis, closeWeakAnalysis } from './learning/weak-analysis.js';
 import { recordPrincipleView, recordDomainView } from './learning/progress.js';
 import { addWrongAnswer } from './learning/wrong-book.js';
 import { initAuth, updateAccountUI, openAuthModal, closeAuthModal } from './auth/auth-ui.js';
@@ -46,12 +48,7 @@ function initApp() {
     bindEvents();
     exposeGlobals();
     switchView('principles');
-    initAuth().then(() => {
-        // Preload questions if premium
-        if (isPremium()) {
-            import('./learning/question-bank.js').then(m => m.fetchCloudQuestions());
-        }
-    });
+    initAuth();
 }
 
 function bindEvents() {
@@ -71,7 +68,8 @@ function exposeGlobals() {
         closeCaseModal, closeQuizModal, closeCaseOverlay, closeIttoModal,
         showCaseModal, showQuizModalForItem, showDomainCaseModal,
         showDomainQuizModal, showProcessQuizModal, showIttoModal, showIttoModalSafe,
-        openLearningCenter, closeLearningCenter,
+        openDashboard, closeDashboard, openWrongBook, closeWrongBook,
+        openWeakAnalysis, closeWeakAnalysis,
         openCaseLibrary, closeCaseLibrary, filterCases, viewCaseDetail, renderAllCases,
         openAuthModal, closeAuthModal, updateAccountUI
     });
@@ -160,27 +158,30 @@ function renderSidebar() {
     c.innerHTML += renderPremiumNav();
 }
 
-// Render premium navigation section (PMBOK7 style)
+// Render premium navigation section (4 entries, PMBOK7 style)
 function renderPremiumNav() {
     if (isPremium()) {
         return `<div class="premium-nav-section"><div class="premium-nav-divider"></div>
             <div class="premium-nav-title">👑 Premium 已激活</div>
-            <button class="premium-nav-item" onclick="openLearningCenter()"><span class="premium-nav-icon">🎯</span><div class="premium-nav-text"><span class="premium-nav-label">模拟考试</span><span class="premium-nav-en">Mock Exam</span></div></button>
-            <button class="premium-nav-item" onclick="openLearningCenter()"><span class="premium-nav-icon">📕</span><div class="premium-nav-text"><span class="premium-nav-label">错题复习</span><span class="premium-nav-en">Wrong Book</span></div></button>
-            <button class="premium-nav-item" onclick="openLearningCenter()"><span class="premium-nav-icon">📊</span><div class="premium-nav-text"><span class="premium-nav-label">学习分析</span><span class="premium-nav-en">Analytics</span></div></button></div>`;
+            <button class="premium-nav-item" onclick="openDashboard()"><span class="premium-nav-icon">📊</span><div class="premium-nav-text"><span class="premium-nav-label">学习仪表盘</span><span class="premium-nav-en">Dashboard</span></div></button>
+            <button class="premium-nav-item" onclick="openPMPExam()"><span class="premium-nav-icon">📝</span><div class="premium-nav-text"><span class="premium-nav-label">模拟考试</span><span class="premium-nav-en">Mock Exam</span></div></button>
+            <button class="premium-nav-item" onclick="openWrongBook()"><span class="premium-nav-icon">📕</span><div class="premium-nav-text"><span class="premium-nav-label">错题分析</span><span class="premium-nav-en">Wrong Book</span></div></button>
+            <button class="premium-nav-item" onclick="openWeakAnalysis()"><span class="premium-nav-icon">🔍</span><div class="premium-nav-text"><span class="premium-nav-label">薄弱点分析</span><span class="premium-nav-en">Weak Areas</span></div></button></div>`;
     } else if (isLoggedIn()) {
         return `<div class="premium-nav-section"><div class="premium-nav-divider"></div>
-            <div class="premium-nav-title">👑 进阶中心 <span style="font-size:10px;opacity:0.7">Premium</span></div>
-            <button class="premium-nav-item" onclick="openAuthModal('license')"><span class="premium-nav-icon">🔑</span><div class="premium-nav-text"><span class="premium-nav-label">激活 License</span><span class="premium-nav-en">Activate License</span></div><span class="premium-nav-badge">升级</span></button>
+            <div class="premium-nav-title">👑 Premium <span style="font-size:10px;opacity:0.7">会员专属</span></div>
+            <button class="premium-nav-item" onclick="openDashboard()"><span class="premium-nav-icon">📊</span><div class="premium-nav-text"><span class="premium-nav-label">学习仪表盘</span><span class="premium-nav-en">Dashboard</span></div></button>
             <button class="premium-nav-item locked"><span class="premium-nav-icon">🔒</span><div class="premium-nav-text"><span class="premium-nav-label">模拟考试</span><span class="premium-nav-en">Mock Exam</span></div></button>
-            <button class="premium-nav-item locked"><span class="premium-nav-icon">🔒</span><div class="premium-nav-text"><span class="premium-nav-label">错题复习</span><span class="premium-nav-en">Wrong Book</span></div></button>
-            <div class="premium-nav-ad">🔥 1292 题云端题库<br>激活 License 解锁全部进阶功能</div></div>`;
+            <button class="premium-nav-item locked"><span class="premium-nav-icon">🔒</span><div class="premium-nav-text"><span class="premium-nav-label">错题分析</span><span class="premium-nav-en">Wrong Book</span></div></button>
+            <button class="premium-nav-item locked"><span class="premium-nav-icon">🔒</span><div class="premium-nav-text"><span class="premium-nav-label">薄弱点分析</span><span class="premium-nav-en">Weak Areas</span></div></button>
+            <div class="premium-nav-ad">🔥 激活 License 解锁全部 4 项进阶功能<br><button class="premium-ad-btn" style="margin-top:6px" onclick="openAuthModal('license')">🔑 立即激活</button></div></div>`;
     } else {
         return `<div class="premium-nav-section"><div class="premium-nav-divider"></div>
-            <div class="premium-nav-title">👑 进阶中心 <span style="font-size:10px;opacity:0.7">Premium</span></div>
-            <button class="premium-nav-item" onclick="openAuthModal('login')"><span class="premium-nav-icon">🔐</span><div class="premium-nav-text"><span class="premium-nav-label">登录 / 注册</span><span class="premium-nav-en">Sign In / Up</span></div></button>
+            <div class="premium-nav-title">👑 Premium <span style="font-size:10px;opacity:0.7">会员专属</span></div>
+            <button class="premium-nav-item locked"><span class="premium-nav-icon">🔒</span><div class="premium-nav-text"><span class="premium-nav-label">学习仪表盘</span><span class="premium-nav-en">Dashboard</span></div></button>
             <button class="premium-nav-item locked"><span class="premium-nav-icon">🔒</span><div class="premium-nav-text"><span class="premium-nav-label">模拟考试</span><span class="premium-nav-en">Mock Exam</span></div></button>
-            <button class="premium-nav-item locked"><span class="premium-nav-icon">🔒</span><div class="premium-nav-text"><span class="premium-nav-label">错题复习</span><span class="premium-nav-en">Wrong Book</span></div></button>
+            <button class="premium-nav-item locked"><span class="premium-nav-icon">🔒</span><div class="premium-nav-text"><span class="premium-nav-label">错题分析</span><span class="premium-nav-en">Wrong Book</span></div></button>
+            <button class="premium-nav-item locked"><span class="premium-nav-icon">🔒</span><div class="premium-nav-text"><span class="premium-nav-label">薄弱点分析</span><span class="premium-nav-en">Weak Areas</span></div></button>
             <div class="premium-nav-ad">🔥 1292 题云端题库<br>登录解锁全部进阶功能</div></div>`;
     }
 }
