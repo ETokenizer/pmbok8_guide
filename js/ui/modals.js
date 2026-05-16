@@ -243,7 +243,7 @@ export function showIttoModal(itemName, itemType) {
                     <span class="flow-product-name">${itemName.length > 24 ? itemName.substring(0,24)+'…' : itemName}</span>
                     <span class="flow-product-type">${itemType==='output'?'输出 Output':'输入 Input'}</span>
                 </div>
-                ${reg.i.length > 0 ? `<div class="flow-connector"><span class="flow-arrow-text">输入</span><span class="flow-connector-icon">🏭<span class="feed-drop"></span></span><span class="flow-arrow-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>` : ''}
+                ${reg.i.length > 0 ? `<div class="flow-connector"><span class="flow-arrow-text">输入</span><span class="flow-connector-icon">📥<span class="unpack-lid"></span></span><span class="flow-arrow-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>` : ''}
                 ${reg.i.slice(0,8).map(n => `<div class="flow-step workshop" onclick="window.selectProcess(${n});window.closeIttoModal()" title="${ittoProcLookup[n]?.n} | ${ittoProcLookup[n]?.ne}"><span class="flow-step-icon">⚙️</span><span class="flow-step-label">#${n} ${ittoProcLookup[n]?.n.substring(0,10)||''}${(ittoProcLookup[n]?.n?.length||0)>10?'…':''}</span><span class="flow-step-tag">流程</span></div>`).join('')}
                 ${reg.i.length > 8 ? `<div class="flow-step more">+${reg.i.length-8} 个流程</div>` : ''}
             </div>
