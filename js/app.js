@@ -250,7 +250,7 @@ function selectPrinciple(number) {
             <div class="key-aspects">${p.keyAspects.map(a => `
                 <div class="aspect-item"><div class="aspect-icon">${a.icon}</div><div class="aspect-title">${a.title} | ${a.titleEn}</div><div class="aspect-desc">${a.desc}</div></div>
             `).join('')}</div>
-            ${p.performanceDomains ? `<div style="margin-top:25px"><h4 style="color:var(--pmi-dark);margin-bottom:15px">🔗 相关绩效域 | Related Performance Domains</h4>
+            ${p.performanceDomains ? `<div style="margin-top:20px"><div class="cross-ref-heading">🔗 相关绩效域 | Related Performance Domains</div>
                 <div style="display:flex;flex-wrap:wrap;gap:10px">${p.performanceDomains.map(dn => {
                     const d = performanceDomains.find(pd => pd.name === dn);
                     return d ? `<a href="#" onclick="switchToDomain(${d.number});return false" class="cross-ref-link"><span>${d.icon}</span> ${d.name}</a>` : '';
@@ -282,7 +282,7 @@ function selectDomain(number) {
                 <ul style="padding-left:20px;line-height:2">${d.keyActivities.map(a => `<li>${a}</li>`).join('')}</ul></div>
             <div style="margin-top:20px"><h4 style="color:${d.color};margin-bottom:15px">✅ 预期成果 | Expected Outcomes</h4>
                 <ul style="padding-left:20px;line-height:2">${d.expectedOutcomes.map(o => `<li>✅ ${o}</li>`).join('')}</ul></div>
-            ${d.relatedPrinciples ? `<div style="margin-top:25px"><h4 style="color:var(--pmi-dark);margin-bottom:15px">🔗 相关原则 | Related Principles</h4>
+            ${d.relatedPrinciples ? `<div style="margin-top:20px"><div class="cross-ref-heading">🔗 相关原则 | Related Principles</div>
                 <div style="display:flex;flex-wrap:wrap;gap:10px">${d.relatedPrinciples.map(pn => {
                     const p = principles.find(pr => pr.number === pn);
                     return p ? `<a href="#" onclick="switchToPrinciple(${p.number});return false" class="cross-ref-link"><span>${p.icon}</span> 原则${p.number}: ${p.name}</a>` : '';

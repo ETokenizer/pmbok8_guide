@@ -144,13 +144,14 @@
 
 /* Cross-reference links */
 .cross-ref-link {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 15px; background: #f0f7ff;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; background: #f0f7ff;
     border-radius: var(--radius); text-decoration: none;
     color: var(--pmi-blue); border: 1px solid #bfdbfe;
-    transition: var(--transition);
+    transition: var(--transition); font-size: 13px;
 }
 .cross-ref-link:hover { background: #e0f2fe; }
+.cross-ref-heading { font-size: 14px; color: var(--pmi-dark); margin: 25px 0 12px; font-weight: 600; }
 
 /* ITTO Clickable Items */
 .itto-list { padding-left: 0; list-style: none; margin-top: 8px; }
@@ -204,128 +205,24 @@
 }
 .itto-fa-header small { opacity: 0.85; font-weight: normal; }
 
-/* ITTO Flow Chain Visualization */
-.itto-flow-chain {
-    display: flex; align-items: center; flex-wrap: wrap;
-    gap: 6px; padding: 12px 0;
-}
-.flow-node {
-    display: inline-block; padding: 5px 10px;
-    border-radius: 4px; font-size: 11px;
-    cursor: pointer; transition: var(--transition);
-    white-space: nowrap;
-}
-.flow-node:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-.flow-node.output { background: #d1fae5; border: 1px solid #6ee7b7; color: #065f46; }
-.flow-node.input { background: #dbeafe; border: 1px solid #93c5fd; color: #1e40af; }
-.flow-node.current { box-shadow: 0 0 0 3px rgba(0,0,0,0.1); }
-.flow-node.more { background: #f3f4f6; color: #6b7280; cursor: default; font-style: italic; }
-.flow-arrow { font-size: 16px; color: #9ca3af; font-weight: bold; }
+/* ITTO Flow Chain — Workshop vs Product */
+.itto-flow-chain-v2 { display:flex;align-items:flex-start;flex-wrap:wrap;gap:0;padding:16px 8px;justify-content:center; }
+.flow-step { display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;background:#f1f5f9;border:2px solid #cbd5e1;border-radius:6px;cursor:pointer;transition:var(--transition);min-width:90px;text-align:center; }
+.flow-step:hover { background:#e2e8f0;border-color:#94a3b8;transform:translateY(-2px); }
+.flow-step-icon { font-size:18px; }
+.flow-step-label { font-size:11px;color:#475569;font-weight:600;line-height:1.3; }
+.flow-step-tag { font-size:9px;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;font-weight:500; }
+.flow-step.more { background:#f8fafc;border:1px dashed #cbd5e1;color:#94a3b8;cursor:default;font-size:11px;padding:12px 10px; }
+.flow-connector { display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 6px;min-width:40px; }
+.flow-arrow-text { font-size:9px;color:#94a3b8;font-weight:600;text-transform:uppercase; }
+.flow-arrow-icon { font-size:14px;color:#f59e0b;line-height:1; }
+.flow-product { display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 18px;border-radius:12px;min-width:140px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.08); }
+.flow-product.out { background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid #f59e0b; }
+.flow-product.in { background:linear-gradient(135deg,#dbeafe,#bfdbfe);border:2px solid #3b82f6; }
+.flow-product-icon { font-size:24px; }
+.flow-product-name { font-size:13px;font-weight:700;color:#1e293b;line-height:1.3; }
+.flow-product-type { font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px; }
+.flow-product.out .flow-product-type { background:#fef3c7;color:#92400e; }
+.flow-product.in .flow-product-type { background:#dbeafe;color:#1e40af; }
+.chain-viz { background:linear-gradient(135deg,#f8fafc,#f1f5f9); }
 
-/* ============ Learning Center ============ */
-.lc-tabs { display: flex; border-bottom: 2px solid #e5e7eb; background: #f9fafb; }
-.lc-tab { flex:1; padding:14px 8px; text-align:center; cursor:pointer; background:none; border:none; font-size:14px; font-weight:600; color:#6b7280; transition:var(--transition); line-height:1.4; }
-.lc-tab:hover { background:#f3f4f6; }
-.lc-tab.active { background:#fff; color:#1e40af; border-bottom:3px solid #3b82f6; margin-bottom:-2px; }
-.lc-tab small { font-size:10px; font-weight:400; opacity:0.7; display:block; }
-.lc-content { padding:20px; max-height:60vh; overflow-y:auto; }
-
-.lc-dashboard, .lc-exam-entry, .lc-wrongbook, .lc-analysis { }
-.lc-stat-cards { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; }
-.lc-stat-card { text-align:center; padding:15px 10px; background:#f8fafc; border-radius:var(--radius); border:1px solid #e5e7eb; }
-.lc-stat-val { font-size:24px; font-weight:700; color:var(--pmi-blue); }
-.lc-stat-lbl { font-size:11px; color:#888; margin-top:4px; }
-
-.lc-card { background:#fff; border:1px solid #e5e7eb; border-radius:var(--radius); padding:16px; }
-.lc-card h4 { margin-bottom:12px; font-size:14px; color:var(--pmi-dark); }
-
-.lc-progress-bar { display:flex; align-items:center; gap:8px; margin:6px 0; }
-.lc-bar-label { width:70px; font-size:12px; text-align:right; color:#555; flex-shrink:0; }
-.lc-bar { flex:1; height:8px; background:#e5e7eb; border-radius:4px; overflow:hidden; }
-.lc-bar-fill { height:100%; border-radius:4px; transition:width 0.5s; }
-.lc-bar-pct { font-size:11px; color:#888; width:80px; flex-shrink:0; }
-
-.lc-btn { padding:8px 16px; border-radius:6px; border:none; cursor:pointer; font-size:13px; font-weight:500; background:var(--pmi-blue); color:#fff; transition:var(--transition); }
-.lc-btn:hover { background:var(--pmi-dark); }
-.lc-btn.small { padding:4px 10px; font-size:11px; }
-.lc-btn.danger { background:#ef4444; }
-.lc-btn.danger:hover { background:#dc2626; }
-
-/* Exam Entry */
-.lc-exam-options { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; margin-top:20px; }
-.lc-exam-card { text-align:center; padding:25px 15px; background:#f8fafc; border:2px solid #e5e7eb; border-radius:var(--radius-lg); cursor:pointer; transition:var(--transition); }
-.lc-exam-card:hover { border-color:var(--pmi-blue); transform:translateY(-3px); box-shadow:var(--shadow-lg); }
-.lc-exam-icon { font-size:36px; margin-bottom:10px; }
-.lc-exam-card h4 { font-size:15px; color:var(--pmi-dark); margin-bottom:5px; }
-.lc-exam-card p { font-size:12px; color:#888; }
-
-/* Exam Interface */
-.exam-container { }
-.exam-topbar { display:flex; align-items:center; gap:15px; padding:12px 16px; background:#1e293b; color:#fff; border-radius:var(--radius) var(--radius) 0 0; }
-.exam-timer { font-size:22px; font-weight:700; font-family:monospace; min-width:65px; }
-.exam-progress-text { flex:1; font-size:14px; }
-
-.exam-btn { padding:8px 16px; border-radius:6px; border:none; cursor:pointer; font-size:13px; background:#3b82f6; color:#fff; transition:var(--transition); }
-.exam-btn:hover { opacity:0.9; }
-.exam-btn:disabled { opacity:0.4; cursor:not-allowed; }
-.exam-btn.small { padding:5px 10px; font-size:11px; }
-.exam-btn.danger { background:#ef4444; }
-
-.exam-question-area { background:#fff; padding:25px; }
-.exam-q-meta { display:flex; gap:10px; align-items:center; margin-bottom:15px; font-size:12px; }
-.exam-diff-tag { padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
-.exam-diff-tag.easy { background:#d1fae5; color:#059669; }
-.exam-diff-tag.medium { background:#fef3c7; color:#b45309; }
-.exam-diff-tag.hard { background:#fee2e2; color:#dc2626; }
-.exam-question { font-size:16px; font-weight:600; color:#1f2937; line-height:1.7; margin-bottom:20px; }
-.exam-options { display:flex; flex-direction:column; gap:10px; }
-
-.exam-option { display:flex; align-items:center; gap:10px; padding:14px 18px; background:#f9fafb; border:2px solid #e5e7eb; border-radius:var(--radius); cursor:pointer; font-size:14px; text-align:left; transition:var(--transition); width:100%; color:#374151; }
-.exam-option:hover:not(:disabled) { border-color:var(--pmi-light); background:var(--pmi-bg); }
-.exam-option:disabled { cursor:default; opacity:0.85; }
-.exam-option.correct { border-color:#10b981; background:#f0fdf4; color:#065f46; }
-.exam-option.incorrect { border-color:#ef4444; background:#fef2f2; color:#991b1b; }
-.exam-opt-letter { width:28px; height:28px; border-radius:50%; background:#e5e7eb; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex-shrink:0; }
-.exam-option.correct .exam-opt-letter { background:#10b981; color:#fff; }
-.exam-option.incorrect .exam-opt-letter { background:#ef4444; color:#fff; }
-
-.exam-feedback { margin-top:18px; padding:15px; border-radius:var(--radius); border-left:4px solid; font-size:13px; line-height:1.7; }
-.exam-feedback.correct { background:#f0fdf4; border-color:#10b981; color:#065f46; }
-.exam-feedback.incorrect { background:#fef2f2; border-color:#ef4444; color:#991b1b; }
-
-.exam-nav-btns { display:flex; justify-content:space-between; padding:15px 25px; background:#fff; border-top:1px solid #e5e7eb; }
-.exam-nav-grid { width:200px; padding:15px; display:flex; flex-wrap:wrap; gap:4px; align-content:flex-start; border-left:1px solid #e5e7eb; }
-.exam-nav-dot { width:28px; height:28px; border-radius:4px; background:#e5e7eb; display:flex; align-items:center; justify-content:center; font-size:10px; cursor:pointer; transition:var(--transition); }
-.exam-nav-dot.current { background:var(--pmi-blue); color:#fff; font-weight:700; transform:scale(1.2); }
-.exam-nav-dot.correct { background:#10b981; color:#fff; }
-.exam-nav-dot.wrong { background:#ef4444; color:#fff; }
-
-/* Wrong Book Item */
-.wb-item { display:flex; align-items:center; gap:10px; padding:10px 14px; margin:6px 0; background:#f9fafb; border-radius:var(--radius); border:1px solid #e5e7eb; font-size:13px; }
-.wb-item:hover { background:#f3f4f6; }
-
-/* Weak Card */
-.weak-card { padding:14px; margin:8px 0; background:#fef2f2; border-radius:var(--radius); border:1px solid #fecaca; }
-
-/* ============ PMP Exam Question ============ */
-.exam-q-card { background:#fff; border:1px solid #e5e7eb; border-radius:var(--radius-lg); overflow:hidden; }
-.exam-q-head { display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:#f9fafb; border-bottom:1px solid #e5e7eb; }
-.exam-q-text { padding:24px; font-size:16px; font-weight:600; color:#1f2937; line-height:1.8; }
-.exam-q-options { padding:0 24px 24px; display:flex; flex-direction:column; gap:10px; }
-.exam-opt { display:flex; align-items:center; gap:12px; padding:14px 18px; background:#f9fafb; border:2px solid #e5e7eb; border-radius:var(--radius); cursor:pointer; font-size:14px; transition:var(--transition); }
-.exam-opt:hover { border-color:var(--pmi-light); background:var(--pmi-bg); }
-.exam-opt.selected { border-color:var(--pmi-blue); background:#eff6ff; }
-.exam-opt.correct { border-color:#10b981; background:#f0fdf4; }
-.exam-opt.incorrect { border-color:#ef4444; background:#fef2f2; }
-.exam-opt-radio { width:28px; height:28px; border-radius:50%; background:#e5e7eb; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex-shrink:0; }
-.exam-opt.selected .exam-opt-radio { background:var(--pmi-blue); color:#fff; }
-.exam-opt.correct .exam-opt-radio { background:#10b981; color:#fff; }
-.exam-opt.incorrect .exam-opt-radio { background:#ef4444; color:#fff; }
-.exam-q-foot { display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:#f9fafb; border-top:1px solid #e5e7eb; }
-.exam-nav-btn { padding:8px 20px; background:#fff; border:1px solid #d1d5db; border-radius:6px; cursor:pointer; font-size:14px; transition:var(--transition); }
-.exam-nav-btn:hover:not(:disabled) { background:var(--pmi-bg); border-color:var(--pmi-light); }
-.exam-nav-btn:disabled { opacity:0.4; cursor:not-allowed; }
-.exam-mark-btn { padding:5px 12px; background:#fff; border:1px solid #d1d5db; border-radius:4px; cursor:pointer; font-size:12px; transition:var(--transition); }
-.exam-mark-btn.marked { background:#fbbf24; border-color:#f59e0b; color:#92400e; }
-
-.chain-viz { background: linear-gradient(135deg, #f8fafc, #f1f5f9); }
