@@ -4,8 +4,8 @@
  */
 import { getProgressSummary, getWeakAreas, getPrincipleProgress, getDomainProgress, resetProgress } from './progress.js';
 import { getWrongBookStats, getWrongAnswers, markMastered, removeWrongAnswer, clearWrongBook } from './wrong-book.js';
-import { startExam, getExamState, goToQuestion, nextQuestion, prevQuestion, answerQuestion, toggleFlag, submitExam, getScore, getCurrentQuestion, getAnswerStatus, renderExamNavGrid, clearExam } from './exam.js';
-import { getQuestionCount, isCloudAvailable, getBankSize, getCategoryStats, fetchCloudQuestions } from './question-bank.js';
+import { openPMPExam } from './exam.js';
+import { isCloudAvailable, getBankSize, fetchCloudQuestions } from './question-bank.js';
 import { isLoggedIn, isPremium } from '../auth/auth-service.js';
 
 // ==================== 学习中心主弹窗 ====================
@@ -117,11 +117,8 @@ function renderDashboard() {
 
 // ==================== 模拟考试入口 ====================
 function renderExamEntry() {
-    const st = getExamState();
-    if (st.running) return renderExamInProgress();
-
     if (!isLoggedIn()) {
-        return `<div class="lc-exam-entry" style="text-align:center;padding:40px">
+        return `<div style="text-align:center;padding:40px">
             <div style="font-size:48px;margin-bottom:10px">🔐</div>
             <h3>请先登录</h3>
             <p style="color:#666;margin:10px 0">登录后即可使用模拟考试功能</p>
@@ -130,105 +127,32 @@ function renderExamEntry() {
     }
 
     return `
-        <div class="lc-exam-entry">
-            <div style="text-align:center;padding:20px">
+        <div style="text-align:center;padding:20px">
+            <div style="background:linear-gradient(135deg,#e3f2fd,#bbdefb);padding:30px;border-radius:12px;margin-bottom:20px;border:2px solid #64b5f6">
                 <div style="font-size:48px;margin-bottom:10px">📝</div>
-                <h3>PMP 模拟考试 | Mock Exam</h3>
-                <p style="color:#666;margin:10px 0">模拟真实 PMP 考试环境，计时答题，检验学习成果</p>
-                <p style="font-size:12px;color:#888">☁️ 云端题库: ${isCloudAvailable()?getBankSize()+'题 ✅':'连接中...'} | 📦 本地题库: 30题</p>
+                <h3 style="color:#1565c0">PMP 全真模拟考试</h3>
+                <p style="color:#666;margin:10px 0">180 题 · 230 分钟 · 模拟真实 PMP 认证考试环境</p>
+                <p style="font-size:12px;color:#888;margin-bottom:15px">☁️ 云端题库: ${isCloudAvailable()?getBankSize()+'题 ✅':'连接中...'}</p>
+                <button onclick="closeLearningCenter();openPMPExam()" style="padding:16px 40px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 15px rgba(34,197,94,0.3)">
+                    🚀 进入考场
+                </button>
             </div>
-            <div class="lc-exam-options">
-                <div class="lc-exam-card" onclick="window.startMockExam(50,60,'exam')">
-                    <div class="lc-exam-icon">🎯</div>
-                    <h4>标准模拟考试</h4>
-                    <p>50 题 · 60 分钟</p>
-                    <p style="font-size:11px;color:#888">涵盖原则/绩效域/流程/敏捷</p>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:left">
+                <div style="display:flex;gap:10px;align-items:flex-start;background:#f8fafc;padding:15px;border-radius:8px">
+                    <span style="font-size:18px">⏱️</span><div><div style="font-weight:600;font-size:13px">真实计时</div><div style="font-size:11px;color:#888">230 分钟倒计时</div></div>
                 </div>
-                <div class="lc-exam-card" onclick="window.startMockExam(20,30,'exam')">
-                    <div class="lc-exam-icon">⚡</div>
-                    <h4>快速测试</h4>
-                    <p>20 题 · 30 分钟</p>
-                    <p style="font-size:11px;color:#888">快速检验关键知识点</p>
+                <div style="display:flex;gap:10px;align-items:flex-start;background:#f8fafc;padding:15px;border-radius:8px">
+                    <span style="font-size:18px">📊</span><div><div style="font-weight:600;font-size:13px">即时评分</div><div style="font-size:11px;color:#888">交卷后立即出分</div></div>
                 </div>
-                <div class="lc-exam-card" onclick="window.startMockExam(10,0,'practice')">
-                    <div class="lc-exam-icon">🔄</div>
-                    <h4>练习模式</h4>
-                    <p>10 题 · 不限时</p>
-                    <p style="font-size:11px;color:#888">随时查看答案和解释</p>
+                <div style="display:flex;gap:10px;align-items:flex-start;background:#f8fafc;padding:15px;border-radius:8px">
+                    <span style="font-size:18px">📝</span><div><div style="font-weight:600;font-size:13px">180 道题目</div><div style="font-size:11px;color:#888">覆盖全部考点</div></div>
+                </div>
+                <div style="display:flex;gap:10px;align-items:flex-start;background:#f8fafc;padding:15px;border-radius:8px">
+                    <span style="font-size:18px">🔒</span><div><div style="font-weight:600;font-size:13px">专注环境</div><div style="font-size:11px;color:#888">无干扰答题体验</div></div>
                 </div>
             </div>
         </div>`;
 }
-
-// ==================== 考试界面 ====================
-window.startMockExam = async (count, minutes, mode) => {
-    await startExam(count, minutes, mode);
-    switchLCTabContent('exam');
-};
-
-function renderExamInProgress() {
-    const st = getExamState();
-    const q = getCurrentQuestion();
-    if (!q) return '<p>加载中...</p>';
-
-    const idx = st.currentIndex;
-    const total = st.questions.length;
-    const ans = st.answers[idx];
-    const isPractice = st.mode === 'practice';
-
-    return `
-        <div class="exam-container">
-            <div class="exam-topbar">
-                ${st.mode === 'exam' ? `<div class="exam-timer" id="examTimer">--:--</div>` : '<div class="exam-timer">练习模式</div>'}
-                <div class="exam-progress-text">第 ${idx+1}/${total} 题 ${st.flagged.includes(idx)?'🚩':''}</div>
-                <button class="exam-btn small" onclick="window.flagQuestion()">${st.flagged.includes(idx)?'🏴 取消标记':'🚩 标记'}</button>
-                <button class="exam-btn small danger" onclick="window.finishExam()">${isPractice?'结束练习':'交卷'}</button>
-            </div>
-            <div style="display:flex;gap:15px">
-                <div style="flex:1">
-                    <div class="exam-question-area">
-                        <div class="exam-q-meta">
-                            <span>${q.category==='principle'?'📘 原则':q.category==='domain'?'🌐 绩效域':q.category==='process'?'🔄 流程':q.category==='agile'?'🚀 敏捷':'📋 综合'}</span>
-                            <span class="exam-diff-tag ${q.difficulty}">${q.difficulty==='easy'?'简单':q.difficulty==='medium'?'中等':'困难'}</span>
-                        </div>
-                        <div class="exam-question">${q.question}</div>
-                        <div class="exam-options">
-                            ${q.options.map((opt, i) => `
-                                <button class="exam-option${ans&&ans.selected===i?(ans.correct?' correct':' incorrect'):''}${ans&&i===q.correct&&!ans.correct?' correct':''}"
-                                    onclick="window.examSelectAnswer(${i})"
-                                    ${ans&&isPractice?'':'disabled'}>
-                                    <span class="exam-opt-letter">${'ABCD'[i]}</span> ${opt}
-                                </button>
-                            `).join('')}
-                        </div>
-                        ${ans ? `<div class="exam-feedback ${ans.correct?'correct':'incorrect'}">${ans.correct?'✅ 正确！':'❌ 错误。正确答案是 '+ 'ABCD'[q.correct]}<br>${q.explanation}</div>` : ''}
-                    </div>
-                    <div class="exam-nav-btns">
-                        <button class="exam-btn" onclick="window.examPrev()" ${idx===0?'disabled':''}>← 上一题</button>
-                        <button class="exam-btn" onclick="window.examNext()" ${idx===total-1?'disabled':''}>下一题 →</button>
-                    </div>
-                </div>
-                <div class="exam-nav-grid">${renderExamNavGrid()}</div>
-            </div>
-        </div>`;
-}
-
-// Exam actions
-window.examGoTo = (i) => { goToQuestion(i); switchLCTabContent('exam'); };
-window.examNext = () => { nextQuestion(); switchLCTabContent('exam'); };
-window.examPrev = () => { prevQuestion(); switchLCTabContent('exam'); };
-window.examSelectAnswer = (optIdx) => {
-    const st = getExamState();
-    if (st.mode !== 'practice' && st.answers[st.currentIndex]) return; // can't change answer in exam mode
-    answerQuestion(st.currentIndex, optIdx);
-    switchLCTabContent('exam');
-};
-window.flagQuestion = () => { toggleFlag(getExamState().currentIndex); switchLCTabContent('exam'); };
-window.finishExam = () => {
-    if (getExamState().mode === 'exam' && !confirm('确定要交卷吗？未答题目计为错误。')) return;
-    submitExam();
-    switchLCTabContent('exam');
-};
 
 // ==================== 错题本 ====================
 function renderWrongBook() {
@@ -256,20 +180,60 @@ function renderWrongBook() {
         </div>`;
 }
 
+let wbReviewState = { questions: [], currentIndex: 0, answers: {} };
+
 window.reviewWrongBook = () => {
     const items = getWrongAnswers('active');
     if (items.length === 0) return alert('没有待复习的错题');
-    // Convert wrong book items to exam format and start practice
-    const st = getExamState();
-    st.questions = items.map(w => ({
+    wbReviewState.questions = items.map((w, i) => ({
         id: w.questionId, category: w.category, categoryId: w.categoryId,
         difficulty: w.difficulty, question: w.question, options: w.options,
         correct: w.correctIndex, explanation: w.explanation
     }));
-    st.currentIndex = 0; st.answers = {}; st.flagged = []; st.running = true; st.mode = 'practice';
-    st.startTime = Date.now(); st.totalTime = 0;
-    switchLCTabContent('exam');
+    wbReviewState.currentIndex = 0;
+    wbReviewState.answers = {};
+    renderWBReviewQuestion(0);
 };
+
+function renderWBReviewQuestion(idx) {
+    const items = wbReviewState.questions;
+    if (idx < 0 || idx >= items.length) return;
+    wbReviewState.currentIndex = idx;
+    const q = items[idx];
+    const ans = wbReviewState.answers[idx];
+    const body = document.getElementById('lcContent');
+    body.innerHTML = `
+        <div style="padding:10px"><h4>📕 错题复习 ${idx+1}/${items.length}</h4>
+            <div class="exam-q-card" style="margin-top:10px">
+                <div class="exam-q-text">${idx+1}. ${q.question}</div>
+                <div class="exam-q-options">${q.options.map((opt, i) => `
+                    <div class="exam-opt${ans===i?(ans===q.correct?' correct':' incorrect'):''}${ans!==i&&i===q.correct&&ans!==undefined?' correct':''}"
+                        onclick="${ans===undefined?'window._wbAnswer('+idx+','+i+')':''}" style="${ans!==undefined?'pointer-events:none;opacity:0.85':''}">
+                        <span class="exam-opt-radio">${'ABCD'[i]}</span><span>${opt}</span>
+                    </div>`).join('')}</div>
+                ${ans!==undefined ? `<div style="margin-top:12px;padding:12px;border-radius:6px;border-left:4px solid ${ans===q.correct?'#10b981':'#ef4444'};background:${ans===q.correct?'#f0fdf4':'#fef2f2'}">
+                    <strong>${ans===q.correct?'✅ 正确':'❌ 错误。正确答案: '+'ABCD'[q.correct]}</strong>
+                    <div style="font-size:13px;margin-top:6px;line-height:1.6">${q.explanation}</div>
+                </div>` : ''}
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:12px">
+                <button class="lc-btn" onclick="window._wbPrev()" ${idx===0?'disabled':''}>← 上一题</button>
+                <button class="lc-btn" onclick="window._wbNext()" ${idx===items.length-1?'disabled':''}>下一题 →</button>
+            </div>
+            <button class="lc-btn" style="margin-top:8px;width:100%;background:#888" onclick="switchLCTabContent('wrongbook')">返回错题本</button>
+        </div>`;
+}
+
+window._wbAnswer = (idx, opt) => {
+    wbReviewState.answers[idx] = opt;
+    const q = wbReviewState.questions[idx];
+    const correct = opt === q.correct;
+    import('./progress.js').then(m => m.recordQuizAnswer(q.category||'mixed', q.categoryId||0, q.id||'', q.difficulty||'medium', correct));
+    if (correct) import('./wrong-book.js').then(m => m.recordReview(q.id, true));
+    renderWBReviewQuestion(idx);
+};
+window._wbPrev = () => renderWBReviewQuestion(wbReviewState.currentIndex - 1);
+window._wbNext = () => renderWBReviewQuestion(wbReviewState.currentIndex + 1);
 
 // ==================== 薄弱点分析 ====================
 function renderWeakAnalysis() {
@@ -301,9 +265,10 @@ function renderWeakAnalysis() {
         </div>`;
 }
 
-window.practiceWeak = async (type, id) => {
-    await startExam(type === 'principle' ? 5 : 3, 0, 'practice');
-    switchLCTabContent('exam');
+window.practiceWeak = (type, id) => {
+    // Open standalone PMP exam for full simulation
+    closeLearningCenter();
+    openPMPExam();
 };
 
 // Export global functions

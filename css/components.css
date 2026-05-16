@@ -307,4 +307,25 @@
 /* Weak Card */
 .weak-card { padding:14px; margin:8px 0; background:#fef2f2; border-radius:var(--radius); border:1px solid #fecaca; }
 
+/* ============ PMP Exam Question ============ */
+.exam-q-card { background:#fff; border:1px solid #e5e7eb; border-radius:var(--radius-lg); overflow:hidden; }
+.exam-q-head { display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:#f9fafb; border-bottom:1px solid #e5e7eb; }
+.exam-q-text { padding:24px; font-size:16px; font-weight:600; color:#1f2937; line-height:1.8; }
+.exam-q-options { padding:0 24px 24px; display:flex; flex-direction:column; gap:10px; }
+.exam-opt { display:flex; align-items:center; gap:12px; padding:14px 18px; background:#f9fafb; border:2px solid #e5e7eb; border-radius:var(--radius); cursor:pointer; font-size:14px; transition:var(--transition); }
+.exam-opt:hover { border-color:var(--pmi-light); background:var(--pmi-bg); }
+.exam-opt.selected { border-color:var(--pmi-blue); background:#eff6ff; }
+.exam-opt.correct { border-color:#10b981; background:#f0fdf4; }
+.exam-opt.incorrect { border-color:#ef4444; background:#fef2f2; }
+.exam-opt-radio { width:28px; height:28px; border-radius:50%; background:#e5e7eb; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex-shrink:0; }
+.exam-opt.selected .exam-opt-radio { background:var(--pmi-blue); color:#fff; }
+.exam-opt.correct .exam-opt-radio { background:#10b981; color:#fff; }
+.exam-opt.incorrect .exam-opt-radio { background:#ef4444; color:#fff; }
+.exam-q-foot { display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:#f9fafb; border-top:1px solid #e5e7eb; }
+.exam-nav-btn { padding:8px 20px; background:#fff; border:1px solid #d1d5db; border-radius:6px; cursor:pointer; font-size:14px; transition:var(--transition); }
+.exam-nav-btn:hover:not(:disabled) { background:var(--pmi-bg); border-color:var(--pmi-light); }
+.exam-nav-btn:disabled { opacity:0.4; cursor:not-allowed; }
+.exam-mark-btn { padding:5px 12px; background:#fff; border:1px solid #d1d5db; border-radius:4px; cursor:pointer; font-size:12px; transition:var(--transition); }
+.exam-mark-btn.marked { background:#fbbf24; border-color:#f59e0b; color:#92400e; }
+
 .chain-viz { background: linear-gradient(135deg, #f8fafc, #f1f5f9); }

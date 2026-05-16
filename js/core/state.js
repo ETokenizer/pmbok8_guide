@@ -57,7 +57,7 @@ export function loadState() {
     if (premium && premiumExpiry) {
         isPremium = new Date(premiumExpiry) > new Date();
     }
-    if (premium === 'forever') isPremium = true;
+    if (premium === 'forever' || premium === true) isPremium = true;
 
     state.isPremiumUser = isPremium;
     state.licenseKey = licenseKey;
