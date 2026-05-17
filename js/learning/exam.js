@@ -64,8 +64,12 @@ function resetExamState() {
 
 // Start the exam
 export async function startPMPExam() {
+    const startBtn = document.getElementById('startExamBtn');
+    if (startBtn) { startBtn.disabled = true; startBtn.textContent = '⏳ 加载题库中...'; }
+
     // Load 180 questions from cloud + local
-    const cloud = await fetchCloudQuestions();
+    let cloud = null;
+    try { cloud = await fetchCloudQuestions(); } catch(e) { console.warn('Cloud fetch failed, using local'); }
     const pool = cloud && cloud.length > 0 ? cloud : getLocalFallbackQuestions();
     const shuffled = [...pool].sort(() => Math.random() - 0.5);
     examState.questions = shuffled.slice(0, 180);
@@ -87,7 +91,7 @@ export async function startPMPExam() {
     document.getElementById('startExamBtn').style.display = 'none';
     document.getElementById('submitExamBtn').style.display = 'block';
     renderExamNav();
-    showExamQuestion(0);
+    showPMPQuestion(0);
     startTimer();
 }
 
