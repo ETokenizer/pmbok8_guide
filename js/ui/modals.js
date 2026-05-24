@@ -182,22 +182,20 @@ export function showIttoModal(itemName, itemType) {
     const body = document.getElementById('ittoModalBody');
     const title = document.getElementById('ittoModalTitle');
 
-    // Fuzzy lookup: try exact match first, then strip parenthetical details
+    // Fuzzy lookup: try exact match first, then strip parenthetical details for === match
     let reg = ittoRegistry[itemName];
     if (!reg) {
-        const baseName = itemName.replace(/[（(][^）)]*[）)]/g, '').replace(/\s+/g, '').trim();
-        const origBase = itemName.replace(/[（(][^）)]*[）)]/g, '').trim();
-        // Try matching against registry keys
+        const clean = (s) => s.replace(/[（(][^）)]*[）)]/g, '').replace(/\s+/g, '').trim();
+        const baseName = clean(itemName);
         for (const key of Object.keys(ittoRegistry)) {
-            const keyBase = key.replace(/[（(][^）)]*[）)]/g, '').trim();
-            if (baseName === keyBase || origBase === keyBase || keyBase.startsWith(baseName) || baseName.startsWith(keyBase)) {
+            if (clean(key) === baseName) {
                 reg = ittoRegistry[key];
                 itemName = key;
                 break;
             }
         }
     }
-    if (!reg) { body.innerHTML = '<p>未找到该条目信息</p>'; modal.style.display = 'flex'; return; }
+    if (!reg) { body.innerHTML = `<p style="padding:40px;text-align:center;color:#888">未找到该条目信息<br><small>No definition found for "${itemName}"</small></p>`; modal.style.display = 'flex'; return; }
 
     const item = ittoDefinitions[itemName];
     const def = item || { zh: `"${itemName}"`, en: `"${itemName}"` };
