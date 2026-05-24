@@ -141,3 +141,59 @@
     font-size: 13px; transition: var(--transition);
 }
 .quiz-tab:hover { background: rgba(255,255,255,0.2); }
+
+/* === Exam (Mock Exam) Styles === */
+.exam-q-card { padding: 10px 0; }
+.exam-q-head {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 18px;
+    padding-bottom: 12px; border-bottom: 1px solid #e5e7eb;
+}
+.exam-q-text {
+    font-size: 16px; font-weight: 600;
+    color: #1f2937; margin-bottom: 24px;
+    line-height: 1.7;
+}
+.exam-q-options { display: flex; flex-direction: column; gap: 10px; }
+.exam-opt {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px;
+    background: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer; font-size: 14px;
+    transition: all 0.2s ease;
+    color: #374151;
+    user-select: none;
+}
+.exam-opt:hover { border-color: #93c5fd; background: #eff6ff; transform: translateX(2px); }
+.exam-opt.selected { border-color: #3b82f6; background: #eff6ff; }
+.exam-opt-radio {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; min-width: 28px;
+    border-radius: 50%;
+    background: #e5e7eb; color: #374151;
+    font-size: 13px; font-weight: 700;
+}
+.exam-opt.selected .exam-opt-radio { background: #3b82f6; color: #fff; }
+.exam-mark-btn {
+    padding: 4px 12px; border: 1px solid #d1d5db;
+    background: #fff; border-radius: 6px;
+    font-size: 12px; cursor: pointer;
+    transition: all 0.2s;
+}
+.exam-mark-btn:hover { border-color: #fbbf24; background: #fefce8; }
+.exam-mark-btn.marked { border-color: #fbbf24; background: #fef3c7; color: #92400e; }
+.exam-q-foot {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-top: 24px;
+    padding-top: 16px; border-top: 1px solid #e5e7eb;
+}
+.exam-nav-btn {
+    padding: 10px 24px; border-radius: 8px;
+    border: 1px solid #d1d5db; background: #fff;
+    cursor: pointer; font-size: 14px; font-weight: 500;
+    transition: all 0.2s;
+}
+.exam-nav-btn:hover:not(:disabled) { background: #f3f4f6; border-color: #9ca3af; }
+.exam-nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }

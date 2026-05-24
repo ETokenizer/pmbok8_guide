@@ -166,7 +166,7 @@ export function showPMPQuestion(index) {
                 ${q.options.map((opt, i) => `
                     <div class="exam-opt${examState.answers[index]===i?' selected':''}" onclick="window.selectPMPAnswer(${index},${i})">
                         <span class="exam-opt-radio">${'ABCD'[i]}</span>
-                        <span>${opt}</span>
+                        <span>${opt.replace(/^[A-D][.、]\s*/, '')}</span>
                     </div>
                 `).join('')}
             </div>
