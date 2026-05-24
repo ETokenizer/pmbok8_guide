@@ -180,7 +180,22 @@ export function showIttoModal(itemName, itemType) {
 
     const body = document.getElementById('ittoModalBody');
     const title = document.getElementById('ittoModalTitle');
-    const reg = ittoRegistry[itemName];
+
+    // Fuzzy lookup: try exact match first, then strip parenthetical details
+    let reg = ittoRegistry[itemName];
+    if (!reg) {
+        const baseName = itemName.replace(/[（(][^）)]*[）)]/g, '').replace(/\s+/g, '').trim();
+        const origBase = itemName.replace(/[（(][^）)]*[）)]/g, '').trim();
+        // Try matching against registry keys
+        for (const key of Object.keys(ittoRegistry)) {
+            const keyBase = key.replace(/[（(][^）)]*[）)]/g, '').trim();
+            if (baseName === keyBase || origBase === keyBase || keyBase.startsWith(baseName) || baseName.startsWith(keyBase)) {
+                reg = ittoRegistry[key];
+                itemName = key;
+                break;
+            }
+        }
+    }
     if (!reg) { body.innerHTML = '<p>未找到该条目信息</p>'; modal.style.display = 'flex'; return; }
 
     const item = ittoDefinitions[itemName];
@@ -276,15 +291,16 @@ function groupByFA(nums) {
     nums.forEach(n => {
         const p = ittoProcLookup[n];
         if (!p) return;
-        const fa = p.fa;
-        if (!groups[fa]) groups[fa] = [];
-        groups[fa].push({ n, ne: p.ne, name: p.n });
+        const key = p.fa || p.pd || '其他';
+        if (!groups[key]) groups[key] = [];
+        groups[key].push({ n, ne: p.ne, name: p.n });
     });
     return groups;
 }
 
 function getFAColor(fa) {
-    return { '启动': '#005A9D', '规划': '#2E8B57', '执行': '#0077C8', '监控': '#4B0082', '收尾': '#D4AF37' }[fa] || '#666';
+    const colors = { '治理绩效域': '#005A9D', '范围绩效域': '#2E8B57', '进度绩效域': '#0077C8', '财务绩效域': '#D4AF37', '相关方绩效域': '#C71585', '资源绩效域': '#4B0082', '风险绩效域': '#FF6347', '启动': '#005A9D', '规划': '#2E8B57', '执行': '#0077C8', '监控': '#4B0082', '收尾': '#D4AF37' };
+    return colors[fa] || '#666';
 }
 
 // ============ 初始化 ============
