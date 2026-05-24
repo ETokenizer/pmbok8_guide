@@ -5,7 +5,7 @@
 import { state, loadState, getDeviceId, setToStorage, STORAGE_KEYS } from './core/state.js';
 import { principles } from './data/principles.js';
 import { performanceDomains } from './data/domains.js';
-import { processes, focusAreaConfig } from './data/processes.js';
+import { processes, performanceDomainConfig } from './data/processes.js';
 import { agileApproaches } from './data/agile.js';
 import { initModals, showCaseModal, showQuizModal, closeCaseModal, closeQuizModal, closeCaseOverlay, closeIttoModal, showIttoModal, setCurrentQuizzes } from './ui/modals.js';
 import { canAccessContent } from './data/trial.js';
@@ -16,6 +16,7 @@ import { recordPrincipleView, recordDomainView } from './learning/progress.js';
 import { addWrongAnswer } from './learning/wrong-book.js';
 import { initAuth, updateAccountUI, openAuthModal, closeAuthModal } from './auth/auth-ui.js';
 import { isLoggedIn, isPremium } from './auth/auth-service.js';
+import './learning/exam.js'; // register global exam functions (openPMPExam, etc.)
 
 // ==================== 12 个完整案例库 ====================
 const caseStudies = [
@@ -39,7 +40,7 @@ let selectedPrinciple = null;
 let selectedDomain = null;
 let selectedProcess = null;
 let selectedAgile = null;
-let expandedFocusAreas = {};
+let expandedDomains = {};
 
 // ==================== 初始化 ====================
 function initApp() {
@@ -80,7 +81,7 @@ function switchView(view) {
     currentView = view;
     selectedPrinciple = null; selectedDomain = null; selectedProcess = null; selectedAgile = null;
     // Initialize all focus areas as expanded for process view
-    expandedFocusAreas = { '启动': true, '规划': true, '执行': true, '监控': true, '收尾': true };
+    Object.keys(performanceDomainConfig).forEach(d => { expandedDomains[d] = true; });
     document.querySelectorAll('.view-tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
     renderOverview();
     renderSidebar();
@@ -115,9 +116,9 @@ function renderOverview() {
         c.innerHTML = `<h3 class="overview-title">🌐 7 个绩效域 | 7 Performance Domains</h3><p class="overview-sub">PMBOK 第8版官方7个绩效关键领域</p>
             <div class="domain-map">${performanceDomains.map(d => `<div class="domain-card" onclick="selectDomain(${d.number})" style="border-color:${d.color}"><div class="domain-icon">${d.icon}</div><div class="domain-name-cn">${d.name}</div><div class="domain-name-en">${d.nameEn}</div></div>`).join('')}</div>`;
     } else if (currentView === 'processes') {
-        const fas = Object.entries(focusAreaConfig);
-        c.innerHTML = `<h3 class="overview-title">🔄 40 个流程 | 40 Processes</h3><p class="overview-sub">按 5 个焦点领域组织，含完整 ITTO 数据</p>
-            <div class="domain-map processes-map">${fas.map(([name, cfg]) => `<div class="domain-card process-card" onclick="window._toggleFA('${name}')" style="border-color:${cfg.color}"><div class="domain-icon">${cfg.icon}</div><div class="domain-name-cn">${name}</div><div class="domain-name-en">${cfg.count} 个流程</div></div>`).join('')}</div>`;
+        const pds = Object.entries(performanceDomainConfig);
+        c.innerHTML = `<h3 class="overview-title">🔄 40 个流程 | 40 Processes</h3><p class="overview-sub">按 7 个绩效域组织，含完整 ITTO 数据（PMBOK 第8版官方结构）</p>
+            <div class="domain-map processes-map">${pds.map(([name, cfg]) => `<div class="domain-card process-card" onclick="window._toggleDomain('${name}')" style="border-color:${cfg.color}"><div class="domain-icon">${cfg.icon}</div><div class="domain-name-cn">${name}</div><div class="domain-name-en">${cfg.count} 个流程 | ${cfg.en}</div></div>`).join('')}</div>`;
     } else {
         c.innerHTML = `<h3 class="overview-title">🚀 敏捷/混合方法 | Agile & Hybrid</h3><p class="overview-sub">敏捷宣言、Scrum、Kanban、混合方法的完整指南</p>
             <div class="domain-map agile-map">${agileApproaches.map((a,i) => `<div class="domain-card" onclick="selectAgile(${i})" style="border-color:${a.color}"><div class="domain-icon">${a.icon}</div><div class="domain-name-cn">${a.title}</div><div class="domain-name-en">${a.titleEn}</div></div>`).join('')}</div>`;
@@ -140,10 +141,11 @@ function renderSidebar() {
                 <span class="content-number" style="background:${d.color}">${d.number}</span><div style="flex:1"><div class="content-title-cn">${d.icon} ${d.name}</div><div class="content-title-en">${d.nameEn}</div><div class="content-desc">${d.summary}</div></div>
             </div>`).join('')}</div>`;
     } else if (currentView === 'processes') {
-        const fas = Object.keys(focusAreaConfig);
-        c.innerHTML = `<div class="sidebar-header">40 个流程</div><div class="content-list">${fas.map(fa => {
-            const fps = processes.filter(p => p.focusArea === fa);
-            return `<div style="border-bottom:1px solid #eee"><div style="padding:12px 18px;background:${focusAreaConfig[fa].color};color:#fff;font-size:13px;font-weight:600;cursor:pointer" onclick="window._toggleFA('${fa}')">${fa} | ${focusAreaConfig[fa].en} · ${fps.length}个</div><div id="fa_${fa}" style="display:block">${fps.map(p => `
+        const pds = Object.keys(performanceDomainConfig);
+        c.innerHTML = `<div class="sidebar-header">40 个流程</div><div class="content-list">${pds.map(pd => {
+            const pdProcs = processes.filter(p => p.performanceDomain === pd);
+            const cfg = performanceDomainConfig[pd];
+            return `<div style="border-bottom:1px solid #eee"><div style="padding:12px 18px;background:${cfg.color};color:#fff;font-size:13px;font-weight:600;cursor:pointer" onclick="window._toggleDomain('${pd}')">${cfg.icon} ${pd} | ${cfg.en} · ${pdProcs.length}个</div><div id="pd_${pd}" style="display:block">${pdProcs.map(p => `
                 <div class="content-item${selectedProcess===p.number?' active':''}" data-pid="${p.number}" onclick="selectProcess(${p.number})">
                     <span class="content-number" style="background:${p.color};width:24px;height:24px;font-size:11px;line-height:24px">${p.number}</span><div style="flex:1"><div class="content-title-cn">${p.icon} ${p.name}</div><div class="content-title-en">${p.nameEn}</div></div>
                 </div>`).join('')}</div></div>`;
@@ -199,12 +201,12 @@ function refreshSidebarActive() {
     } else if (currentView === 'domains' && selectedDomain) {
         target = sb.querySelector(`.content-item[data-dnum="${selectedDomain}"]`);
     } else if (currentView === 'processes' && selectedProcess) {
-        // Collapse all FAs except the one containing selected process
+        // Collapse all domains except the one containing selected process
         const p = processes.find(x => x.number === selectedProcess);
-        Object.keys(expandedFocusAreas).forEach(fa => { expandedFocusAreas[fa] = (fa === p.focusArea); });
-        Object.keys(expandedFocusAreas).forEach(fa => {
-            const el = document.getElementById(`fa_${fa}`);
-            if (el) el.style.display = expandedFocusAreas[fa] ? 'block' : 'none';
+        Object.keys(expandedDomains).forEach(pd => { expandedDomains[pd] = (pd === p.performanceDomain); });
+        Object.keys(expandedDomains).forEach(pd => {
+            const el = document.getElementById(`pd_${pd}`);
+            if (el) el.style.display = expandedDomains[pd] ? 'block' : 'none';
         });
         target = sb.querySelector(`.content-item[data-pid="${selectedProcess}"]`);
     } else if (currentView === 'agile' && selectedAgile !== null) {
@@ -221,10 +223,10 @@ function refreshSidebarActive() {
 window._refreshSidebar = () => { renderSidebar(); refreshSidebarActive(); };
 
 // Focus area toggle with expand state tracking
-window._toggleFA = (fa) => {
-    expandedFocusAreas[fa] = !expandedFocusAreas[fa];
-    const el = document.getElementById(`fa_${fa}`);
-    if (el) el.style.display = expandedFocusAreas[fa] ? 'block' : 'none';
+window._toggleDomain = (pd) => {
+    expandedDomains[pd] = !expandedDomains[pd];
+    const el = document.getElementById(`pd_${pd}`);
+    if (el) el.style.display = expandedDomains[pd] ? 'block' : 'none';
 };
 
 // ==================== 选择原则 ====================
@@ -296,14 +298,14 @@ function selectProcess(number) {
     selectedProcess = number; selectedPrinciple = null; selectedDomain = null;
     const p = processes.find(x => x.number === number);
     if (!p) return;
-    // Collapse all focus areas except the selected one
-    Object.keys(expandedFocusAreas).forEach(fa => { expandedFocusAreas[fa] = (fa === p.focusArea); });
+    // Collapse all domains except the selected one
+    Object.keys(expandedDomains).forEach(pd => { expandedDomains[pd] = (pd === p.performanceDomain); });
     const ds = document.getElementById('detailSection');
     document.getElementById('overviewSection').style.display = 'none';
     ds.style.display = 'block';
     ds.innerHTML = `
         <div class="detail-header" style="background:linear-gradient(135deg,${p.color},${p.color})">
-            <div><span class="detail-number">${p.focusArea}</span><h2>${p.name} | ${p.nameEn}</h2><div class="detail-meta">${p.icon} 流程 #${p.number} · ${p.performanceDomain}</div></div>
+            <div><span class="detail-number">${p.performanceDomain}</span><h2>${p.name} | ${p.nameEn}</h2><div class="detail-meta">${p.icon} 流程 #${p.number} · ${p.performanceDomain}</div></div>
         </div>
         <div class="detail-body">
             <div class="principle-card"><h4>📘 流程说明 | Description</h4><p>${p.description}</p><p class="en">${p.descriptionEn}</p></div>

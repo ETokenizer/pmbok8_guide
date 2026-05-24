@@ -3,6 +3,7 @@
  * Auth Service — Login, Register, License verification
  */
 import { state, saveState, setToStorage, STORAGE_KEYS } from '../core/state.js';
+import { enableDemoMode, isDemoMode, disableDemoMode } from './demo-mode.js';
 
 const AUTH_URL = 'https://afuesynrviwicnjisuma.supabase.co';
 const AUTH_KEY = 'sb_publishable_fIEpAlMH3j4qgc9CXDP6Dw__31BR7pN';
@@ -37,7 +38,11 @@ export async function signUp(email, password) {
     const auth = await getAuth();
     if (!auth) return { error: 'Supabase SDK 未加载' };
     const { data, error } = await auth.auth.signUp({ email, password });
-    if (error) return { error: error.message };
+    if (error) {
+        const msg = error.message.includes('already registered') ? '该邮箱已注册，请直接登录'
+            : '注册失败: ' + error.message;
+        return { error: msg };
+    }
     if (data.user) {
         state.currentUser = { id: data.user.id, email: data.user.email };
         saveState();
@@ -48,9 +53,14 @@ export async function signUp(email, password) {
 // Sign in
 export async function signIn(email, password) {
     const auth = await getAuth();
-    if (!auth) return { error: 'Supabase SDK 未加载' };
+    if (!auth) return { error: '网络连接不可用，请尝试"离线演示模式"' };
     const { data, error } = await auth.auth.signInWithPassword({ email, password });
-    if (error) return { error: error.message };
+    if (error) {
+        const msg = error.message.includes('Invalid login') ? '邮箱或密码错误，请重试'
+            : error.message.includes('Email not confirmed') ? '邮箱尚未验证，请检查收件箱中的确认邮件'
+            : '登录失败: ' + error.message;
+        return { error: msg };
+    }
     if (data.user) {
         state.currentUser = { id: data.user.id, email: data.user.email };
         saveState();
@@ -62,6 +72,10 @@ export async function signIn(email, password) {
 
 // Sign out
 export async function signOut() {
+    if (isDemoMode()) {
+        disableDemoMode();
+        return;
+    }
     const auth = await getAuth();
     if (auth) await auth.auth.signOut();
     state.currentUser = null;
@@ -93,10 +107,17 @@ export async function activateLicense(licenseKey) {
     if (!state.currentUser) return { error: '请先登录后再激活 License' };
 
     const cleanKey = licenseKey.trim().toUpperCase();
+
+    // Demo/offline mode shortcut
+    if (cleanKey === 'DEMO' || cleanKey === 'OFFLINE') {
+        enableDemoMode();
+        return { success: true, demo: true };
+    }
+
     if (!/^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(cleanKey)) {
         // Also try without dashes
         if (cleanKey.length !== 16 && cleanKey.length !== 19) {
-            return { error: 'License Key 格式无效。格式: XXXX-XXXX-XXXX-XXXX (16位)' };
+            return { error: 'License Key 格式无效。格式: XXXX-XXXX-XXXX-XXXX (16位)，或输入 DEMO 进入离线模式' };
         }
     }
 

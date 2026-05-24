@@ -3,6 +3,7 @@
  * Auth UI — Login, Register, License activation modal
  */
 import { signIn, signUp, signOut, activateLicense, isLoggedIn, isPremium, getSession, syncProgressToCloud } from './auth-service.js';
+import { enableDemoMode, isDemoMode } from './demo-mode.js';
 import { state } from '../core/state.js';
 
 // ==================== Auth Modal ====================
@@ -49,6 +50,10 @@ function renderAuthContent() {
             <button class="auth-tab${authTab===t?' active':''}" onclick="window.switchAuthTab('${t}')">${tabLabels[t]}</button>
         `).join('')}</div>` : ''}
         <div id="authFormContent">${renderAuthForm()}</div>
+        <div style="margin-top:20px;padding-top:15px;border-top:1px solid #e5e7eb;text-align:center">
+            <button onclick="window.enableDemoAndClose()" style="width:100%;padding:10px;background:#f0fdf4;color:#16a34a;border:2px solid #16a34a;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">🚀 离线演示模式 (免费解锁全部功能)</button>
+            <p style="font-size:11px;color:#888;margin-top:6px">无需联网 · 无需注册 · 立即体验 Premium 全部功能</p>
+        </div>
     `;
     if (title) title.textContent = authTab === 'login' ? '🔐 登录 | Sign In' : authTab === 'register' ? '📝 注册 | Sign Up' : '🔑 激活 License | Activate';
 }
@@ -174,7 +179,14 @@ export function updateAccountUI() {
     const btn = document.getElementById('accountBtn');
     if (!btn) return;
 
-    if (state.isPremiumUser && state.currentUser) {
+    if (isDemoMode()) {
+        btn.innerHTML = `<span class="account-icon">🚀</span><span class="account-text">离线Demo</span><span class="account-arrow">▼</span>`;
+        const dd = document.getElementById('accountDropdown');
+        if (dd) dd.innerHTML = `
+            <div class="dropdown-item"><span class="item-icon">🚀</span><span class="item-text">离线演示模式</span><span class="item-badge" style="background:#16a34a">已激活</span></div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-item" onclick="window.handleSignOut()"><span class="item-icon">🚪</span><span class="item-text">退出演示模式</span></div>`;
+    } else if (state.isPremiumUser && state.currentUser) {
         btn.innerHTML = `<span class="account-icon">👑</span><span class="account-text">${state.currentUser.email?.split('@')[0] || 'Premium'}</span><span class="account-arrow">▼</span>`;
         const dd = document.getElementById('accountDropdown');
         if (dd) dd.innerHTML = `
@@ -222,6 +234,14 @@ export async function initAuth() {
         syncProgressToCloud();
     }
 }
+
+// Demo mode one-click activation
+window.enableDemoAndClose = () => {
+    enableDemoMode();
+    closeAuthModal();
+    updateAccountUI();
+    if (window._refreshSidebar) window._refreshSidebar();
+};
 
 // Expose globals
 window.openAuthModal = openAuthModal;

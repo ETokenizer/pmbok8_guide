@@ -3,6 +3,7 @@
  * 180 题 · 230 分钟 · PMP 认证模拟
  */
 import { fetchCloudQuestions } from './question-bank.js';
+import { localExamBank } from '../data/local-exam-bank.js';
 import { recordQuizAnswer } from './progress.js';
 import { addWrongAnswer } from './wrong-book.js';
 
@@ -67,14 +68,22 @@ export async function startPMPExam() {
     const startBtn = document.getElementById('startExamBtn');
     if (startBtn) { startBtn.disabled = true; startBtn.textContent = '⏳ 加载题库中...'; }
 
-    // Load 180 questions from cloud + local
+    // Primary: local exam bank (~200 questions, always available)
+    let pool = [...localExamBank];
+
+    // Enhancement: try cloud for additional variety
     let cloud = null;
-    try { cloud = await fetchCloudQuestions(); } catch(e) { console.warn('Cloud fetch failed, using local'); }
-    const pool = cloud && cloud.length > 0 ? cloud : getLocalFallbackQuestions();
+    try { cloud = await fetchCloudQuestions(); } catch(e) { console.warn('Cloud unavailable, using local only'); }
+    if (cloud && cloud.length > 0) {
+        const existingIds = new Set(pool.map(q => q.id));
+        const newCloudQs = cloud.filter(q => !existingIds.has(q.id || q.code));
+        pool = [...pool, ...newCloudQs];
+    }
+
     const shuffled = [...pool].sort(() => Math.random() - 0.5);
     examState.questions = shuffled.slice(0, 180);
 
-    // If not enough questions, duplicate and reshuffle
+    // Duplicate if still not enough (shouldn't happen)
     if (examState.questions.length < 180) {
         const dup = [];
         while (dup.length < 180) dup.push(...pool);
@@ -235,18 +244,6 @@ export function submitPMPExam(autoSubmit = false) {
             <button onclick="window.closeExamModal()" style="padding:12px 30px;background:var(--pmi-blue);color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer">关闭</button>
         </div>`;
 }
-
-// Local fallback bank (used if cloud unavailable)
-function getLocalFallbackQuestions() {
-    return [
-        { id:'X001',category:'principle',categoryId:1,difficulty:'easy',question:'PMBOK第8版中"整体视角"原则强调什么？',options:['A. 只关注自己负责的模块','B. 从全局出发理解项目在组织中的位置和关联','C. 把项目拆得越细越好','D. 忽略外部环境变化'],correct:1,explanation:'整体视角要求项目经理从全局出发，理解项目与组织战略、其他系统、外部环境的相互关联。'},
-        { id:'X002',category:'principle',categoryId:2,difficulty:'medium',question:'"聚焦价值"原则的核心是什么？',options:['A. 按时完成所有计划功能','B. 优先交付对组织最有价值的成果','C. 尽可能多地完成功能','D. 只关注成本控制'],correct:1,explanation:'聚焦价值意味着资源有限时优先交付高价值成果。'},
-        { id:'X003',category:'domain',categoryId:1,difficulty:'easy',question:'治理绩效域的主要关注点是什么？',options:['A. 仅关注项目进度','B. 建立决策流程、监督机制和问责制度','C. 只关注成本控制','D. 替代项目经理进行日常管理'],correct:1,explanation:'治理绩效域的核心是建立有效的决策和监督框架。'},
-        { id:'X004',category:'process',categoryId:1,difficulty:'easy',question:'制定项目章程的输出是什么？',options:['A. 项目管理计划','B. 项目章程和假设日志','C. 工作绩效数据','D. 风险登记册'],correct:1,explanation:'制定项目章程(#1)输出项目章程和假设日志。'},
-        { id:'X005',category:'agile',categoryId:0,difficulty:'easy',question:'Scrum框架中三个角色是什么？',options:['A. PM/BA/DEV','B. PO/SM/Developers','C. Sponsor/PM/Team','D. Leader/Manager/Worker'],correct:1,explanation:'PO(产品负责人)、SM(敏捷教练)、Developers(开发团队)。'}
-    ];
-}
-
 // Expose all functions globally
 window.openPMPExam = openPMPExam;
 window.closeExamModal = closeExamModal;

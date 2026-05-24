@@ -3,6 +3,7 @@
  * Question Bank — Supabase cloud (1000+ Q) + local fallback (60 Q)
  */
 import { getClient, isReady, initSupabaseClient, mapPmbok7To8Category, CATEGORY_LABELS } from './supabase-client.js';
+import { localExamBank } from '../data/local-exam-bank.js';
 
 let cloudCache = null;       // Full question cache from Supabase
 let cacheLoaded = false;
@@ -178,5 +179,7 @@ const localBank = [
     { id:'L_PMP2', category:'comprehensive', categoryId:0, difficulty:'hard', question:'关键相关方要求增加新功能，项目经理首先应？', options:['A. 直接接受开始开发','B. 评估对范围/进度/成本/质量的影响后走变更流程','C. 直接拒绝','D. 让团队投票决定'], correct:1, explanation:'面对变更请求应评估影响并通过变更控制流程。' },
     { id:'L_PMP3', category:'comprehensive', categoryId:0, difficulty:'medium', question:'完成可交付成果后下一步应该？', options:['A. 直接交付客户','B. 控制质量(核实)→确认范围(验收)','C. 关闭项目','D. 更新项目章程'], correct:1, explanation:'可交付成果→控制质量→确认范围→结束项目。' },
     { id:'L_PMP4', category:'comprehensive', categoryId:0, difficulty:'medium', question:'识别到供应商可能延迟交付，应首先更新？', options:['A. 项目章程','B. 风险登记册','C. 工作分解结构','D. 项目进度计划'], correct:1, explanation:'识别新风险后首先更新风险登记册。' },
-    { id:'L_PMP5', category:'comprehensive', categoryId:0, difficulty:'hard', question:'团队成员发生冲突影响进度，最佳做法是？', options:['A. 直接解雇双方','B. 私下分别谈话了解根因后引导解决','C. 要求上级介入','D. 忽视冲突让其自行解决'], correct:1, explanation:'采用直接协作方式了解根因并引导团队解决冲突。' }
+    { id:'L_PMP5', category:'comprehensive', categoryId:0, difficulty:'hard', question:'团队成员发生冲突影响进度，最佳做法是？', options:['A. 直接解雇双方','B. 私下分别谈话了解根因后引导解决','C. 要求上级介入','D. 忽视冲突让其自行解决'], correct:1, explanation:'采用直接协作方式了解根因并引导团队解决冲突。' },
+    // Merge local exam bank for offline exam capability
+    ...localExamBank
 ];
