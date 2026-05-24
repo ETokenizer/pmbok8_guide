@@ -4,6 +4,7 @@
  */
 import { ittoRegistry, ittoProcLookup, ittoFocusAreas } from '../data/itto-registry.js';
 import { ittoDefinitions } from '../data/itto-definitions.js';
+import { bilingualName, englishName } from '../data/itto-bilingual.js';
 import { recordQuizAnswer } from '../learning/progress.js';
 import { addWrongAnswer } from '../learning/wrong-book.js';
 
@@ -203,7 +204,8 @@ export function showIttoModal(itemName, itemType) {
     const typeLabel = itemType === 'input' ? '📥 输入 | Input' : itemType === 'output' ? '📤 输出 | Output' : '🔧 工具与技术 | Tool & Technique';
     const typeColor = itemType === 'input' ? '#3b82f6' : itemType === 'output' ? '#10b981' : '#8b5cf6';
 
-    title.innerHTML = `${typeLabel} — ${itemName}`;
+    const itemEn = englishName(itemName);
+    title.innerHTML = `${typeLabel} — ${itemName}${itemEn ? ' <small style="opacity:0.7;font-weight:400">' + itemEn + '</small>' : ''}`;
 
     // Build produced-by section (for I/O)
     let producedHTML = '';
@@ -212,7 +214,7 @@ export function showIttoModal(itemName, itemType) {
             <h4>📤 产生自流程 | Produced By</h4>
             <div class="itto-chain-list">${reg.o.map(n => {
                 const p = ittoProcLookup[n];
-                return p ? `<span class="itto-process-tag" style="border-color:${getFAColor(p.fa)}" onclick="window.selectProcess(${n});window.closeIttoModal()" title="${p.n} | ${p.ne}">#${n} ${p.n} <small>${p.fa}</small></span>` : '';
+                return p ? `<span class="itto-process-tag" style="border-color:${getFAColor(p.fa)}" onclick="window.selectProcess(${n});window.closeIttoModal()" title="${p.n} | ${p.ne}">#${n} ${p.n} <small>${p.ne} · ${p.fa}</small></span>` : '';
             }).join('')}</div>
         </div>`;
     }
@@ -226,7 +228,7 @@ export function showIttoModal(itemName, itemType) {
             ${Object.entries(grouped).map(([fa, procs]) => `
                 <div class="itto-fa-group">
                     <div class="itto-fa-header" style="background:${getFAColor(fa)}">${fa} <small>(${procs.length}个)</small></div>
-                    <div class="itto-chain-list">${procs.map(p => `<span class="itto-process-tag" style="border-color:${getFAColor(fa)}" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.ne}">#${p.n} ${p.name.substring(0,10)}${p.name.length>10?'…':''}</span>`).join('')}</div>
+                    <div class="itto-chain-list">${procs.map(p => `<span class="itto-process-tag" style="border-color:${getFAColor(fa)}" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.n} | ${p.ne}">#${p.n} ${p.name} <small>${p.ne}</small></span>`).join('')}</div>
                 </div>`).join('')}
         </div>`;
     }
@@ -240,7 +242,7 @@ export function showIttoModal(itemName, itemType) {
             ${Object.entries(grouped).map(([fa, procs]) => `
                 <div class="itto-fa-group">
                     <div class="itto-fa-header" style="background:${getFAColor(fa)}">${fa} · ${ittoFocusAreas[fa]?.en||''} <small>(${procs.length}个流程)</small></div>
-                    <div class="itto-chain-list">${procs.map(p => `<span class="itto-process-tag" style="border-color:${getFAColor(fa)}" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.ne}">#${p.n} ${p.name}</span>`).join('')}</div>
+                    <div class="itto-chain-list">${procs.map(p => `<span class="itto-process-tag" style="border-color:${getFAColor(fa)}" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.n} | ${p.ne}">#${p.n} ${p.name} <small>${p.ne}</small></span>`).join('')}</div>
                 </div>`).join('')}
         </div>`;
     }
@@ -251,15 +253,15 @@ export function showIttoModal(itemName, itemType) {
         chainHTML = `<div class="itto-chain-section chain-viz">
             <h4>🔗 数据流链条 | Data Flow Chain</h4>
             <div class="itto-flow-chain-v2">
-                ${reg.o.map(n => `<div class="flow-step workshop" onclick="window.selectProcess(${n});window.closeIttoModal()" title="${ittoProcLookup[n]?.n} | ${ittoProcLookup[n]?.ne}"><span class="flow-step-icon">⚙️</span><span class="flow-step-label">#${n} ${ittoProcLookup[n]?.n.substring(0,10)||''}${(ittoProcLookup[n]?.n?.length||0)>10?'…':''}</span><span class="flow-step-tag">流程</span></div>`).join('')}
-                ${reg.o.length > 0 ? `<div class="flow-connector"><span class="flow-arrow-text">输出</span><span class="flow-connector-icon">📦<span class="pack-drop"></span></span><span class="flow-arrow-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>` : ''}
+                ${reg.o.map(n => `<div class="flow-step workshop" onclick="window.selectProcess(${n});window.closeIttoModal()" title="${ittoProcLookup[n]?.n} | ${ittoProcLookup[n]?.ne}"><span class="flow-step-icon">⚙️</span><span class="flow-step-label">#${n} ${ittoProcLookup[n]?.n||''}${ittoProcLookup[n]?.ne ? ' · '+ittoProcLookup[n].ne : ''}</span><span class="flow-step-tag">流程 Process</span></div>`).join('')}
+                ${reg.o.length > 0 ? `<div class="flow-connector"><span class="flow-arrow-text">输出 Output</span><span class="flow-connector-icon">📦<span class="pack-drop"></span></span><span class="flow-arrow-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>` : ''}
                 <div class="flow-product ${itemType==='output'?'out':'in'}">
                     <span class="flow-product-icon">📦</span>
-                    <span class="flow-product-name">${itemName.length > 24 ? itemName.substring(0,24)+'…' : itemName}</span>
+                    <span class="flow-product-name">${itemName.length > 20 ? itemName.substring(0,20)+'…' : itemName}${itemEn ? ' · '+itemEn.substring(0,20)+(itemEn.length>20?'…':'') : ''}</span>
                     <span class="flow-product-type">${itemType==='output'?'输出 Output':'输入 Input'}</span>
                 </div>
-                ${reg.i.length > 0 ? `<div class="flow-connector"><span class="flow-arrow-text">输入</span><span class="flow-connector-icon">📥<span class="unpack-lid"></span></span><span class="flow-arrow-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>` : ''}
-                ${reg.i.slice(0,8).map(n => `<div class="flow-step workshop" onclick="window.selectProcess(${n});window.closeIttoModal()" title="${ittoProcLookup[n]?.n} | ${ittoProcLookup[n]?.ne}"><span class="flow-step-icon">⚙️</span><span class="flow-step-label">#${n} ${ittoProcLookup[n]?.n.substring(0,10)||''}${(ittoProcLookup[n]?.n?.length||0)>10?'…':''}</span><span class="flow-step-tag">流程</span></div>`).join('')}
+                ${reg.i.length > 0 ? `<div class="flow-connector"><span class="flow-arrow-text">输入 Input</span><span class="flow-connector-icon">📥<span class="unpack-lid"></span></span><span class="flow-arrow-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>` : ''}
+                ${reg.i.slice(0,8).map(n => `<div class="flow-step workshop" onclick="window.selectProcess(${n});window.closeIttoModal()" title="${ittoProcLookup[n]?.n} | ${ittoProcLookup[n]?.ne}"><span class="flow-step-icon">⚙️</span><span class="flow-step-label">#${n} ${ittoProcLookup[n]?.n||''}${ittoProcLookup[n]?.ne ? ' · '+ittoProcLookup[n].ne : ''}</span><span class="flow-step-tag">流程 Process</span></div>`).join('')}
                 ${reg.i.length > 8 ? `<div class="flow-step more">+${reg.i.length-8} 个流程</div>` : ''}
             </div>
         </div>`;
@@ -271,6 +273,7 @@ export function showIttoModal(itemName, itemType) {
                 <span style="font-size:32px">${itemType==='input'?'📥':itemType==='output'?'📤':'🔧'}</span>
                 <div>
                     <div style="font-weight:700;font-size:16px;color:#1f2937">${itemName}</div>
+                    ${itemEn ? `<div style="font-size:13px;color:#3b82f6;margin-top:2px">${itemEn}</div>` : ''}
                     <div style="font-size:12px;color:#6b7280">${typeLabel}</div>
                 </div>
             </div>

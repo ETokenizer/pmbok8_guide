@@ -16,6 +16,7 @@ import { recordPrincipleView, recordDomainView } from './learning/progress.js';
 import { addWrongAnswer } from './learning/wrong-book.js';
 import { initAuth, updateAccountUI, openAuthModal, closeAuthModal } from './auth/auth-ui.js';
 import { isLoggedIn, isPremium } from './auth/auth-service.js';
+import { bilingualName } from './data/itto-bilingual.js';
 import './learning/exam.js'; // register global exam functions (openPMPExam, etc.)
 
 // ==================== 12 个完整案例库 ====================
@@ -311,9 +312,9 @@ function selectProcess(number) {
             <div class="principle-card"><h4>📘 流程说明 | Description</h4><p>${p.description}</p><p class="en">${p.descriptionEn}</p></div>
             <h4 style="color:var(--pmi-dark);margin:20px 0 15px">📋 输入、工具与输出 | ITTO <span style="font-size:11px;color:#888;font-weight:400">(点击查看详情)</span></h4>
             <div class="key-aspects" style="grid-template-columns:1fr 1fr 1fr">
-                <div class="aspect-item"><div class="aspect-icon">📥</div><div class="aspect-title">输入 | Inputs</div><ul class="itto-list">${p.inputs.map(i => `<li class="itto-item" data-itto="${i.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="input" onclick="showIttoModalSafe(this)" title="点击查看定义和关联流程">🔗 ${i}</li>`).join('')}</ul></div>
-                <div class="aspect-item"><div class="aspect-icon">🔧</div><div class="aspect-title">工具 | Tools</div><ul class="itto-list">${p.tools.map(t => `<li class="itto-item" data-itto="${t.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="tool" onclick="showIttoModalSafe(this)" title="点击查看定义和使用流程">🔗 ${t}</li>`).join('')}</ul></div>
-                <div class="aspect-item"><div class="aspect-icon">📤</div><div class="aspect-title">输出 | Outputs</div><ul class="itto-list">${p.outputs.map(o => `<li class="itto-item" data-itto="${o.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="output" onclick="showIttoModalSafe(this)" title="点击查看定义和关联流程">🔗 ${o}</li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">📥</div><div class="aspect-title">输入 | Inputs</div><ul class="itto-list">${p.inputs.map(i => `<li class="itto-item" data-itto="${i.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="input" onclick="showIttoModalSafe(this)" title="点击查看定义和关联流程">🔗 ${bilingualName(i)}</li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">🔧</div><div class="aspect-title">工具 | Tools</div><ul class="itto-list">${p.tools.map(t => `<li class="itto-item" data-itto="${t.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="tool" onclick="showIttoModalSafe(this)" title="点击查看定义和使用流程">🔗 ${bilingualName(t)}</li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">📤</div><div class="aspect-title">输出 | Outputs</div><ul class="itto-list">${p.outputs.map(o => `<li class="itto-item" data-itto="${o.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="output" onclick="showIttoModalSafe(this)" title="点击查看定义和关联流程">🔗 ${bilingualName(o)}</li>`).join('')}</ul></div>
             </div>
         </div>`;
     refreshSidebarActive();
