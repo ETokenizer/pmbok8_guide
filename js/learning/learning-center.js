@@ -96,7 +96,7 @@ function renderDashboard() {
                     ${[1,2,3,4,5,6].map(n => {
                         const pp = getPrincipleProgress(n);
                         const pct = pp.quizTotal > 0 ? Math.round(pp.quizCorrect/pp.quizTotal*100) : 0;
-                        const names = ['整体视角','聚焦价值','融入质量','负责任领导','协作团队','管家精神'];
+                        const names = ['采取整体观','聚焦价值','将质量融入过程与交付物','成为有担当的领导者','可持续性','构建赋能文化'];
                         return `<div class="lc-progress-bar"><span class="lc-bar-label">${names[n-1]}</span><div class="lc-bar"><div class="lc-bar-fill" style="width:${pct}%;background:${pct>=60?'#10b981':pct>0?'#f59e0b':'#e5e7eb'}"></div></div><span class="lc-bar-pct">${pp.quizTotal>0?pct+'% ('+pp.quizCorrect+'/'+pp.quizTotal+')':'未答题'}</span></div>`;
                     }).join('')}
                 </div>

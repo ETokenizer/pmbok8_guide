@@ -32,16 +32,15 @@ export function getClient() { return supabase; }
 export function isReady() { return supabaseReady; }
 
 // ============ PMBOK7 → PMBOK8 类别映射 ============
-// PMBOK7 has 12 principles, PMBOK8 has 6 (consolidated)
+// PMBOK7 has 12 principles, PMBOK8 has 6 (consolidated and renamed)
 export const PMBOK7_TO_8_PRINCIPLE = {
-    1: 1,  // 管家式管理 → 管家精神 (#6 in PMBOK8) ... actually these don't map neatly
-    // We'll use a rough mapping for exam filtering purposes:
-    // PMBOK8 principle 1 (整体视角): PMBOK7 系统思考(5)+驾驭复杂(9)
+    1: 4,  // PMBOK7管家式管理 → PMBOK8成为有担当的领导者(#4)
+    // PMBOK8 principle 1 (采取整体观): PMBOK7 系统思考(5)+驾驭复杂(9)
     // PMBOK8 principle 2 (聚焦价值): PMBOK7 价值聚焦(4)
-    // PMBOK8 principle 3 (融入质量): PMBOK7 质量融入(8)
-    // PMBOK8 principle 4 (负责任领导): PMBOK7 领导力(6)+管家式管理(1)
-    // PMBOK8 principle 5 (协作团队): PMBOK7 团队协作(2)+干系人(3)
-    // PMBOK8 principle 6 (管家精神): PMBOK7 管家式管理(1)+适应与韧性(11)+变革推动(12)
+    // PMBOK8 principle 3 (将质量融入过程与交付物): PMBOK7 质量融入(8)
+    // PMBOK8 principle 4 (成为有担当的领导者): PMBOK7 领导力(6)+管家式管理(1)
+    // PMBOK8 principle 5 (可持续性): PMBOK7 适应与韧性(11)+管家式管理部分
+    // PMBOK8 principle 6 (构建赋能文化): PMBOK7 团队协作(2)+干系人(3)+变革推动(12)
 };
 
 // For practical purposes, we query all questions and filter client-side

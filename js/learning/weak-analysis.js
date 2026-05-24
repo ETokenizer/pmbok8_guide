@@ -6,7 +6,7 @@ import { getWrongBookStats } from './wrong-book.js';
 import { openPMPExam } from './exam.js';
 import { isPremium } from '../auth/auth-service.js';
 
-const namesP = ['整体视角','聚焦价值','融入质量','负责任领导','协作团队','管家精神'];
+const namesP = ['采取整体观','聚焦价值','将质量融入过程与交付物','成为有担当的领导者','可持续性','构建赋能文化'];
 const namesD = ['治理','范围','进度','财务','相关方','资源','风险'];
 
 // Premium preview

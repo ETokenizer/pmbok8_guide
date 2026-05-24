@@ -6,14 +6,14 @@
 export const principles = [
     {
         number: 1,
-        name: '整体视角',
+        name: '采取整体观',
         nameEn: 'Adopt a Holistic View',
         icon: '\u{1f310}',
-        summary: '从整体视角理解项目生态系统',
-        summaryEn: 'Consider the entire project ecosystem',
-        description: '考虑整个项目生态系统，包括相互依赖关系、相关方和更广泛的组织背景。项目不是孤立的，要与组织战略和其他系统协调一致，用系统思维理解各要素之间的关系和相互影响。',
-        descriptionEn: 'Consider the entire project ecosystem, including interdependencies, stakeholders, and the broader organizational context. Projects are not isolated; they must align with organizational strategy and coordinate with other systems.',
-        simpleExplain: '说人话：见树又见林。做项目不能只看自己的一亩三分地，要看到项目与组织战略、其他项目、外部环境的关联。大局观决定成败。',
+        summary: '采用系统思考管理项目复杂性和相互依赖性',
+        summaryEn: 'Use systems thinking to manage complexity and interdependencies',
+        description: '不再孤立地看待各个任务或知识领域，而是采用系统思考的方式，去管理项目中高度的复杂性和各要素间的相互依赖性。打破知识领域壁垒，实现跨领域的系统性整合。',
+        descriptionEn: 'Move beyond isolated tasks and knowledge areas by adopting systems thinking to manage the high degree of complexity and interdependencies among project elements. Break down domain silos to achieve cross-domain systemic integration.',
+        simpleExplain: '说人话：见树又见林。做项目不能只看自己的一亩三分地，要看到项目与组织战略、其他项目、外部环境的关联。打破部门墙，用系统思维看全局。',
         keyAspects: [
             { icon: '\u{1f30d}', title: '系统思维', titleEn: 'Systems Thinking', desc: '理解系统间的相互关联' },
             { icon: '\u{1f517}', title: '依赖管理', titleEn: 'Dependency Management', desc: '识别和管理内外部依赖关系' },
@@ -47,9 +47,9 @@ export const principles = [
         icon: '\u{1f48e}',
         summary: '优先交付价值，确保与组织目标一致',
         summaryEn: 'Prioritize delivering value aligned with organizational goals',
-        description: '项目的最终目标是向相关方交付价值，确保项目成果与组织目标一致。所有决策都应围绕价值最大化，持续评估项目是否仍在创造预期价值，必要时调整方向。',
-        descriptionEn: 'The ultimate goal of projects is to deliver value to stakeholders. All decisions should focus on maximizing value and ensuring alignment with organizational objectives.',
-        simpleExplain: '说人话：一切向"值"看。做项目不是为了完成任务清单，而是为了创造实实在在的价值。时刻问自己：这个决定能增加价值吗？如果不能，为什么还要做？',
+        description: '项目成功不再局限于传统的"按时、按预算交付"，而是要确保项目生命周期的每一步都在持续对齐业务目标和组织的战略期望。第8版引入"价值交付系统"概念，要求项目经理不仅要交付有形的财务收益，还要创造商誉、合规、员工福祉等无形价值。',
+        descriptionEn: 'Project success is no longer limited to "on time, on budget" delivery. Every step of the project lifecycle must continuously align with business objectives and organizational strategic expectations. PMBOK8 introduces the "Value Delivery System" concept, requiring project managers to deliver both tangible financial benefits and intangible value such as goodwill, compliance, and employee well-being.',
+        simpleExplain: '说人话：一切向"值"看。项目的成功不只是按时、按预算交付，更是交付真正对业务有意义的成果。有形的钱要赚，无形的品牌、合规、员工幸福也要创造。',
         keyAspects: [
             { icon: '\u{1f3af}', title: '价值定义', titleEn: 'Define Value', desc: '明确什么对组织才是真正的价值' },
             { icon: '\u{1f4c8}', title: '价值最大化', titleEn: 'Maximize Value', desc: '优先做高价值的事，低价值可舍弃' },
@@ -78,14 +78,14 @@ export const principles = [
     },
     {
         number: 3,
-        name: '融入质量',
-        nameEn: 'Embed Quality',
+        name: '将质量融入过程与交付物',
+        nameEn: 'Embed Quality Into Processes and Deliverables',
         icon: '⭐',
-        summary: '在整个项目活动中融入质量管理',
-        summaryEn: 'Integrate quality management throughout all activities',
-        description: '将质量管理融入所有项目活动中，而不是作为最后的检查环节。质量是设计和构建进去的，不是检查出来的。每个环节都要确保产出合格，形成持续改进的闭环。',
-        descriptionEn: 'Integrate quality into all project activities rather than treating it as a final inspection. Quality is designed and built in, not inspected in.',
-        simpleExplain: '说人话：一次做对，全程把关。质量靠的是预防和过程控制，不是最后一刻的突击检查。每个环节都做好，最后自然质量好。',
+        summary: '从始至终将质量内建于过程和产出中',
+        summaryEn: 'Build quality into processes and deliverables from start to finish',
+        description: '质量不是靠最后一步检查出来的，而是要从始至终内建于过程和产出中，从而最大化满足相关方期望并符合合规要求。第8版将质量控制直接合并到"范围绩效域"的监控与确认过程中，将质量指标视为交付物本身的核心属性。',
+        descriptionEn: 'Quality is not achieved through final inspection but by being built into processes and deliverables from start to finish, maximizing stakeholder satisfaction and ensuring compliance. PMBOK8 integrates quality control directly into the Scope Performance Domain monitoring and validation processes, treating quality metrics as core attributes of deliverables themselves.',
+        simpleExplain: '说人话：一次做对，全程把关。质量靠的是预防和过程控制，不是最后一刻的突击检查。第8版甚至把质量控制直接融入范围管理——质量就是交付物本身的一部分。',
         keyAspects: [
             { icon: '\u{1f4d0}', title: '质量标准', titleEn: 'Quality Standards', desc: '明确质量要求和验收标准' },
             { icon: '\u{1f527}', title: '过程设计', titleEn: 'Process Design', desc: '设计防止缺陷产生的工作流程' },
@@ -114,14 +114,14 @@ export const principles = [
     },
     {
         number: 4,
-        name: '负责任领导',
+        name: '成为有担当的领导者',
         nameEn: 'Be an Accountable Leader',
         icon: '\u{1f31f}',
-        summary: '展现负责任、诚信和道德的领导力',
-        summaryEn: 'Demonstrate responsible, ethical, and accountable leadership',
-        description: '展现负责任、诚信和道德的领导力。领导者要对项目、团队和相关方负责，做出符合道德标准的决策。领导力不是职位，而是行为——无论什么角色都可以展现领导力。',
-        descriptionEn: 'Demonstrate responsible, ethical leadership. Leaders are accountable to the project, team, and stakeholders, making decisions that meet ethical standards.',
-        simpleExplain: '说人话：带好头、负好责。领导力不是"管人"，而是通过行动影响他人、敢于担当、做正确的事。出了问题是"我的责任"，有了成绩是"团队的功劳"。',
+        summary: '在多元化和充满冲突的环境中展现诚信与担当',
+        summaryEn: 'Demonstrate integrity, accountability, and adaptability in diverse environments',
+        description: '倡导项目管理者在面临多元化且充满冲突的环境中，展现出诚信、勇于自省以及灵活变通的领导力。第8版在AI专项附录中特别强调"人负责决策，人承担最终责任"的原则，并在资源管理领域大力引入情商、仆人式领导力和冲突管理等软技能。',
+        descriptionEn: 'Advocates that project managers demonstrate integrity, self-reflection, and adaptable leadership in diverse and conflict-filled environments. PMBOK8 emphasizes "humans make decisions and bear ultimate accountability" in its AI appendix, while introducing emotional intelligence, servant leadership, and conflict management into resource management.',
+        simpleExplain: '说人话：带好头、负好责。无论AI多强大，最终做决策和承担责任的是人。领导者要有担当，敢承认错误，能灵活应对变化，在复杂环境中做正确的事。',
         keyAspects: [
             { icon: '\u{1f3af}', title: '愿景引领', titleEn: 'Vision & Direction', desc: '描绘清晰的目标和方向，激励团队前行' },
             { icon: '\u{1f6e1}', title: '诚信行事', titleEn: 'Act with Integrity', desc: '诚实守信，说到做到，做正确的事' },
@@ -150,74 +150,74 @@ export const principles = [
     },
     {
         number: 5,
-        name: '协作团队',
-        nameEn: 'Foster a Collaborative Team Environment',
-        icon: '\u{1f465}',
-        summary: '培养协作的项目团队环境',
-        summaryEn: 'Build a collaborative project team environment',
-        description: '培养协作的项目团队环境，促进开放沟通、知识共享和相互支持。高效团队不是靠命令凝聚，而是靠共享的愿景、信任和协作文化。让团队成员发挥最大潜力。',
-        descriptionEn: 'Foster a collaborative team environment that promotes open communication, knowledge sharing, and mutual support to enable team members to reach their full potential.',
-        simpleExplain: '说人话：众人拾柴火焰高。打造一个人人愿意说话、互相帮助、一起成长的团队环境。好的氛围不是靠制度管出来的，是靠信任和尊重建立的。',
+        name: '在所有项目领域融入可持续性',
+        nameEn: 'Integrate Sustainability Within All Project Areas',
+        icon: '\u{267b}',
+        summary: '平衡人、利润、地球的三重底线，负责任地使用资源',
+        summaryEn: 'Balance the triple bottom line of people, profit, and planet',
+        description: '强调项目运作必须平衡"人、利润、地球"的三重底线（Triple Bottom Line），在全生命周期中负责任地使用各类资源。第8版在"规划资源管理"过程中明确引入了"绿色人力资源管理（Green HRM）"等前沿概念，将可持续性融入项目管理的每个领域。',
+        descriptionEn: 'Emphasizes that project operations must balance the triple bottom line of "People, Profit, Planet" by responsibly using all types of resources throughout the project lifecycle. PMBOK8 explicitly introduces forward-looking concepts like "Green Human Resource Management (Green HRM)" in the Plan Resource Management process, embedding sustainability into every project domain.',
+        simpleExplain: '说人话：既要赚钱，也要对人和地球负责。做项目不能只看短期利润，要关注对员工、社会和环境的影响。第8版甚至把"绿色HRM"写进了资源管理——可持续不是口号，是具体行动。',
         keyAspects: [
-            { icon: '\u{1f5e3}', title: '开放沟通', titleEn: 'Open Communication', desc: '信息透明，鼓励畅所欲言' },
-            { icon: '\u{1f4da}', title: '知识共享', titleEn: 'Knowledge Sharing', desc: '分享经验和技能，共同成长' },
-            { icon: '\u{1f932}', title: '相互支持', titleEn: 'Mutual Support', desc: '互相帮助，不让任何人掉队' },
-            { icon: '\u{1f389}', title: '团队文化', titleEn: 'Team Culture', desc: '建立积极、包容的团队规范' }
+            { icon: '\u{1f30d}', title: '三重底线', titleEn: 'Triple Bottom Line', desc: '平衡人（People）、利润（Profit）、地球（Planet）' },
+            { icon: '\u{267b}', title: '资源责任', titleEn: 'Resource Responsibility', desc: '全生命周期中负责任、高效地使用资源' },
+            { icon: '\u{1f33f}', title: '绿色实践', titleEn: 'Green Practices', desc: '引入Green HRM等可持续管理工具和技术' },
+            { icon: '\u{1f4c8}', title: '长期视角', titleEn: 'Long-Term Perspective', desc: '考虑项目对社会和环境的长期影响' }
         ],
         example: {
-            title: '实际案例：跨国团队的协作突破',
-            scenario: '某跨国项目团队分布在5个时区，初期协作效率低下，成员之间缺乏信任。项目经理王芳采取措施：',
+            title: '实际案例：绿色数据中心建设项目',
+            scenario: '某科技公司计划建设一座大型数据中心。项目经理张伟在项目启动时就确立了可持续性目标，将三重底线贯穿整个项目：',
             actions: [
-                '✅ 建立团队共享知识库，所有决策和讨论都在公开频道进行（开放沟通）',
-                '✅ 设立"周五技术分享会"，轮流由成员分享专长领域（知识共享）',
-                '✅ 实施"伙伴制度"，每位新成员配备一名资深伙伴帮助融入（相互支持）',
-                '✅ 共同制定团队章程，包括沟通规范、决策流程和冲突处理方式（团队文化）'
+                '✅ 选择可再生能源供电方案，虽然前期投入高15%，但10年运营成本降低40%（地球维度+利润维度）',
+                '✅ 采用绿色人力资源管理，优先招聘本地人才并建立技能培训体系，为当地创造200+就业岗位（人的维度）',
+                '✅ 在设计阶段引入"模块化+可回收"建筑材料，减少建筑垃圾60%，获得LEED铂金认证（绿色实践）',
+                '✅ 建立供应商可持续性评估体系，将碳排放指标纳入采购决策（长期视角）'
             ],
-            outcome: '跨时区协作效率提升60%，团队成员NPS从-20提升到+75，项目提前交付。'
+            outcome: '项目不仅获得LEED铂金级认证，还因其可持续设计将运营成本降低了40%，成为行业绿色数据中心标杆，当地社区满意度达95%。'
         },
         quizzes: [
-            { id: 'P5_Q1', question: '"协作团队"原则中，以下哪项做法最有效？', options: ['A. 建立开放沟通机制，鼓励知识共享和相互支持', 'B. 严格管控信息流通，避免信息泄露', 'C. 让团队成员独立工作，减少沟通成本', 'D. 只在出问题时才进行团队沟通'], correct: 0, explanation: '开放沟通、知识共享和相互支持是高效协作团队的三大基石。', difficulty: 'easy' },
-            { id: 'P5_Q2', question: '高效协作团队的特征不包括？', options: ['A. 清晰的目标和角色', 'B. 相互指责和推诿', 'C. 良好的沟通和信任', 'D. 知识共享和学习氛围'], correct: 1, explanation: '相互指责和推诿会破坏团队信任，是高效协作团队的最大杀手。', difficulty: 'easy' },
-            { id: 'P5_Q3', question: '团队章程（Team Charter）的主要作用是什么？', options: ['A. 只是一个形式文件', 'B. 明确团队的沟通规范、决策流程和行为准则', 'C. 仅用于分配任务', 'D. 仅项目经理需要遵守'], correct: 1, explanation: '团队章程是团队共同制定的"宪法"，明确了工作规范和协作方式。', difficulty: 'medium' },
-            { id: 'P5_Q4', question: '冲突在协作团队中应该如何处理？', options: ['A. 完全避免任何冲突', 'B. 建设性的冲突可以促进创新和更好的决策', 'C. 由项目经理单方面裁决', 'D. 让冲突双方自行解决，不加干预'], correct: 1, explanation: '适度的建设性冲突可以激发创新和更全面的思考，关键是有效管理和引导。', difficulty: 'hard' },
-            { id: 'P5_Q5', question: '心理安全（Psychological Safety）对团队协作意味着什么？', options: ['A. 不用承担任何工作压力', 'B. 团队成员可以自由表达意见而不担心被惩罚或嘲笑', 'C. 只允许说正面的话', 'D. 不需要任何问责机制'], correct: 1, explanation: '心理安全让成员敢于表达真实想法、承认错误、提出异议，是高效协作的基础。', difficulty: 'medium' }
+            { id: 'P5_Q1', question: 'PMBOK第8版中"可持续性"原则的核心是什么？', options: ['A. 只关注项目利润', 'B. 平衡人、利润、地球三重底线，负责任地使用资源', 'C. 忽略环境影响追求速度', 'D. 仅关注短期经济效益'], correct: 1, explanation: '三重底线（Triple Bottom Line）是可持续性原则的核心——平衡人（People）、利润（Profit）、地球（Planet）。', difficulty: 'easy' },
+            { id: 'P5_Q2', question: 'PMBOK第8版在哪个具体过程中引入了"绿色人力资源管理（Green HRM）"？', options: ['A. 规划沟通管理', 'B. 规划资源管理', 'C. 估算成本', 'D. 识别风险'], correct: 1, explanation: '第8版在"规划资源管理"过程中明确引入了Green HRM等可持续性前沿概念作为工具技术。', difficulty: 'medium' },
+            { id: 'P5_Q3', question: '三重底线（Triple Bottom Line）不包括以下哪项？', options: ['A. 人（People）', 'B. 利润（Profit）', 'C. 速度（Speed）', 'D. 地球（Planet）'], correct: 2, explanation: '三重底线是"人、利润、地球"（People, Profit, Planet），不包含速度。', difficulty: 'easy' },
+            { id: 'P5_Q4', question: '在可持续性原则下，项目经理在做采购决策时应考虑什么？', options: ['A. 仅考虑最低价格', 'B. 将供应商的碳排放和可持续性表现纳入评估标准', 'C. 只考虑交付速度', 'D. 不考虑环境因素'], correct: 1, explanation: '可持续性要求将环境和社会影响纳入采购决策，包括供应商的碳排放和可持续性表现。', difficulty: 'medium' },
+            { id: 'P5_Q5', question: '以下哪项最能体现"在全生命周期中负责任地使用资源"？', options: ['A. 只在项目结束时关注资源使用', 'B. 从规划、执行到收尾全程考虑资源的效率和可持续性', 'C. 只关注人力资源', 'D. 最大化短期产出而不计长期影响'], correct: 1, explanation: '全生命周期意味着从项目启动到收尾的每个阶段都要考虑资源的可持续使用，而非仅在某一阶段。', difficulty: 'hard' }
         ],
-        performanceDomains: ['资源绩效域', '治理绩效域', '相关方绩效域']
+        performanceDomains: ['资源绩效域', '财务绩效域', '治理绩效域']
     },
     {
         number: 6,
-        name: '管家精神',
-        nameEn: 'Demonstrate Stewardship',
-        icon: '\u{1f91d}',
-        summary: '负责任地管理资源，展现管家精神',
-        summaryEn: 'Manage resources responsibly as a steward',
-        description: '负责任地管理组织资源，为组织和相关方的最佳利益行事。管家精神包括诚信行事、关怀团队成员、高效利用资源，以及对社会和环境负责。项目经理是组织资源的管家，而非所有者。',
-        descriptionEn: 'Manage organizational resources responsibly, acting in the best interest of the organization and stakeholders. Stewardship includes integrity, care for team members, efficient resource use, and social/environmental responsibility.',
-        simpleExplain: '说人话：当家做主、不负所托。项目资源不是你的，是组织的。要用好每一分钱、每一个人，对得起组织的信任。不仅要对项目负责，还要对社会和环境负责。',
+        name: '构建赋能文化',
+        nameEn: 'Build an Empowered Culture',
+        icon: '\u{1f31f}',
+        summary: '促进信任、尊重多样性，打造积极协作的工作环境',
+        summaryEn: 'Foster trust, respect diversity, and build a collaborative environment',
+        description: '旨在促进团队成员和相关方之间的相互信任，尊重多样性，从而打造出一个积极向上、高度协作的工作环境。为了落实这一原则，第8版将传统的"相关方管理"与"沟通管理"合二为一，强调利用积极的沟通机制来赋能相关方，打破信息孤岛。',
+        descriptionEn: 'Aims to foster mutual trust among team members and stakeholders, respect diversity, and build a positive, highly collaborative work environment. To implement this principle, PMBOK8 consolidates traditional "Stakeholder Management" and "Communications Management" into one domain, emphasizing active communication to empower stakeholders and break down information silos.',
+        simpleExplain: '说人话：一个好汉三个帮，一个好团队靠赋能。不是管控和命令，而是信任和赋能，让每个人都能发挥最大潜力。第8版甚至把相关方管理和沟通管理合并了——沟通的目的不仅是传递信息，更是赋能他人。',
         keyAspects: [
-            { icon: '\u{1f3af}', title: '诚信行事', titleEn: 'Act with Integrity', desc: '诚实守信，以组织利益为重' },
-            { icon: '❤️', title: '关怀团队', titleEn: 'Care for People', desc: '关心成员成长、福祉和工作负荷' },
-            { icon: '\u{1f4ca}', title: '资源管理', titleEn: 'Resource Stewardship', desc: '高效、可持续地利用组织资源' },
-            { icon: '\u{1f91d}', title: '建立信任', titleEn: 'Build Trust', desc: '言行一致，赢得相关方信任' }
+            { icon: '\u{1f91d}', title: '相互信任', titleEn: 'Mutual Trust', desc: '在团队和相关方间建立深厚的信任关系' },
+            { icon: '\u{1f308}', title: '尊重多样性', titleEn: 'Respect Diversity', desc: '尊重和包容不同背景、观点和文化' },
+            { icon: '\u{1f4e2}', title: '积极沟通', titleEn: 'Active Communication', desc: '以沟通赋能相关方，打破信息孤岛' },
+            { icon: '\u{1f3e2}', title: '文化塑造', titleEn: 'Culture Building', desc: '打造积极向上、高度协作的组织文化' }
         ],
         example: {
-            title: '实际案例：ERP项目的资源管家',
-            scenario: '某ERP实施项目预算5000万，涉及30人团队和10家供应商。项目经理张华展现了管家精神：',
+            title: '实际案例：金融科技初创公司的文化变革',
+            scenario: '某金融科技公司因快速增长，从30人扩张到200人，出现了部门割据、信息不透明和员工离职率飙升的问题。CTO王敏被任命为"组织效能项目"负责人，以赋能文化为目标推动变革：',
             actions: [
-                '✅ 建立透明的资源使用台账，每月向管理委员会汇报资源使用效率（诚信行事）',
-                '✅ 关注团队成员的工作负荷，及时调整任务分配避免 burnout（关怀团队）',
-                '✅ 通过谈判将供应商成本降低15%，同时保证质量不降（资源管理）',
-                '✅ 主动向发起人报告项目风险和改进机会，即使这意味着承认之前的决策需要调整（建立信任）'
+                '✅ 推行"开放日历"制度，所有高管的日程和决策公开透明，任何员工可以预约30分钟一对一沟通（相互信任）',
+                '✅ 建立多元化和包容性委员会，由来自不同国家、性别和背景的员工组成，定期审查公司政策和招聘实践（尊重多样性）',
+                '✅ 将原有的周报邮件文化改为实时协作平台+每周15分钟团队站会，相关方管理直接融入沟通流程（积极沟通）',
+                '✅ 引入"失败分享会"——每月一次，鼓励团队分享项目中的失误和教训，并将其转化为团队的集体知识（文化塑造）'
             ],
-            outcome: '项目在预算范围内交付，节省的500万资源被重新分配到其他战略项目，团队零离职率。'
+            outcome: '6个月后，员工NPS从-10提升到+60，跨部门协作效率提升50%，离职率从25%降至8%。更重要的是，团队开始主动识别和解决问题，而非等待指令。'
         },
         quizzes: [
-            { id: 'P6_Q1', question: 'PMBOK第8版中"管家精神"原则的核心是什么？', options: ['A. 项目经理拥有所有项目资源', 'B. 以组织利益为重，负责任地管理受托资源', 'C. 只管自己的任务', 'D. 最大化个人收益'], correct: 1, explanation: '管家精神强调项目经理是资源的管家而非所有者，要以组织最佳利益来管理资源。', difficulty: 'easy' },
-            { id: 'P6_Q2', question: '以下哪项行为最符合"管家精神"原则？', options: ['A. 隐瞒项目问题，避免被上级批评', 'B. 如实汇报项目状态，即使可能影响自己的绩效评估', 'C. 把项目预算花得一分不剩以争取下期更多', 'D. 把所有决策权都抓在自己手里'], correct: 1, explanation: '如实汇报体现了诚信和以组织利益为重的管家精神。', difficulty: 'medium' },
-            { id: 'P6_Q3', question: '管家精神中的"可持续性"考虑包括？', options: ['A. 只关注经济利益', 'B. 平衡经济、社会和环境三方面的影响', 'C. 忽略环境影响', 'D. 只关注短期结果'], correct: 1, explanation: '管家精神要求考虑项目对经济、社会和环境的长期影响，追求可持续的价值创造。', difficulty: 'hard' },
-            { id: 'P6_Q4', question: '作为项目资源的管家，项目经理应该如何对待团队？', options: ['A. 将团队视为可替换的资源', 'B. 关心成员的发展和福祉，防止过度使用', 'C. 不断加压以获取最大产出', 'D. 只关注技术能力强的成员'], correct: 1, explanation: '管家精神要求项目经理关心团队成员的成长和福祉，避免将人视为可无限使用的资源。', difficulty: 'medium' },
-            { id: 'P6_Q5', question: '管家精神与负责任领导有何关系？', options: ['A. 完全相同没有区别', 'B. 管家精神侧重资源管理责任，负责任领导侧重带领和影响他人', 'C. 两者互不相关', 'D. 管家精神只适用于高级管理层'], correct: 1, explanation: '管家精神侧重对资源的受托责任，负责任领导侧重对人的带领和影响，两者互补。', difficulty: 'easy' }
+            { id: 'P6_Q1', question: 'PMBOK第8版中"构建赋能文化"原则的核心是什么？', options: ['A. 严格控制团队行为', 'B. 促进信任、尊重多样性，打造积极协作的工作环境', 'C. 只关注技术能力提升', 'D. 减少团队成员之间的沟通'], correct: 1, explanation: '赋能文化的核心是信任和尊重多样性，打造积极协作环境，让团队主动而非被动工作。', difficulty: 'easy' },
+            { id: 'P6_Q2', question: '为了落实"赋能文化"原则，PMBOK第8版在结构上做了什么调整？', options: ['A. 未做任何调整', 'B. 将相关方管理与沟通管理合并为一个绩效域', 'C. 删除了沟通管理', 'D. 将相关方管理从原则中移除'], correct: 1, explanation: '第8版将传统的相关方管理和沟通管理合二为一，强调用沟通赋能相关方、打破信息孤岛。', difficulty: 'medium' },
+            { id: 'P6_Q3', question: '赋能文化中"信息孤岛"指的是什么？', options: ['A. 物理上的岛屿', 'B. 部门或团队之间信息不流通、各自为政的状态', 'C. 数据中心的位置', 'D. 一种软件架构'], correct: 1, explanation: '信息孤岛指组织内部信息流通不畅，各部门或团队各自为政，缺乏有效沟通和协作。', difficulty: 'easy' },
+            { id: 'P6_Q4', question: '以下哪项最能体现"赋能文化"而非"命令控制"的管理方式？', options: ['A. 所有决策需经理审批', 'B. 团队成员自主制定方案，领导提供支持和资源', 'C. 严格执行自上而下的指令', 'D. 限制团队成员之间的非正式沟通'], correct: 1, explanation: '赋能文化强调给予团队自主权和资源支持，而非自上而下的命令和控制。', difficulty: 'medium' },
+            { id: 'P6_Q5', question: '赋能文化中，失败应该被如何看待？', options: ['A. 必须严惩', 'B. 被视为学习机会，鼓励分享教训并转化为团队知识', 'C. 完全忽略', 'D. 仅由当事人自行处理'], correct: 1, explanation: '赋能文化将失败视为学习和改进的机会，鼓励透明分享，转化为组织的集体智慧。', difficulty: 'hard' }
         ],
-        performanceDomains: ['治理绩效域', '财务绩效域', '资源绩效域']
+        performanceDomains: ['相关方绩效域', '资源绩效域', '治理绩效域']
     }
 ];
