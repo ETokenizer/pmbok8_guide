@@ -21,11 +21,24 @@ export const performanceDomains = [
             '提供监督和指导',
             '确保合规和道德标准'
         ],
+        keyActivitiesEn: [
+            'Establish project governance structure and decision-making processes',
+            'Define roles, responsibilities, and authorities',
+            'Set stage reviews and decision points (Gate Reviews)',
+            'Provide oversight and guidance',
+            'Ensure compliance and ethical standards'
+        ],
         expectedOutcomes: [
             '清晰的治理框架和流程',
             '有效的决策机制',
             '透明的监督和报告',
             '与组织战略保持一致'
+        ],
+        expectedOutcomesEn: [
+            'Clear governance framework and processes',
+            'Effective decision-making mechanisms',
+            'Transparent oversight and reporting',
+            'Alignment with organizational strategy'
         ],
         example: {
             title: '实际案例：大型基建项目治理',
@@ -68,11 +81,24 @@ export const performanceDomains = [
             '管理范围基准',
             '控制范围变更'
         ],
+        keyActivitiesEn: [
+            'Collect and manage stakeholder requirements',
+            'Define project and product scope',
+            'Create Work Breakdown Structure (WBS)',
+            'Manage scope baseline',
+            'Control scope changes'
+        ],
         expectedOutcomes: [
             '清晰定义的项目范围',
             '完整的需求文档和跟踪矩阵',
             '有效的范围变更控制',
             '防止范围蔓延'
+        ],
+        expectedOutcomesEn: [
+            'Clearly defined project scope',
+            'Complete requirements documentation and traceability matrix',
+            'Effective scope change control',
+            'Prevention of scope creep'
         ],
         example: {
             title: '实际案例：电商平台范围管控',
@@ -115,11 +141,24 @@ export const performanceDomains = [
             '监控进度绩效（SV/SPI）',
             '管理进度变更和赶工'
         ],
+        keyActivitiesEn: [
+            'Define and sequence project activities',
+            'Estimate activity durations',
+            'Develop project schedule (including critical path)',
+            'Monitor schedule performance (SV/SPI)',
+            'Manage schedule changes and compression'
+        ],
         expectedOutcomes: [
             '现实可行的进度计划',
             '关键路径清晰',
             '进度偏差受控',
             '按时或提前交付'
+        ],
+        expectedOutcomesEn: [
+            'Realistic and feasible schedule',
+            'Clear critical path identified',
+            'Schedule variance under control',
+            'On-time or early delivery'
         ],
         example: {
             title: '实际案例：游戏开发项目进度赶工',
@@ -162,11 +201,24 @@ export const performanceDomains = [
             '管理财务风险和现金流',
             '控制成本变更'
         ],
+        keyActivitiesEn: [
+            'Estimate project costs',
+            'Develop project budget and cost baseline',
+            'Monitor cost performance (CV/CPI/EAC)',
+            'Manage financial risks and cash flow',
+            'Control cost changes'
+        ],
         expectedOutcomes: [
             '准确的成本估算',
             '现实的预算',
             '成本偏差受控',
             '在预算内成功交付'
+        ],
+        expectedOutcomesEn: [
+            'Accurate cost estimates',
+            'Realistic budget',
+            'Cost variance under control',
+            'Successful delivery within budget'
         ],
         example: {
             title: '实际案例：建筑项目成本控制',
@@ -209,11 +261,24 @@ export const performanceDomains = [
             '持续沟通和反馈',
             '管理相关方期望和冲突'
         ],
+        keyActivitiesEn: [
+            'Identify all stakeholders and individuals',
+            'Analyze stakeholder expectations, interests, and influence',
+            'Develop stakeholder engagement strategies and communication plans',
+            'Maintain continuous communication and feedback',
+            'Manage stakeholder expectations and conflicts'
+        ],
         expectedOutcomes: [
             '相关方理解和支持项目目标',
             '有效的相关方沟通机制',
             '相关方积极参与和贡献',
             '冲突得到及时妥善解决'
+        ],
+        expectedOutcomesEn: [
+            'Stakeholders understand and support project objectives',
+            'Effective stakeholder communication mechanisms',
+            'Active stakeholder participation and contribution',
+            'Conflicts resolved promptly and properly'
         ],
         example: {
             title: '实际案例：ERP系统的相关方管理',
@@ -256,11 +321,24 @@ export const performanceDomains = [
             '优化资源利用和解决冲突',
             '管理资源变更和释放'
         ],
+        keyActivitiesEn: [
+            'Identify required physical and human resources',
+            'Acquire and assign resources',
+            'Develop and manage team performance',
+            'Optimize resource utilization and resolve conflicts',
+            'Manage resource changes and release'
+        ],
         expectedOutcomes: [
             '资源及时可用且匹配需求',
             '团队高效协作',
             '资源有效利用无浪费',
             '资源冲突最小化'
+        ],
+        expectedOutcomesEn: [
+            'Resources available on time and matched to needs',
+            'Efficient team collaboration',
+            'Effective resource utilization without waste',
+            'Minimized resource conflicts'
         ],
         example: {
             title: '实际案例：多项目资源优化',
@@ -303,11 +381,24 @@ export const performanceDomains = [
             '实施风险应对措施',
             '持续监控风险触发因素'
         ],
+        keyActivitiesEn: [
+            'Identify risks and sources of uncertainty',
+            'Analyze risk probability and impact (qualitative + quantitative)',
+            'Plan risk response strategies (5 threat + 5 opportunity)',
+            'Implement risk responses',
+            'Continuously monitor risk triggers'
+        ],
         expectedOutcomes: [
             '充分的风险意识和准备',
             '适当的应对措施就位',
             '威胁影响最小化',
             '机会最大化利用'
+        ],
+        expectedOutcomesEn: [
+            'Adequate risk awareness and preparedness',
+            'Appropriate response measures in place',
+            'Minimized threat impact',
+            'Maximized opportunity utilization'
         ],
         example: {
             title: '实际案例：供应链风险应对',

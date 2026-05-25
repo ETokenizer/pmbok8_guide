@@ -3,7 +3,7 @@
  * Modal Management: 案例弹窗、自测弹窗、案例库弹窗、ITTO详情弹窗
  */
 import { ittoRegistry, ittoProcLookup, ittoFocusAreas } from '../data/itto-registry.js';
-import { ittoDefinitions } from '../data/itto-definitions.js';
+import { ittoDefinitions, getDefinition } from '../data/itto-definitions.js';
 import { bilingualName, englishName } from '../data/itto-bilingual.js';
 import { recordQuizAnswer } from '../learning/progress.js';
 import { addWrongAnswer } from '../learning/wrong-book.js';
@@ -197,8 +197,19 @@ export function showIttoModal(itemName, itemType) {
     }
     if (!reg) { body.innerHTML = `<p style="padding:40px;text-align:center;color:#888">未找到该条目信息<br><small>No definition found for "${itemName}"</small></p>`; modal.style.display = 'flex'; return; }
 
-    const item = ittoDefinitions[itemName];
-    const def = item || { zh: `"${itemName}"`, en: `"${itemName}"` };
+    // Try exact definition match, then fuzzy (strip parentheticals), then getDefinition fallback
+    let item = ittoDefinitions[itemName];
+    if (!item) {
+        const clean = (s) => s.replace(/[（(][^）)]*[）)]/g, '').replace(/\s+/g, '').trim();
+        const base = clean(itemName);
+        for (const key of Object.keys(ittoDefinitions)) {
+            if (clean(key) === base || clean(key).startsWith(base) || base.startsWith(clean(key))) {
+                item = ittoDefinitions[key];
+                break;
+            }
+        }
+    }
+    const def = item || (typeof getDefinition === 'function' ? getDefinition(itemName, itemType) : { zh: itemName, en: itemName, category: itemType });
     const typeLabel = itemType === 'input' ? '📥 输入 | Input' : itemType === 'output' ? '📤 输出 | Output' : '🔧 工具与技术 | Tool & Technique';
     const typeColor = itemType === 'input' ? '#3b82f6' : itemType === 'output' ? '#10b981' : '#8b5cf6';
 

@@ -626,6 +626,223 @@ export const ittoDefinitions = {
         zh: '组织过程资产更新是指将项目期间积累的知识、经验和文档添加到组织的过程资产库中，供未来项目参考和利用。这包括经验教训、模板改进和最佳实践记录。',
         en: 'The addition of knowledge, experience, and documentation accumulated during the project to the organizational process asset repository for future project reference.',
         category: 'output'
+    },
+    // ===== PMBOK8 新增/增强定义 (New/Enhanced PMBOK8 Definitions) =====
+
+    // --- Outputs ---
+    '项目章程': {
+        zh: '项目章程是由项目发起人或委托人正式签署的文件，正式授权项目的存在，并授予项目经理动用组织资源开展项目活动的权力。它定义了项目的高层级目标、范围、关键相关方、总体里程碑和预算概要，建立了项目与组织战略目标之间的直接联系。',
+        en: 'A document issued by the project sponsor that formally authorizes the existence of a project and provides the project manager with the authority to apply organizational resources. It establishes the connection between the project and organizational strategy.',
+        category: 'output'
+    },
+    '假设日志': {
+        zh: '假设日志是记录项目所有假设条件和制约因素的文件。假设是在规划过程中被认为是真实、确定的条件，制约因素是对项目执行有限制作用的因素。假设日志需在整个项目生命周期中持续更新和监控，确保假设仍然有效。',
+        en: 'A project document that records all assumptions and constraints identified for the project. Assumptions are factors considered true for planning purposes; constraints are limiting factors that restrict the team\'s options.',
+        category: 'output'
+    },
+    '采购策略计划（含自制或外购决策）': {
+        zh: '采购策略计划是定义项目如何进行采购的文档，包括自制或外购决策、采购方法选择、合同类型和供应商选择标准。它是治理绩效域中规划采购策略流程的核心输出。',
+        en: 'A document defining how procurement will be conducted, including make-or-buy decisions, procurement methods, contract types, and supplier selection criteria. Core output of the Plan Sourcing Strategy process in the Governance Performance Domain.',
+        category: 'output'
+    },
+    '经验教训登记册': {
+        zh: '经验教训登记册是记录项目过程中获得的经验和知识的文档，包括成功经验、失败教训、改进建议和最佳实践。它在整个项目生命周期中不断更新，收尾时纳入组织过程资产供未来项目参考。',
+        en: 'A project document that records knowledge and experience gained during the project, including successes, failures, improvement suggestions, and best practices. Updated throughout the project lifecycle and transferred to OPAs at closure.',
+        category: 'output'
+    },
+    '质量报告': {
+        zh: '质量报告是汇总项目质量绩效信息的文档，包括质量测量结果、审计发现、缺陷分析和改进建议。它为管理评审和质量决策提供依据，是管理质量保证流程的关键输出。',
+        en: 'A document aggregating project quality performance information including quality measurements, audit findings, defect analysis, and improvement recommendations. Provides the basis for management review and quality decisions.',
+        category: 'output'
+    },
+    '财务管理计划': {
+        zh: '财务管理计划是描述项目资金如何筹措、分配、监控和控制的文档。它包括资金筹措策略、财务控制方法、现金流预测和报告机制，确保项目在批准的财务框架内运行。',
+        en: 'A subsidiary plan describing how project funding will be raised, allocated, monitored, and controlled. Includes funding strategy, financial control methods, cash flow forecasting, and reporting mechanisms.',
+        category: 'output'
+    },
+    '项目团队绩效报告': {
+        zh: '项目团队绩效报告是对团队整体和个体成员表现的正式评估文档，涵盖技术能力、协作效果、改进趋势和发展建议。它支持认可奖励、培训规划和团队优化决策。',
+        en: 'A formal assessment document evaluating overall and individual team member performance, covering technical competencies, collaboration effectiveness, improvement trends, and development recommendations.',
+        category: 'output'
+    },
+    '项目沟通工件': {
+        zh: '项目沟通工件是项目执行过程中产生和分发的所有信息记录的总称，包括会议纪要、状态报告、演示文档、邮件往来和协作平台记录。它们确保项目信息的完整性和可追溯性。',
+        en: 'The collective term for all information artifacts generated and distributed during project execution, including meeting minutes, status reports, presentations, emails, and collaboration platform records.',
+        category: 'output'
+    },
+    '收益与成本预测': {
+        zh: '收益与成本预测是基于当前财务绩效数据和趋势分析对未来项目收益和完工成本进行的估算。它使用挣值分析（EVM）等工具帮助判断项目是否在预算内完成并实现预期价值。',
+        en: 'Estimates of future project benefits and completion costs based on current financial performance data and trend analysis. Uses EVM and other tools to determine if the project will finish within budget and deliver expected value.',
+        category: 'output'
+    },
+    '资金筹措策略': {
+        zh: '资金筹措策略是确定和获取项目所需资金的计划，包括资金来源（内部资金、外部融资、银行贷款等）、获取时机和条件。它是财务管理计划的核心组成部分。',
+        en: 'A plan for identifying and acquiring project funding, including funding sources (internal, external, bank loans), timing, and conditions. Core component of the Financial Management Plan.',
+        category: 'output'
+    },
+    '用户故事': {
+        zh: '用户故事是从最终用户视角对所需功能的简短自然语言描述，通常遵循"作为...，我想要...，以便..."的格式。它是敏捷项目中定义和沟通需求的主要工具，是产品待办列表的基本组成单元。',
+        en: 'A short, natural-language description of a desired feature from the end-user perspective, typically following "As a..., I want..., so that..." format. Primary tool for defining and communicating requirements in agile projects; basic unit of the product backlog.',
+        category: 'output'
+    },
+    '产品待办列表': {
+        zh: '产品待办列表是敏捷项目中所有已知需求的优先级排序列表，由产品负责人（PO）负责维护。它包含用户故事、Bug修复、技术任务等，是团队工作的唯一来源，随着项目进展而动态调整。',
+        en: 'A prioritized list of all known requirements in an agile project, maintained by the Product Owner (PO). Contains user stories, bug fixes, technical tasks, etc. Serves as the single source of work for the team and evolves dynamically.',
+        category: 'output'
+    },
+    '风险管理计划': {
+        zh: '风险管理计划是描述如何安排和实施项目风险管理活动的文件。它定义风险管理的方法论、角色职责、风险类别、概率和影响定义标准、定期审查频率以及应急储备的使用规则。',
+        en: 'A subsidiary plan describing how risk management activities will be structured and performed. Defines methodology, roles, risk categories, probability/impact scales, review frequency, and contingency reserve usage rules.',
+        category: 'output'
+    },
+    '进度基准': {
+        zh: '进度基准是经过批准的进度计划版本，包含开始日期、完成日期和里程碑。它是衡量进度绩效的参照标准，只能通过正式的变更控制流程进行修改。是项目管理计划三大基准之一。',
+        en: 'The approved version of the schedule model that includes start dates, finish dates, and milestones. Serves as the reference for measuring schedule performance. One of the three major baselines in the project management plan.',
+        category: 'output'
+    },
+    '成本基准': {
+        zh: '成本基准是经过批准的、按时间段分配资金的完工预算（BAC）。它是衡量成本绩效的参照标准，包含应急储备但不包括管理储备。是项目管理计划三大基准之一。',
+        en: 'The approved version of the time-phased project budget (BAC), excluding management reserves. Serves as the reference for measuring cost performance. One of the three major baselines in the project management plan.',
+        category: 'output'
+    },
+    '应对措施': {
+        zh: '应对措施是针对已识别风险制定的具体行动方案，包括威胁应对（规避/转移/减轻/接受）和机会应对（开拓/分享/增强/接受）两类策略。应对措施需明确责任人、资源和实施时机。',
+        en: 'Specific action plans developed for identified risks, including threat responses (Avoid/Transfer/Mitigate/Accept) and opportunity responses (Exploit/Share/Enhance/Accept). Each response must specify owner, resources, and implementation timing.',
+        category: 'output'
+    },
+
+    // --- Tools & Techniques ---
+    '项目画布': {
+        zh: '项目画布是PMBOK第8版引入的可视化工具，用于在启动阶段全面梳理项目的关键要素。它类似商业模式画布，以图形化方式呈现项目目标、范围、相关方、资源、风险和效益，帮助团队快速达成共识。',
+        en: 'A visual tool introduced in PMBOK 8th Edition for comprehensively mapping key project elements during initiation. Similar to the Business Model Canvas, it graphically presents project objectives, scope, stakeholders, resources, risks, and benefits to help the team quickly reach consensus.',
+        category: 'tool'
+    },
+    '项目仪表盘': {
+        zh: '项目仪表盘是实时展示项目关键绩效指标（KPI）的可视化工具，通常包含进度、成本、质量、风险等维度的实时数据。它支持快速决策，是信息辐射体的一种形式，用于监控项目绩效流程。',
+        en: 'A visual tool that displays real-time project key performance indicators (KPIs), typically covering schedule, cost, quality, and risk dimensions. Supports rapid decision-making as a form of information radiator used in the Monitor and Control Project Performance process.',
+        category: 'tool'
+    },
+    '信息辐射体': {
+        zh: '信息辐射体是敏捷实践中广泛使用的可视化工具，将项目关键信息（进度、障碍、质量）公开展示在物理或数字面板上，使所有路过的相关方无需专门询问即可获取信息。如燃尽图、看板、任务墙等。',
+        en: 'A visual tool widely used in agile practices that publicly displays key project information (progress, impediments, quality) on physical or digital boards, allowing anyone passing by to absorb information without asking. Examples include burndown charts, Kanban boards, and task walls.',
+        category: 'tool'
+    },
+    '职责分配矩阵（RAM）': {
+        zh: '职责分配矩阵是展示项目资源在各个工作包或活动中的分配情况的表格，RACI矩阵是最常见的形式（Responsible负责/Accountable问责/Consulted咨询/Informed知会）。它确保每项工作都有明确的责任归属。',
+        en: 'A table showing the allocation of project resources across work packages or activities. The RACI matrix (Responsible/Accountable/Consulted/Informed) is the most common form. Ensures every task has clear ownership and accountability.',
+        category: 'tool'
+    },
+    'RACI矩阵': {
+        zh: 'RACI矩阵是一种职责分配工具，将任务角色分为四类：R（执行者）、A（负责人）、C（咨询对象）、I（知会对象）。每项任务至少有一个A角色。用于规划资源管理，确保角色清晰、责任到位。',
+        en: 'A responsibility assignment tool categorizing task roles into four types: R (Responsible), A (Accountable), C (Consulted), I (Informed). Every task must have at least one "A". Used in Plan Resource Management to ensure role clarity and accountability.',
+        category: 'tool'
+    },
+    '待办列表管理（敏捷适用）': {
+        zh: '待办列表管理是敏捷项目中用于评估与实施变更的核心机制。产品负责人根据相关方反馈和业务优先级持续对产品待办列表进行梳理、优先级排序和调整，以替代传统项目中的正式变更控制流程。',
+        en: 'The core mechanism in agile projects for assessing and implementing changes. The Product Owner continuously grooms, prioritizes, and adjusts the product backlog based on stakeholder feedback and business priorities, replacing formal change control processes used in traditional projects.',
+        category: 'tool'
+    },
+    '绿色人力资源管理（Green HRM）': {
+        zh: '绿色人力资源管理是PMBOK第8版在资源规划中引入的可持续性管理理念，旨在将环境责任融入人力资源管理的全流程，包括绿色招聘、绿色培训、绿色绩效评估等实践，体现项目对三重底线的承诺。',
+        en: 'A sustainability management concept introduced in PMBOK 8th Edition resource planning that integrates environmental responsibility into the entire HR management process. Includes green recruitment, green training, and green performance evaluation, reflecting commitment to the triple bottom line.',
+        category: 'tool'
+    },
+    'AI与生成式AI': {
+        zh: 'AI与生成式AI是PMBOK第8版在资源估算中引入的新兴技术工具。利用人工智能和生成式AI进行资源需求预测、工作量估算和优化方案生成，提高估算的准确性和效率。',
+        en: 'Emerging technology tools introduced in PMBOK 8th Edition for resource estimation. Uses AI and generative AI for resource demand forecasting, effort estimation, and optimization scenario generation, improving estimation accuracy and efficiency.',
+        category: 'tool'
+    },
+    '仆人领导力': {
+        zh: '仆人领导力是一种以服务团队为首要任务的领导风格，领导者通过支持、赋能和消除障碍来帮助团队成功。关注成员的成长和福祉，而非命令和控制。在第8版中是领导团队流程的核心方法。',
+        en: 'A leadership style that prioritizes serving the team. Leaders help the team succeed by supporting, empowering, and removing obstacles. Focuses on member growth and well-being rather than command and control. Core approach in the Lead the Team process in PMBOK8.',
+        category: 'tool'
+    },
+    '情商': {
+        zh: '情商是识别、理解、管理自身情绪和他人情绪的能力，包括自我意识、自我管理、社会意识和关系管理四个维度。在领导团队和管理相关方中都是关键的软技能。',
+        en: 'The ability to recognize, understand, and manage one\'s own emotions and the emotions of others, encompassing self-awareness, self-management, social awareness, and relationship management. A critical soft skill in leading teams and managing stakeholders.',
+        category: 'tool'
+    },
+    '六顶思考帽': {
+        zh: '六顶思考帽是由爱德华·德·波诺提出的平行思维工具，用六种颜色的帽子代表六种思维模式（白-事实数据、红-直觉情感、黑-风险警示、黄-积极乐观、绿-创新创意、蓝-流程控制），帮助团队从多个角度全面审视问题。',
+        en: 'A parallel thinking tool developed by Edward de Bono using six colored hats representing six thinking modes (White-Facts, Red-Intuition, Black-Risks, Yellow-Optimism, Green-Creativity, Blue-Process). Helps teams examine issues from multiple perspectives.',
+        category: 'tool'
+    },
+    'COCOMO模型': {
+        zh: 'COCOMO（COnstructive COst MOdel）是软件工程领域经典的构造性成本估算模型，根据软件规模和复杂度参数化估算开发工作量、成本和进度。第8版将其作为资源估算的可选工具。',
+        en: 'The COnstructive COst MOdel (COCOMO) is a classic software engineering cost estimation model that parametrically estimates development effort, cost, and schedule based on software size and complexity parameters. Included in PMBOK8 as an optional resource estimation tool.',
+        category: 'tool'
+    },
+    'SWOT分析': {
+        zh: 'SWOT分析是一种战略分析工具，从优势（Strengths）、劣势（Weaknesses）、机会（Opportunities）和威胁（Threats）四个维度系统评估项目环境。在识别风险流程中用于全面发现内部和外部风险因素。',
+        en: 'A strategic analysis tool that systematically evaluates the project environment across four dimensions: Strengths, Weaknesses, Opportunities, and Threats. Used in the Identify Risks process to comprehensively discover internal and external risk factors.',
+        category: 'tool'
+    },
+    '蒙特卡洛模拟': {
+        zh: '蒙特卡洛模拟是一种基于概率统计的数值模拟技术，通过大量随机抽样来模拟项目结果（如竣工日期或总成本）的概率分布。在执行风险分析中用于定量评估风险对项目目标的综合影响。',
+        en: 'A numerical simulation technique based on probability statistics that uses large-scale random sampling to simulate probability distributions of project outcomes (e.g., completion dates or total costs). Used in Perform Risk Analysis for quantitative assessment of risk impacts.',
+        category: 'tool'
+    },
+    '决策树': {
+        zh: '决策树是一种使用树形分支结构评估不同决策方案期望货币价值（EMV）的分析技术。每个分支代表一种决策路径和可能结果，帮助团队在不确定条件下做出最优选择。',
+        en: 'An analytical technique using a tree-shaped branching structure to evaluate the Expected Monetary Value (EMV) of different decision alternatives. Each branch represents a decision path and possible outcome, helping teams make optimal choices under uncertainty.',
+        category: 'tool'
+    },
+    '燃尽图/燃起图': {
+        zh: '燃尽图显示Sprint中剩余工作量随时间的递减趋势，燃起图显示已完成工作量的累积增长。两者都是敏捷进度监控的核心可视化工具，在第8版监督与控制进度流程中使用。',
+        en: 'Burndown charts show the decreasing trend of remaining work over time in a Sprint; burnup charts show the cumulative growth of completed work. Both are core visualization tools for agile schedule monitoring, used in the Monitor and Control Schedule process in PMBOK8.',
+        category: 'tool'
+    },
+    '团队速度（Velocity）': {
+        zh: '团队速度是衡量敏捷团队在每个Sprint中完成的故事点总量的指标，反映了团队可持续的交付能力。通过多个Sprint的数据积累，用于预测未来Sprint的可行工作量和发布规划。',
+        en: 'A metric measuring the total story points an agile team completes in each Sprint, reflecting the team\'s sustainable delivery capacity. Accumulated over multiple Sprints, it is used to forecast feasible workload for future Sprints and for release planning.',
+        category: 'tool'
+    },
+    '相关方映射': {
+        zh: '相关方映射是将已识别的相关方按照影响力、利益、支持度等维度进行分类和可视化的技术。常用工具包括影响力-利益矩阵、影响力-支持度矩阵和相关方立方体。用于制定差异化的参与策略。',
+        en: 'A technique for classifying and visualizing identified stakeholders by dimensions such as influence, interest, and support level. Common tools include the Power-Interest Grid, Power-Support Grid, and Stakeholder Cube. Used to develop differentiated engagement strategies.',
+        category: 'tool'
+    },
+    '相关方参与度评估矩阵': {
+        zh: '相关方参与度评估矩阵是用于对比相关方当前参与程度与项目所需参与程度的分析工具。它将相关方分为不知晓、抵制、中立、支持、领导五类，帮助团队制定针对性策略来提升相关方参与度。',
+        en: 'An analytical tool for comparing stakeholders\' current engagement levels with the levels required for project success. Classifies stakeholders as Unaware, Resistant, Neutral, Supportive, or Leading, helping teams develop targeted strategies to improve engagement.',
+        category: 'tool'
+    },
+    '约束理论': {
+        zh: '约束理论（TOC）是一种系统管理方法论，认为任何系统中至少存在一个约束（瓶颈）限制整体产出。在资源管理中用于识别和消除资源瓶颈，优化整体资源利用效率。',
+        en: 'A system management methodology holding that at least one constraint (bottleneck) limits overall output in any system. Used in resource management to identify and eliminate resource bottlenecks and optimize overall resource utilization efficiency.',
+        category: 'tool'
+    },
+    '控制图': {
+        zh: '控制图是统计过程控制工具，用于监控过程的稳定性和能力。它显示数据的上下控制界限（UCL/LCL）和中心线（CL），帮助判断过程偏差是随机波动（普通原因）还是异常偏差（特殊原因）。',
+        en: 'A statistical process control tool for monitoring process stability and capability. Displays upper and lower control limits (UCL/LCL) and a center line (CL), helping determine whether process variation is random (common cause) or abnormal (special cause).',
+        category: 'tool'
+    },
+    '风险审计': {
+        zh: '风险审计是系统评估风险管理过程有效性的检查和评审活动。它审查风险识别是否全面、分析是否准确、应对措施是否被正确执行，并识别风险管理过程中的改进机会。',
+        en: 'A systematic examination and review activity evaluating the effectiveness of risk management processes. Examines whether risk identification was comprehensive, analysis was accurate, and responses were properly executed; identifies improvement opportunities in the risk management process.',
+        category: 'tool'
+    },
+
+    // --- Inputs ---
+    '商业文件': {
+        zh: '商业文件是项目启动前的商业分析文档的总称，主要包括商业论证和效益管理计划。商业论证论证项目的投资价值，效益管理计划定义如何衡量和实现项目效益。它们为项目提供商业合理性支撑。',
+        en: 'The collective term for pre-project business analysis documents, primarily including the Business Case and Benefits Management Plan. The Business Case justifies the project\'s investment value; the Benefits Management Plan defines how project benefits will be measured and realized.',
+        category: 'input'
+    },
+    '协议': {
+        zh: '协议是双方或多方之间达成的具有法律约束力的文件，定义了各方的权利、义务和交付内容。在项目管理中包括合同、服务级别协议（SLA）、谅解备忘录（MOU）等。为项目启动和采购策略提供输入。',
+        en: 'A legally binding document between two or more parties defining rights, obligations, and deliverables. In project management, this includes contracts, Service Level Agreements (SLAs), Memoranda of Understanding (MOUs), etc. Provides input for project initiation and sourcing strategies.',
+        category: 'input'
+    },
+    '事业环境因素': {
+        zh: '事业环境因素（EEFs）是项目团队不能直接控制但会影响项目决策和结果的内外部条件，包括组织文化、人力资源政策、市场条件、法律法规、技术基础设施、相关方期望和风险承受力等。',
+        en: 'Enterprise Environmental Factors (EEFs) are internal and external conditions not under the control of the project team that influence, constrain, or direct the project. Includes organizational culture, HR policies, market conditions, regulations, technology infrastructure, stakeholder expectations, and risk tolerance.',
+        category: 'input'
+    },
+    '组织过程资产': {
+        zh: '组织过程资产（OPAs）是组织拥有的可被项目利用的任何过程相关资产，包括正式和非正式的计划、政策、流程、指南、模板、知识库和以往项目的经验教训。是几乎所有流程的通用输入。',
+        en: 'Organizational Process Assets (OPAs) are any process-related assets the organization possesses that can be used by the project. Includes formal and informal plans, policies, procedures, guidelines, templates, knowledge bases, and lessons learned from previous projects. A common input to nearly all processes.',
+        category: 'input'
     }
 };
 

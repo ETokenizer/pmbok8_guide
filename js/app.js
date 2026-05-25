@@ -281,13 +281,13 @@ function selectDomain(number) {
         <div class="detail-body">
             <div class="principle-card"><h4>📘 绩效域说明 | Description</h4><p>${d.description}</p><p class="en">${d.descriptionEn}</p></div>
             <div style="margin-top:20px"><h4 style="color:${d.color};margin-bottom:15px">📋 主要活动 | Key Activities</h4>
-                <ul style="padding-left:20px;line-height:2">${d.keyActivities.map(a => `<li>${a}</li>`).join('')}</ul></div>
+                <ul style="padding-left:20px;line-height:2">${d.keyActivities.map((a,i) => `<li>${a}${d.keyActivitiesEn?.[i] ? '<br><small style="color:#888;font-style:italic">'+d.keyActivitiesEn[i]+'</small>' : ''}</li>`).join('')}</ul></div>
             <div style="margin-top:20px"><h4 style="color:${d.color};margin-bottom:15px">✅ 预期成果 | Expected Outcomes</h4>
-                <ul style="padding-left:20px;line-height:2">${d.expectedOutcomes.map(o => `<li>✅ ${o}</li>`).join('')}</ul></div>
+                <ul style="padding-left:20px;line-height:2">${d.expectedOutcomes.map((o,i) => `<li>✅ ${o}${d.expectedOutcomesEn?.[i] ? '<br><small style="color:#888;font-style:italic">'+d.expectedOutcomesEn[i]+'</small>' : ''}</li>`).join('')}</ul></div>
             ${d.relatedPrinciples ? `<div style="margin-top:20px"><div class="cross-ref-heading">🔗 相关原则 | Related Principles</div>
                 <div style="display:flex;flex-wrap:wrap;gap:10px">${d.relatedPrinciples.map(pn => {
                     const p = principles.find(pr => pr.number === pn);
-                    return p ? `<a href="#" onclick="switchToPrinciple(${p.number});return false" class="cross-ref-link"><span>${p.icon}</span> 原则${p.number}: ${p.name}</a>` : '';
+                    return p ? `<a href="#" onclick="switchToPrinciple(${p.number});return false" class="cross-ref-link"><span>${p.icon}</span> ${p.name} | ${p.nameEn}</a>` : '';
                 }).join('')}</div></div>` : ''}
         </div>`;
     refreshSidebarActive();
