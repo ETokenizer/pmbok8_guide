@@ -843,6 +843,28 @@ export const ittoDefinitions = {
         zh: '组织过程资产（OPAs）是组织拥有的可被项目利用的任何过程相关资产，包括正式和非正式的计划、政策、流程、指南、模板、知识库和以往项目的经验教训。是几乎所有流程的通用输入。',
         en: 'Organizational Process Assets (OPAs) are any process-related assets the organization possesses that can be used by the project. Includes formal and informal plans, policies, procedures, guidelines, templates, knowledge bases, and lessons learned from previous projects. A common input to nearly all processes.',
         category: 'input'
+    },
+
+    // ===== 规划采购策略 四大工具 (Plan Sourcing Strategy Toolkit) =====
+    '市场调研': {
+        zh: '市场调研是指考察行业情况和特定供应商的能力。采购团队通过研究市场报告、参加行业会议、查阅在线评论或直接向供应商发起信息邀请书（RFI），来了解当前市场上有哪些可用的产品、服务或解决方案，技术成熟度如何，以及潜在供应商的交付能力和财务稳定性。核心目的是在制定具体的采购要求前，确保项目团队对外部市场有清醒、客观的认识，避免提出脱离行业现状的采购指标。',
+        en: 'Market Research is the process of examining industry and specific seller capabilities. The procurement team gathers information about the current marketplace by reviewing industry publications, attending conferences, conducting online research, or issuing a Request for Information (RFI). It identifies what capabilities exist, what technologies are mature, and which sellers can meet requirements safely and stably. Its core purpose is to provide realistic market context before finalizing procurement requirements, preventing specifications that are either obsolete or non-existent in the actual market.',
+        category: 'tool'
+    },
+    '自制或外购分析': {
+        zh: '自制或外购分析是用于确定某项工作或交付物是由项目团队自行产出，还是从外部源头采购的分析技术。它不仅要权衡财务成本（如内部研发成本、设备折旧 vs 外部采购价、合同管理费），还要评估组织的战略对齐度（是否涉及核心知识产权）、内部资源的可用性、技术熟练度以及风险承担能力。核心目的是输出明确的"自制"或"外购"决策，作为后续编制采购工作说明书（SOW）的基础。',
+        en: 'Make-or-Buy Analysis is the process of gathering and organizing data about product requirements and analyzing them against available alternatives including producing the product or service internally or purchasing it from an outside source. It balances financial costs of both options (e.g., internal setup, overhead, and maintenance vs. purchase price, delivery, and contract management) and evaluates non-financial factors such as core IP protection, organizational strategy alignment, resource availability, and risk-sharing capability. Its core purpose is to produce a definitive Make-or-Buy Decision.',
+        category: 'tool'
+    },
+    '源头选择分析': {
+        zh: '源头选择分析是在签署合同前，用于评估、筛选和选择供应商的分析方法。项目团队必须在向市场发布招标书前，根据采购物品的属性，提前在采购策略中确立供应商的评标逻辑。常见方法包括：最低成本法（适用于标准化物品）、仅凭资质法（适用于依赖专家经验的咨询）、基于质量和成本法（兼顾技术与报价）、独家来源法（适用于专利或垄断情况）。核心目的是确立公平、合规、透明的供方选择标准，避免主观偏见引发后期合同纠纷。',
+        en: 'Source Selection Analysis is an analytical method used to evaluate, rank, and select sellers prior to awarding a contract. The project team must predetermine evaluation criteria and methodology in the procurement strategy before issuing tenders. Common methods include: Lowest Cost (standardized items), Qualifications-Only (expert-dependent services), Quality and Cost-Based (balancing technical merit and price), and Sole Source (patent or monopoly situations). Its core purpose is to establish a transparent, objective, and compliant framework for vendor evaluation, eliminating subjective bias during contract awarding.',
+        category: 'tool'
+    },
+    '文件分析': {
+        zh: '文件分析是通过审阅和评估现有的书面或电子文档资料，来获取有用信息、澄清需求或支持特定决策的评估技术。在规划采购策略的语境下，采购和项目管理团队深入翻阅并核对项目内部的既有文件，包括需求文件、商业论证、行业法规、组织现有的标准合同范本以及历史类似项目的经验教训登记册。核心目的是从现有档案和材料中提炼出可能限制采购的约束条件（如法律合规红线）或潜在机会，确保采购策略不与既有顶层规划冲突。',
+        en: 'Document Analysis is an assessment technique used to gain information, clarify requirements, or support a decision by reviewing and evaluating existing written or electronic documentation. Within the context of planning a sourcing strategy, it involves a comprehensive review of existing project artifacts and organizational documents including requirement documents, business cases, legal/compliance frameworks, standard corporate contract templates, and historical lessons-learned registers. Its core purpose is to extract critical constraints, assumptions, or opportunities buried in existing files, ensuring the sourcing strategy remains compliant and fully aligned with top-level organizational standards.',
+        category: 'tool'
     }
 };
 
