@@ -865,6 +865,23 @@ export const ittoDefinitions = {
         zh: '文件分析是通过审阅和评估现有的书面或电子文档资料，来获取有用信息、澄清需求或支持特定决策的评估技术。在规划采购策略的语境下，采购和项目管理团队深入翻阅并核对项目内部的既有文件，包括需求文件、商业论证、行业法规、组织现有的标准合同范本以及历史类似项目的经验教训登记册。核心目的是从现有档案和材料中提炼出可能限制采购的约束条件（如法律合规红线）或潜在机会，确保采购策略不与既有顶层规划冲突。',
         en: 'Document Analysis is an assessment technique used to gain information, clarify requirements, or support a decision by reviewing and evaluating existing written or electronic documentation. Within the context of planning a sourcing strategy, it involves a comprehensive review of existing project artifacts and organizational documents including requirement documents, business cases, legal/compliance frameworks, standard corporate contract templates, and historical lessons-learned registers. Its core purpose is to extract critical constraints, assumptions, or opportunities buried in existing files, ensuring the sourcing strategy remains compliant and fully aligned with top-level organizational standards.',
         category: 'tool'
+    },
+
+    // ===== 管理质量保证 三大工具 (Manage Quality Assurance Toolkit) =====
+    '审计': {
+        zh: '审计是一种结构化、独立的审查过程，用于判断项目活动是否符合组织和项目的政策、流程和程序。审计通常由外部团队（如内部质量审计部门、PMO或外部监管机构）而非直接项目团队执行。在管理质量保证中，质量审计用于验证项目是否遵守企业合规标准，并识别不合规问题或低效流程。在监督风险中，风险审计用于评估风险管理过程和特定风险应对措施的整体有效性。核心目的是确保绝对合规，确认治理对齐，并向管理层提供标准程序被严格遵守的客观保证。',
+        en: 'Audits are a structured, independent process to determine if project activities comply with organizational and project policies, processes, and procedures. Typically conducted by an external team (such as an internal quality audit department, a PMO, or an external regulatory body) rather than the immediate project team. In Manage Quality Assurance, quality audits verify adherence to corporate compliance standards and identify non-compliance issues or inefficient processes. In Monitor Risks, risk audits evaluate the overall effectiveness of the risk management process and specific risk responses. Core purpose: ensure absolute compliance, confirm governance alignment, and provide management with objective assurance that standard procedures are being strictly followed.',
+        category: 'tool'
+    },
+    '核对表': {
+        zh: '核对表是一种结构化的验证工具，通常针对特定组件，用于确认一组必要步骤是否已完成或一系列要求是否已满足。核对表是基于历史项目经验或行业法规构建的高实用性、可操作的模板。在项目执行和质量保证中，团队成员将其用作逐步记忆辅助工具，确保琐碎但关键的步骤（如特定的代码审查、安全协议或部署验证）不被遗漏。在风险管理中，风险核对表（通常围绕风险分解结构RBS构建）帮助团队在早期头脑风暴中快速标记常见的历史威胁。核心目的是最小化人为错误，标准化重复性质量检查，并确保团队操作的一致性。',
+        en: 'Checklists are a structured tool, usually component-specific, used to verify that a set of required steps has been performed or to ensure that a list of requirements has been met. Checklists are highly versatile, actionable templates built from historical project experience or industry regulations. During project execution and quality assurance, they are used by team members as a step-by-step memory aid to ensure that trivial but critical steps (such as specific code reviews, safety protocols, or deployment verifications) are not forgotten. During risk management, risk checklists (often structured around a Risk Breakdown Structure) help teams rapidly flag common historical threats during early brainstorming sessions. Core purpose: minimize human error, standardize repetitive quality checks, and ensure operational consistency across the team.',
+        category: 'tool'
+    },
+    '过程改进': {
+        zh: '过程改进是一种分析和执行技术，用于识别项目工作流中的低效环节、瓶颈或非增值活动，并优化它们以提高效率。在管理质量保证流程中广泛使用。它涉及研究当前流程流（通常使用价值流映射或流程图等工具），找出工作停滞或产生浪费的位置。基于这些发现，团队设计优化方案——如自动化人工交接或消除冗余审批层——并提交变更请求以实施更新后的工作流。核心目的是推动持续改进（Kaizen），提升执行速度，并通过确保项目流程保持精益高效来最大化价值交付。',
+        en: 'Process Improvement is an analytical and execution technique used to identify inefficiencies, bottlenecks, or non-value-added activities in a project workflow and refine them for higher efficiency. Heavily utilized within the Manage Quality Assurance process. It involves studying the current process flow (often using tools like Value Stream Mapping or Flowcharts) to spot where work gets stuck or where waste occurs. Based on these findings, the team designs optimization plans—such as automating manual handoffs or eliminating redundant approval layers—and submits a change request to implement the updated workflow. Core purpose: drive continuous improvement (Kaizen), boost execution velocity, and maximize value delivery by ensuring that project processes remain lean and efficient.',
+        category: 'tool'
     }
 };
 
