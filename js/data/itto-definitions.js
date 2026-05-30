@@ -899,6 +899,13 @@ export const ittoDefinitions = {
         zh: '人际关系技能是项目经理和团队用于有效沟通、建立信任和管理关系的行为能力和软技能。积极倾听要求接收者全神贯注地理解、回应和记忆对方所说内容——而非被动听词或准备反驳。包括镜像肢体语言、澄清陈述（"如果我理解正确……"）、验证说话者潜在情绪等技术。在状态会议、冲突解决和需求收集中广泛使用。核心目的是消除沟通障碍，发现隐藏的项目约束或相关方未言明的抵触，并建立团队的心理安全感。',
         en: 'Interpersonal Skills are behavioral competencies and soft skills used by project managers and teams to communicate effectively, build trust, and manage relationships. Active Listening requires the receiver to fully concentrate, understand, respond, and remember what is being said—rather than just passively hearing the words or planning their next counterargument. It includes techniques like mirroring body language, clarifying statements ("If I understand you correctly..."), and validating the speaker\'s underlying emotions. Heavily utilized during status meetings, conflict resolutions, and requirements gathering. Core purpose: remove communication barriers, uncover hidden project constraints or stakeholders\' unstated resistance, and establish psychological safety within the team.',
         category: 'tool'
+    },
+
+    // ===== 启发与分析需求 关键工具 =====
+    '名义小组技术': {
+        zh: '名义小组技术（NGT）是增强型头脑风暴技术，通过投票流程对最有用的想法进行排序，用于进一步头脑风暴或优先级排列。NGT将群体头脑风暴结构化为四阶段流程以消除偏见：①静默生成 — 参与者独立写下想法；②循环记录 — 每个想法被记录在共享板上，不做评判；③澄清讨论 — 群体讨论想法以确保相互理解；④投票排序 — 个人私下投票或打分，建立透明、民主的优先级列表。在范围绩效域的启发与分析需求流程中主要使用。',
+        en: 'Nominal Group Technique (NGT) is a technique that enhances brainstorming with a voting process used to rank the most useful ideas for further brainstorming or for prioritization. NGT structuralizes group brainstorming into a four-stage process to eliminate bias: 1) Silent Generation — participants independently write down their ideas; 2) Round-Robin Recording — each idea is recorded on a shared board without critique; 3) Clarification — the group discusses the ideas to ensure mutual understanding; 4) Voting and Ranking — individuals privately vote or score the ideas to establish a transparent, democratic priority list. Primarily utilized within the Scope Performance Domain under the Elicit and Analyze Requirements process.',
+        category: 'tool'
     }
 };
 
