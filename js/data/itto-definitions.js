@@ -906,6 +906,12 @@ export const ittoDefinitions = {
         zh: '名义小组技术（NGT）是增强型头脑风暴技术，通过投票流程对最有用的想法进行排序，用于进一步头脑风暴或优先级排列。NGT将群体头脑风暴结构化为四阶段流程以消除偏见：①静默生成 — 参与者独立写下想法；②循环记录 — 每个想法被记录在共享板上，不做评判；③澄清讨论 — 群体讨论想法以确保相互理解；④投票排序 — 个人私下投票或打分，建立透明、民主的优先级列表。在范围绩效域的启发与分析需求流程中主要使用。',
         en: 'Nominal Group Technique (NGT) is a technique that enhances brainstorming with a voting process used to rank the most useful ideas for further brainstorming or for prioritization. NGT structuralizes group brainstorming into a four-stage process to eliminate bias: 1) Silent Generation — participants independently write down their ideas; 2) Round-Robin Recording — each idea is recorded on a shared board without critique; 3) Clarification — the group discusses the ideas to ensure mutual understanding; 4) Voting and Ranking — individuals privately vote or score the ideas to establish a transparent, democratic priority list. Primarily utilized within the Scope Performance Domain under the Elicit and Analyze Requirements process.',
         category: 'tool'
+    },
+
+    '引导': {
+        zh: '引导是有效带领群体活动达成成功决策、解决方案或结论的能力，属于人际关系与团队技能的核心技术。引导者作为中立的领导者，确保会议或研讨会顺利进行、按时完成并达成预设目标。在项目管理中，引导包括：结构化对话 — 设定明确的规则、管理议程、防止参与者偏离主题；确保包容性 — 积极鼓励安静成员发言，同时得体地约束主导型人物；化解冲突 — 中立地解决误解，将个人情感与项目目标分离，帮助群体建立共识。核心目的是最大化协作效率，培养对项目决策的共同拥有感，引导多元相关方达成共识而非强迫性结果。广泛应用于治理绩效域（启动项目或阶段、管理项目知识）和范围绩效域（定义范围、识别风险）等。',
+        en: 'Facilitation is the ability to effectively guide a group event to a successful decision, solution, or conclusion. A facilitator acts as a neutral leader who ensures that a meeting or workshop runs smoothly, stays on schedule, and achieves its predefined objective. In project management, facilitation involves: Structuring the Conversation — setting clear ground rules, managing the agenda, and preventing participants from going off-topic; Ensuring Inclusivity — actively encouraging quieter team members to speak up while diplomatically keeping dominant personalities in check; Navigating Conflicts — resolving misunderstandings neutrally, separating personal feelings from project objectives, and helping the group build common ground. Core purpose: maximize collaborative efficiency, foster a sense of shared ownership over project decisions, and guide diverse stakeholders to a consensus without forcing an autocratically driven outcome.',
+        category: 'tool'
     }
 };
 
