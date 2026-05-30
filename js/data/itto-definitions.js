@@ -882,6 +882,23 @@ export const ittoDefinitions = {
         zh: '过程改进是一种分析和执行技术，用于识别项目工作流中的低效环节、瓶颈或非增值活动，并优化它们以提高效率。在管理质量保证流程中广泛使用。它涉及研究当前流程流（通常使用价值流映射或流程图等工具），找出工作停滞或产生浪费的位置。基于这些发现，团队设计优化方案——如自动化人工交接或消除冗余审批层——并提交变更请求以实施更新后的工作流。核心目的是推动持续改进（Kaizen），提升执行速度，并通过确保项目流程保持精益高效来最大化价值交付。',
         en: 'Process Improvement is an analytical and execution technique used to identify inefficiencies, bottlenecks, or non-value-added activities in a project workflow and refine them for higher efficiency. Heavily utilized within the Manage Quality Assurance process. It involves studying the current process flow (often using tools like Value Stream Mapping or Flowcharts) to spot where work gets stuck or where waste occurs. Based on these findings, the team designs optimization plans—such as automating manual handoffs or eliminating redundant approval layers—and submits a change request to implement the updated workflow. Core purpose: drive continuous improvement (Kaizen), boost execution velocity, and maximize value delivery by ensuring that project processes remain lean and efficient.',
         category: 'tool'
+    },
+
+    // ===== 管理项目知识 三大工具 (Manage Project Knowledge Toolkit) =====
+    '知识管理（AAR、故事讲述）': {
+        zh: '知识管理是用于连接人员、促进协作并在项目团队和组织中分享显性和隐性知识的一系列实践和技术。在管理项目知识过程中，它超越仅仅将文件上传到数据库，而是运用以人为中心的特定技术：事后回顾（AAR）是在事件或里程碑刚结束时举行的结构化复盘会议，分析发生了什么、为何发生以及如何改进；故事讲述使用叙事方式传递复杂的隐性经验或组织文化，使经验教训更具记忆性和情感共鸣。核心目的是培养组织学习文化，解锁不可见的隐性知识（经验、洞察），防止团队重复造轮子。',
+        en: 'Knowledge Management is a set of practices and techniques used to connect people, foster collaboration, and share both explicit and tacit knowledge across the project team and organization. In Manage Project Knowledge, it goes beyond uploading files to a database, utilizing specific human-centric techniques: After Action Reviews (AARs) are structured de-briefing sessions held immediately after an event or milestone to analyze what happened, why it happened, and how to improve; Storytelling uses narratives to pass down complex, implicit experiences or organizational culture, making lessons learned memorable and emotionally resonant. Core purpose: cultivate an organizational learning culture, unlock invisible tacit knowledge, and prevent the team from reinventing the wheel.',
+        category: 'tool'
+    },
+    '信息管理': {
+        zh: '信息管理是用于收集、存储、归档和向相关方分发显性项目信息和工件的工具、技术和系统。知识管理连接人与人的隐性经验，信息管理则连接人与数据。它涉及使用项目管理信息系统（PMIS）、共享云盘、配置管理工具以及物理或数字档案，确保数据被有序编目、可检索且安全。确保标准报告、历史指标和受控版本文档对需要者易于访问。核心目的是构建单一真相源，确保数据完整性和可追溯性，最大化显性数据检索效率。',
+        en: 'Information Management refers to the tools, techniques, and systems used to collect, store, archive, and distribute explicit project information and artifacts to stakeholders. While knowledge management connects people to people, information management connects people to data. It involves using Project Management Information Systems (PMIS), shared cloud drives, configuration management tools, and physical or digital archives to ensure data is cataloged, searchable, and secure. Core purpose: build a single version of truth, ensure data integrity and traceability, and maximize efficiency in explicit data retrieval.',
+        category: 'tool'
+    },
+    '人际关系技能（积极倾听）': {
+        zh: '人际关系技能是项目经理和团队用于有效沟通、建立信任和管理关系的行为能力和软技能。积极倾听要求接收者全神贯注地理解、回应和记忆对方所说内容——而非被动听词或准备反驳。包括镜像肢体语言、澄清陈述（"如果我理解正确……"）、验证说话者潜在情绪等技术。在状态会议、冲突解决和需求收集中广泛使用。核心目的是消除沟通障碍，发现隐藏的项目约束或相关方未言明的抵触，并建立团队的心理安全感。',
+        en: 'Interpersonal Skills are behavioral competencies and soft skills used by project managers and teams to communicate effectively, build trust, and manage relationships. Active Listening requires the receiver to fully concentrate, understand, respond, and remember what is being said—rather than just passively hearing the words or planning their next counterargument. It includes techniques like mirroring body language, clarifying statements ("If I understand you correctly..."), and validating the speaker\'s underlying emotions. Heavily utilized during status meetings, conflict resolutions, and requirements gathering. Core purpose: remove communication barriers, uncover hidden project constraints or stakeholders\' unstated resistance, and establish psychological safety within the team.',
+        category: 'tool'
     }
 };
 
