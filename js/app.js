@@ -255,7 +255,7 @@ function selectPrinciple(number) {
             ${p.performanceDomains ? `<div style="margin-top:20px"><div class="cross-ref-heading">🔗 相关绩效域 | Related Performance Domains</div>
                 <div style="display:flex;flex-wrap:wrap;gap:10px">${p.performanceDomains.map(dn => {
                     const d = performanceDomains.find(pd => pd.name === dn);
-                    return d ? `<a href="#" onclick="switchToDomain(${d.number});return false" class="cross-ref-link"><span>${d.icon}</span> ${d.name}</a>` : '';
+                    return d ? `<a href="#" onclick="switchToDomain(${d.number});return false" class="cross-ref-link"><span>${d.icon}</span> ${d.name} | ${d.nameEn}</a>` : '';
                 }).join('')}</div></div>` : ''}
         </div>`;
     refreshSidebarActive();
