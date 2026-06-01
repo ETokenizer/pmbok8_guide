@@ -216,31 +216,7 @@ export function showIttoModal(itemName, itemType) {
     const itemEn = englishName(itemName);
     title.innerHTML = `${typeLabel} — ${itemName}${itemEn ? ' <small style="opacity:0.7;font-weight:400">' + itemEn + '</small>' : ''}`;
 
-    // Build produced-by section (for I/O)
-    let producedHTML = '';
-    if (reg.o.length > 0) {
-        producedHTML = `<div class="itto-chain-section">
-            <h4>📤 产生自流程 | Produced By</h4>
-            <div class="itto-chain-list">${reg.o.map(n => {
-                const p = ittoProcLookup[n];
-                return p ? `<span class="itto-process-tag" style="border-color:${getFAColor(p.fa)}" onclick="window.selectProcess(${n});window.closeIttoModal()" title="${p.n} | ${p.ne}">#${n} ${p.n} <small>${p.ne} · ${p.fa}</small></span>` : '';
-            }).join('')}</div>
-        </div>`;
-    }
-
-    // Build consumed-by section (for I/O)
-    let consumedHTML = '';
-    if (reg.i.length > 0) {
-        const grouped = groupByFA(reg.i);
-        consumedHTML = `<div class="itto-chain-section">
-            <h4>📥 被以下流程使用 | Consumed By</h4>
-            ${Object.entries(grouped).map(([fa, procs]) => `
-                <div class="itto-fa-group">
-                    <div class="itto-fa-header" style="background:${getFAColor(fa)}">${fa} <small>(${procs.length}个)</small></div>
-                    <div class="itto-chain-list">${procs.map(p => `<span class="itto-process-tag" style="border-color:${getFAColor(fa)}" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.n} | ${p.ne}">#${p.n} ${p.name} <small>${p.ne}</small></span>`).join('')}</div>
-                </div>`).join('')}
-        </div>`;
-    }
+    // I/O sections now merged into the 3-column chainHTML (removed duplicate produced-by/consumed-by)
 
     // Build tools section (for TT)
     let toolsHTML = '';
@@ -259,14 +235,17 @@ export function showIttoModal(itemName, itemType) {
     // Build 3-column data flow chain for I/O items
     let chainHTML = '';
     if ((itemType === 'input' || itemType === 'output') && (reg.o.length > 0 || reg.i.length > 0)) {
-        const renderFlowSteps = (nums, label, icon) => {
+        const renderFlowSteps = (nums, label, icon, isLeft) => {
             if (nums.length === 0) return `<div class="flow-col"><div class="flow-col-header">${icon} ${label}</div><div class="flow-col-empty">— 无 —</div></div>`;
             const grouped = groupByFA(nums);
-            return `<div class="flow-col"><div class="flow-col-header">${icon} ${label} <small>(${nums.length}个)</small></div>
+            return `<div class="flow-col">
+                <div class="flow-col-header" style="background:linear-gradient(135deg,#f8fafc,#f1f5f9)">${icon} ${label} <small>(${nums.length}个)</small></div>
                 ${Object.entries(grouped).map(([fa, procs]) => `
-                    <div class="flow-fa-mini" style="border-left:3px solid ${getFAColor(fa)}">
-                        <div class="flow-fa-mini-name">${fa}</div>
-                        ${procs.map(p => `<div class="flow-process-link" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.n} | ${p.ne}">#${p.n} ${p.name} <small>${p.ne}</small></div>`).join('')}
+                    <div class="flow-fa-mini">
+                        <div class="flow-fa-mini-name" style="background:${getFAColor(fa)};color:#fff;padding:4px 10px;border-radius:4px;display:inline-block;margin-bottom:6px">${fa}</div>
+                        ${procs.map(p => `<div class="flow-process-link" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.n} | ${p.ne}">
+                            <span class="flow-proc-num" style="background:${getFAColor(fa)};color:#fff;padding:1px 6px;border-radius:3px;font-size:10px;margin-right:6px">#${p.n}</span>${p.name} <small>${p.ne}</small>
+                        </div>`).join('')}
                     </div>`).join('')}
             </div>`;
         };
@@ -275,12 +254,16 @@ export function showIttoModal(itemName, itemType) {
             <div class="itto-flow-grid-3col">
                 ${renderFlowSteps(reg.o, '产生自 | Produced By', '📤')}
                 <div class="flow-col flow-col-center">
-                    <div class="flow-col-header">📦 ${itemType==='output'?'输出 Output':'输入 Input'}</div>
-                    <div class="flow-product-card">
+                    <div class="flow-product-card ${itemType==='output'?'output-card':'input-card'}">
+                        ${itemType==='output'
+                            ? '<div class="flow-anim-icon">📦<span class="pack-drop"></span></div>'
+                            : '<div class="flow-anim-icon">📥<span class="unpack-lid"></span></div>'}
                         <div class="flow-product-name-full">${itemName}</div>
                         ${itemEn ? `<div class="flow-product-en">${itemEn}</div>` : ''}
                         <span class="flow-product-badge">${itemType==='output'?'输出 Output':'输入 Input'}</span>
                     </div>
+                    ${reg.o.length > 0 ? `<div class="flow-arrow-left">→<span class="flow-dot-anim"></span></div>` : ''}
+                    ${reg.i.length > 0 ? `<div class="flow-arrow-right">→<span class="flow-dot-anim"></span></div>` : ''}
                 </div>
                 ${renderFlowSteps(reg.i, '被以下使用 | Consumed By', '📥')}
             </div>
@@ -301,8 +284,6 @@ export function showIttoModal(itemName, itemType) {
             <p style="font-size:13px;color:#888;font-style:italic;line-height:1.7">${def.en}</p>
         </div>
         ${chainHTML}
-        ${producedHTML}
-        ${consumedHTML}
         ${toolsHTML}
     `;
     modal.style.display = 'flex';

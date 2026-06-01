@@ -250,22 +250,46 @@
 .unpack-lid { position:absolute;left:50%;top:0;width:10px;height:3px;background:#3b82f6;border-radius:1px;margin-left:-5px;transform-origin:left center;animation:unpackLid 1.2s ease-out infinite; }
 
 /* === 3-Column Data Flow Chain === */
-.itto-flow-grid-3col { display:grid; grid-template-columns:1fr auto 1fr; gap:16px; align-items:start; }
-.flow-col { background:#f8fafc; border-radius:10px; padding:0; overflow:hidden; }
-.flow-col-header { background:#f1f5f9; padding:10px 14px; font-size:13px; font-weight:700; color:#1f2937; border-bottom:1px solid #e5e7eb; }
+.itto-flow-grid-3col { display:grid; grid-template-columns:1fr auto 1fr; gap:0; align-items:start; }
+.flow-col { background:#f8fafc; border-radius:10px; padding:0; overflow:hidden; border:1px solid #e5e7eb; }
+.flow-col-header { background:linear-gradient(180deg,#f1f5f9,#e8ecf1); padding:10px 14px; font-size:13px; font-weight:700; color:#1f2937; border-bottom:1px solid #e5e7eb; }
 .flow-col-header small { font-weight:400; color:#94a3b8; font-size:11px; }
 .flow-col-empty { padding:20px; text-align:center; color:#cbd5e1; font-size:13px; }
-.flow-fa-mini { padding:8px 14px; border-bottom:1px solid #f1f5f9; }
+.flow-fa-mini { padding:8px 12px; border-bottom:1px solid #f1f5f9; }
 .flow-fa-mini:last-child { border-bottom:none; }
-.flow-fa-mini-name { font-size:11px; font-weight:600; color:#64748b; margin-bottom:4px; }
-.flow-process-link { font-size:12px; color:#3b82f6; padding:4px 8px; margin:2px 0; border-radius:6px; cursor:pointer; transition:all 0.15s; line-height:1.5; }
-.flow-process-link:hover { background:#eff6ff; color:#1d4ed8; }
-.flow-process-link small { color:#94a3b8; font-style:italic; }
-.flow-col-center { display:flex; flex-direction:column; align-items:center; justify-content:flex-start; min-width:180px; max-width:260px; padding-top:40px; }
-.flow-product-card { background:#fff; border:2px solid #e2e8f0; border-radius:12px; padding:20px; text-align:center; width:100%; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
-.flow-product-name-full { font-size:14px; font-weight:700; color:#1f2937; margin-bottom:6px; word-break:break-word; }
-.flow-product-en { font-size:12px; color:#3b82f6; margin-bottom:10px; word-break:break-word; }
-.flow-product-badge { display:inline-block; padding:3px 12px; border-radius:20px; font-size:11px; font-weight:600; background:#eff6ff; color:#3b82f6; }
+.flow-process-link { font-size:12px; color:#3b82f6; padding:5px 8px; margin:3px 0; border-radius:6px; cursor:pointer; transition:all 0.15s; line-height:1.5; display:flex; align-items:center; }
+.flow-process-link:hover { background:#eff6ff; color:#1d4ed8; transform:translateX(2px); }
+.flow-process-link small { color:#94a3b8; font-style:italic; font-size:10px; margin-left:4px; white-space:nowrap; }
+.flow-proc-num { flex-shrink:0; }
+
+/* Center processor column */
+.flow-col-center { display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:200px; max-width:280px; padding:20px 12px; gap:6px; position:relative; }
+.flow-product-card { background:#fff; border:3px solid #e2e8f0; border-radius:14px; padding:24px 18px; text-align:center; width:100%; box-shadow:0 4px 16px rgba(0,0,0,0.06); position:relative; z-index:1; }
+.flow-product-card.output-card { border-color:#10b981; }
+.flow-product-card.input-card { border-color:#3b82f6; }
+.flow-anim-icon { font-size:36px; margin-bottom:8px; position:relative; display:inline-block; line-height:1; }
+.flow-product-name-full { font-size:14px; font-weight:700; color:#1f2937; margin-bottom:4px; word-break:break-word; }
+.flow-product-en { font-size:12px; color:#3b82f6; margin-bottom:8px; word-break:break-word; font-style:italic; }
+.flow-product-badge { display:inline-block; padding:4px 14px; border-radius:20px; font-size:11px; font-weight:600; background:#f0fdf4; color:#059669; }
+.input-card .flow-product-badge { background:#eff6ff; color:#3b82f6; }
+
+/* Animated flow arrows */
+.flow-arrow-left, .flow-arrow-right { position:relative; width:100%; height:20px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.flow-arrow-left::before, .flow-arrow-right::before {
+    content:''; position:absolute; top:50%; left:0; right:0; height:2px;
+    background:repeating-linear-gradient(90deg, #cbd5e1 0, #cbd5e1 6px, transparent 6px, transparent 10px);
+    animation:conveyorBelt 0.6s linear infinite;
+}
+.flow-arrow-left::after { content:'▶'; position:absolute; right:0; top:50%; transform:translateY(-50%); font-size:10px; color:#94a3b8; }
+.flow-arrow-right::after { content:'▶'; position:absolute; right:0; top:50%; transform:translateY(-50%); font-size:10px; color:#94a3b8; }
+.flow-dot-anim { position:absolute; width:6px; height:6px; background:#3b82f6; border-radius:50%; top:50%; transform:translateY(-50%); animation:flowDot 1.2s ease-in-out infinite; }
+
+/* Processor gear animation */
+@keyframes processorPulse { 0%,100% { box-shadow:0 4px 16px rgba(0,0,0,0.06); } 50% { box-shadow:0 4px 24px rgba(59,130,246,0.2); } }
+.flow-product-card { animation:processorPulse 3s ease-in-out infinite; }
+.output-card { animation:processorPulse 3s ease-in-out infinite; animation-delay:0s; }
+.input-card { animation-name:processorPulseInput; animation-delay:1.5s; }
+@keyframes processorPulseInput { 0%,100% { box-shadow:0 4px 16px rgba(0,0,0,0.06); } 50% { box-shadow:0 4px 24px rgba(16,185,129,0.2); } }
 /* Animated flow dots */
 .flow-arrow-dots { display:flex;gap:2px; }
 .flow-arrow-dots .dot { display:inline-block;width:4px;height:4px;background:#f59e0b;border-radius:50%;animation:flowDot 1.2s ease-in-out infinite; }
