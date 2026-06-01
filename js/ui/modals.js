@@ -256,22 +256,33 @@ export function showIttoModal(itemName, itemType) {
         </div>`;
     }
 
-    // Build chain visualization for I/O items
+    // Build 3-column data flow chain for I/O items
     let chainHTML = '';
     if ((itemType === 'input' || itemType === 'output') && (reg.o.length > 0 || reg.i.length > 0)) {
+        const renderFlowSteps = (nums, label, icon) => {
+            if (nums.length === 0) return `<div class="flow-col"><div class="flow-col-header">${icon} ${label}</div><div class="flow-col-empty">— 无 —</div></div>`;
+            const grouped = groupByFA(nums);
+            return `<div class="flow-col"><div class="flow-col-header">${icon} ${label} <small>(${nums.length}个)</small></div>
+                ${Object.entries(grouped).map(([fa, procs]) => `
+                    <div class="flow-fa-mini" style="border-left:3px solid ${getFAColor(fa)}">
+                        <div class="flow-fa-mini-name">${fa}</div>
+                        ${procs.map(p => `<div class="flow-process-link" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.n} | ${p.ne}">#${p.n} ${p.name} <small>${p.ne}</small></div>`).join('')}
+                    </div>`).join('')}
+            </div>`;
+        };
         chainHTML = `<div class="itto-chain-section chain-viz">
             <h4>🔗 数据流链条 | Data Flow Chain</h4>
-            <div class="itto-flow-chain-v2">
-                ${reg.o.map(n => `<div class="flow-step workshop" onclick="window.selectProcess(${n});window.closeIttoModal()" title="${ittoProcLookup[n]?.n} | ${ittoProcLookup[n]?.ne}"><span class="flow-step-icon">⚙️</span><span class="flow-step-label">#${n} ${ittoProcLookup[n]?.n||''}${ittoProcLookup[n]?.ne ? ' · '+ittoProcLookup[n].ne : ''}</span><span class="flow-step-tag">流程 Process</span></div>`).join('')}
-                ${reg.o.length > 0 ? `<div class="flow-connector"><span class="flow-arrow-text">输出 Output</span><span class="flow-connector-icon">📦<span class="pack-drop"></span></span><span class="flow-arrow-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>` : ''}
-                <div class="flow-product ${itemType==='output'?'out':'in'}">
-                    <span class="flow-product-icon">📦</span>
-                    <span class="flow-product-name">${itemName.length > 20 ? itemName.substring(0,20)+'…' : itemName}${itemEn ? ' · '+itemEn.substring(0,20)+(itemEn.length>20?'…':'') : ''}</span>
-                    <span class="flow-product-type">${itemType==='output'?'输出 Output':'输入 Input'}</span>
+            <div class="itto-flow-grid-3col">
+                ${renderFlowSteps(reg.o, '产生自 | Produced By', '📤')}
+                <div class="flow-col flow-col-center">
+                    <div class="flow-col-header">📦 ${itemType==='output'?'输出 Output':'输入 Input'}</div>
+                    <div class="flow-product-card">
+                        <div class="flow-product-name-full">${itemName}</div>
+                        ${itemEn ? `<div class="flow-product-en">${itemEn}</div>` : ''}
+                        <span class="flow-product-badge">${itemType==='output'?'输出 Output':'输入 Input'}</span>
+                    </div>
                 </div>
-                ${reg.i.length > 0 ? `<div class="flow-connector"><span class="flow-arrow-text">输入 Input</span><span class="flow-connector-icon">📥<span class="unpack-lid"></span></span><span class="flow-arrow-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>` : ''}
-                ${reg.i.slice(0,8).map(n => `<div class="flow-step workshop" onclick="window.selectProcess(${n});window.closeIttoModal()" title="${ittoProcLookup[n]?.n} | ${ittoProcLookup[n]?.ne}"><span class="flow-step-icon">⚙️</span><span class="flow-step-label">#${n} ${ittoProcLookup[n]?.n||''}${ittoProcLookup[n]?.ne ? ' · '+ittoProcLookup[n].ne : ''}</span><span class="flow-step-tag">流程 Process</span></div>`).join('')}
-                ${reg.i.length > 8 ? `<div class="flow-step more">+${reg.i.length-8} 个流程</div>` : ''}
+                ${renderFlowSteps(reg.i, '被以下使用 | Consumed By', '📥')}
             </div>
         </div>`;
     }
