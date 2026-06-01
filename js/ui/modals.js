@@ -242,7 +242,7 @@ export function showIttoModal(itemName, itemType) {
                 <div class="flow-col-header" style="background:linear-gradient(135deg,#f8fafc,#f1f5f9)">${icon} ${label} <small>(${nums.length}个)</small></div>
                 ${Object.entries(grouped).map(([fa, procs]) => `
                     <div class="flow-fa-mini">
-                        <div class="flow-fa-mini-name" style="background:${getFAColor(fa)};color:#fff;padding:4px 10px;border-radius:4px;display:inline-block;margin-bottom:6px">${fa}</div>
+                        <div class="flow-fa-mini-name" style="background:${getFAColor(fa)};color:#fff;padding:2px 8px;border-radius:3px;display:inline-block;margin-bottom:4px;font-size:10px;font-weight:600">${fa}</div>
                         ${procs.map(p => `<div class="flow-process-link" onclick="window.selectProcess(${p.n});window.closeIttoModal()" title="${p.n} | ${p.ne}">
                             <span class="flow-proc-num" style="background:${getFAColor(fa)};color:#fff;padding:1px 6px;border-radius:3px;font-size:10px;margin-right:6px">#${p.n}</span>${p.name} <small>${p.ne}</small>
                         </div>`).join('')}
