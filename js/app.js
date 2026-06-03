@@ -17,7 +17,102 @@ import { addWrongAnswer } from './learning/wrong-book.js';
 import { initAuth, updateAccountUI, openAuthModal, closeAuthModal } from './auth/auth-ui.js';
 import { isLoggedIn, isPremium } from './auth/auth-service.js';
 import { bilingualName } from './data/itto-bilingual.js';
+import { getAnnotation } from './data/itto-annotations.js';
 import './learning/exam.js'; // register global exam functions (openPMPExam, etc.)
+
+// ==================== ITTO Hover Tooltip ====================
+let tooltipEl = null;
+let tooltipTimer = null;
+let tooltipShowTimer = null;
+let tooltipCurrentItem = null;
+
+function createTooltip() {
+  if (tooltipEl) return;
+  tooltipEl = document.createElement('div');
+  tooltipEl.id = 'itto-tooltip';
+  tooltipEl.className = 'itto-tooltip';
+  document.body.appendChild(tooltipEl);
+  // Hide on any click
+  // Hide on click (when ITTO modal opens) or scroll
+  document.addEventListener('click', () => { clearTimeout(tooltipShowTimer); hideTooltip(true); });
+  document.addEventListener('scroll', () => hideTooltip(true), true);
+}
+
+function hideTooltip(immediate) {
+  if (!tooltipEl) return;
+  clearTimeout(tooltipTimer);
+  if (immediate) {
+    tooltipEl.classList.remove('visible');
+  } else {
+    tooltipTimer = setTimeout(() => tooltipEl.classList.remove('visible'), 3000);
+  }
+}
+
+function showTooltip(el, itemName, itemType) {
+  if (!tooltipEl) createTooltip();
+  clearTimeout(tooltipTimer);
+
+  const ann = getAnnotation(itemName, itemType);
+  const enName = ann.en ? ann.en.split('.')[0] : ''; // First sentence only
+  const typeClass = itemType === 'output' ? 'output' : itemType === 'tool' ? 'tool' : 'input';
+
+  const bodyHtml = ann.zh
+    ? `<div class="itto-tooltip-body">${ann.zh}</div>${ann.en ? `<div class="itto-tooltip-en">${ann.en}</div>` : ''}`
+    : `<div class="itto-tooltip-body" style="color:#9ca3af;font-style:italic">点击查看ITTO详情和关联流程</div>`;
+  const flowHtml = ann.flowZh ? `<div class="itto-tooltip-flow">${ann.flowZh}</div>` : '';
+
+  tooltipEl.innerHTML = `
+    <div class="itto-tooltip-header">
+      <span>${itemName}</span>
+      <span class="itto-tooltip-type ${typeClass}">${ann.typeLabel}</span>
+    </div>
+    ${bodyHtml}
+    ${flowHtml}
+  `;
+
+  // Position tooltip near the element
+  const rect = el.getBoundingClientRect();
+  const tipW = 420;
+  let left = rect.right + 12;
+  if (left + tipW > window.innerWidth - 10) left = rect.left - tipW - 12;
+  if (left < 10) left = 10;
+  let top = rect.top - 8;
+  if (top + 200 > window.innerHeight) top = window.innerHeight - 210;
+
+  tooltipEl.style.left = left + 'px';
+  tooltipEl.style.top = top + 'px';
+  tooltipEl.classList.add('visible');
+}
+
+function initTooltips() {
+  createTooltip();
+
+  // mouseover with small delay to prevent flicker
+  document.addEventListener('mouseover', e => {
+    const item = e.target.closest('.itto-item');
+    if (!item) return;
+    if (item === tooltipCurrentItem) return;
+    tooltipCurrentItem = item;
+    clearTimeout(tooltipShowTimer);
+    clearTimeout(tooltipTimer);
+    tooltipShowTimer = setTimeout(() => {
+      const name = item.getAttribute('data-itto');
+      const type = item.getAttribute('data-type');
+      if (name && type) showTooltip(item, name, type);
+    }, 200);
+  });
+
+  // mouseout with 3s delay before hiding
+  document.addEventListener('mouseout', e => {
+    const item = e.target.closest('.itto-item');
+    if (!item) return;
+    const related = e.relatedTarget;
+    if (related && related.closest('.itto-item')) return;
+    tooltipCurrentItem = null;
+    clearTimeout(tooltipShowTimer);
+    hideTooltip(false);
+  });
+}
 
 // ==================== 12 个完整案例库 ====================
 const caseStudies = [
@@ -47,6 +142,7 @@ let expandedDomains = {};
 function initApp() {
     loadState();
     initModals();
+    initTooltips();
     bindEvents();
     exposeGlobals();
     switchView('principles');
@@ -309,11 +405,11 @@ function selectProcess(number) {
         </div>
         <div class="detail-body">
             <div class="principle-card"><h4>📘 流程说明 | Description</h4><p>${p.description}</p><p class="en">${p.descriptionEn}</p></div>
-            <h4 style="color:var(--pmi-dark);margin:20px 0 15px">📋 输入、工具与输出 | ITTO <span style="font-size:11px;color:#888;font-weight:400">(点击查看详情)</span></h4>
+            <h4 style="color:var(--pmi-dark);margin:20px 0 15px">📋 输入、工具与输出 | ITTO <span style="font-size:11px;color:#888;font-weight:400">(悬停查看注释 · 点击查看详情)</span></h4>
             <div class="key-aspects" style="grid-template-columns:1fr 1fr 1fr">
-                <div class="aspect-item"><div class="aspect-icon">📥</div><div class="aspect-title">输入 | Inputs</div><ul class="itto-list">${p.inputs.map(i => `<li class="itto-item" data-itto="${i.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="input" onclick="showIttoModalSafe(this)" title="点击查看定义和关联流程">🔗 ${bilingualName(i)}</li>`).join('')}</ul></div>
-                <div class="aspect-item"><div class="aspect-icon">🔧</div><div class="aspect-title">工具 | Tools</div><ul class="itto-list">${p.tools.map(t => `<li class="itto-item" data-itto="${t.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="tool" onclick="showIttoModalSafe(this)" title="点击查看定义和使用流程">🔗 ${bilingualName(t)}</li>`).join('')}</ul></div>
-                <div class="aspect-item"><div class="aspect-icon">📤</div><div class="aspect-title">输出 | Outputs</div><ul class="itto-list">${p.outputs.map(o => `<li class="itto-item" data-itto="${o.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="output" onclick="showIttoModalSafe(this)" title="点击查看定义和关联流程">🔗 ${bilingualName(o)}</li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">📥</div><div class="aspect-title">输入 | Inputs</div><ul class="itto-list">${p.inputs.map(i => `<li class="itto-item" data-itto="${i.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="input" onclick="showIttoModalSafe(this)">🔗 ${bilingualName(i)}</li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">🔧</div><div class="aspect-title">工具 | Tools</div><ul class="itto-list">${p.tools.map(t => `<li class="itto-item" data-itto="${t.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="tool" onclick="showIttoModalSafe(this)">🔗 ${bilingualName(t)}</li>`).join('')}</ul></div>
+                <div class="aspect-item"><div class="aspect-icon">📤</div><div class="aspect-title">输出 | Outputs</div><ul class="itto-list">${p.outputs.map(o => `<li class="itto-item" data-itto="${o.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}" data-type="output" onclick="showIttoModalSafe(this)">🔗 ${bilingualName(o)}</li>`).join('')}</ul></div>
             </div>
         </div>`;
     refreshSidebarActive();

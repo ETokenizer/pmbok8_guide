@@ -307,3 +307,35 @@
 .flow-product.in .flow-product-type { background:#dbeafe;color:#1e40af; }
 .chain-viz { background:linear-gradient(135deg,#f8fafc,#f1f5f9); }
 
+/* === ITTO Hover Tooltip === */
+.itto-tooltip {
+  position: fixed; z-index: 10000;
+  max-width: 420px; min-width: 240px;
+  background: #fff; color: #1f2937;
+  border: 1px solid #e5e7eb; border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
+  padding: 14px 16px; font-size: 13px; line-height: 1.65;
+  pointer-events: none; opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.itto-tooltip.visible { opacity: 1; transform: translateY(0); }
+.itto-tooltip-header {
+  font-weight: 700; font-size: 14px; color: #111827;
+  margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+}
+.itto-tooltip-type {
+  font-size: 10px; font-weight: 600; padding: 1px 8px; border-radius: 10px;
+  background: #f3f4f6; color: #6b7280;
+}
+.itto-tooltip-type.input { background: #dbeafe; color: #1e40af; }
+.itto-tooltip-type.tool  { background: #ede9fe; color: #6d28d9; }
+.itto-tooltip-type.output { background: #d1fae5; color: #065f46; }
+.itto-tooltip-body { color: #4b5563; margin-bottom: 6px; }
+.itto-tooltip-en { color: #9ca3af; font-size: 12px; font-style: italic; }
+.itto-tooltip-flow {
+  margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e5e7eb;
+  font-size: 11px; color: #6b7280;
+}
+.itto-item { position: relative; }
+
