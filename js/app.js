@@ -17,7 +17,7 @@ import { addWrongAnswer } from './learning/wrong-book.js';
 import { initAuth, updateAccountUI, openAuthModal, closeAuthModal } from './auth/auth-ui.js';
 import { isLoggedIn, isPremium } from './auth/auth-service.js';
 import { bilingualName } from './data/itto-bilingual.js';
-import { getAnnotation } from './data/itto-annotations.js';
+import { getAnnotation, formatAnnotation } from './data/itto-annotations.js';
 import './learning/exam.js'; // register global exam functions (openPMPExam, etc.)
 
 // ==================== ITTO Hover Tooltip ====================
@@ -52,22 +52,28 @@ function showTooltip(el, itemName, itemType) {
   if (!tooltipEl) createTooltip();
   clearTimeout(tooltipTimer);
 
-  const ann = getAnnotation(itemName, itemType);
-  const enName = ann.en ? ann.en.split('.')[0] : ''; // First sentence only
   const typeClass = itemType === 'output' ? 'output' : itemType === 'tool' ? 'tool' : 'input';
+  const typeLabel = itemType === 'output' ? '输出' : itemType === 'tool' ? '工具' : '输入';
 
-  const bodyHtml = ann.zh
-    ? `<div class="itto-tooltip-body">${ann.zh}</div>${ann.en ? `<div class="itto-tooltip-en">${ann.en}</div>` : ''}`
-    : `<div class="itto-tooltip-body" style="color:#9ca3af;font-style:italic">点击查看ITTO详情和关联流程</div>`;
-  const flowHtml = ann.flowZh ? `<div class="itto-tooltip-flow">${ann.flowZh}</div>` : '';
+  // Get ITTO.txt commentary annotation (NOT the PMI definition)
+  const ann = getAnnotation(itemName);
+  const formatted = formatAnnotation(ann, itemType);
+
+  let bodyHtml;
+  if (formatted) {
+    bodyHtml = `
+      <div class="itto-tooltip-anno-label">${formatted.label}</div>
+      <div class="itto-tooltip-body">${formatted.text}</div>`;
+  } else {
+    bodyHtml = `<div class="itto-tooltip-body" style="color:#9ca3af;font-style:italic">点击查看 PMI 标准定义和完整流程链</div>`;
+  }
 
   tooltipEl.innerHTML = `
     <div class="itto-tooltip-header">
       <span>${itemName}</span>
-      <span class="itto-tooltip-type ${typeClass}">${ann.typeLabel}</span>
+      <span class="itto-tooltip-type ${typeClass}">${typeLabel}</span>
     </div>
     ${bodyHtml}
-    ${flowHtml}
   `;
 
   // Position tooltip near the element

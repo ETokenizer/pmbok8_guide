@@ -1,80 +1,66 @@
 /**
- * ITTO 悬浮注释数据 — 用于 hover 气泡窗口
- * 数据来源：itto-definitions.js + itto-registry.js 流向信息
+ * ITTO 悬浮注释数据 — 来自 ITTO.txt 的"去包袱化"穿透注释
+ *
+ * 与点击打开的 ITTO 弹窗（显示 PMI 标准定义和流程链）不同，
+ * 悬浮气泡显示的是 ITTO.txt 独有的补充注释：
+ *   - 【穿透】复合条目的具体内容拆解
+ *   - 输出条目流向哪些流程（→ 流入 #N）
+ *   - 输入条目的来源说明（来自 #N）
+ *   - 收尾/交付等描述性说明
  */
-import { ittoDefinitions, getDefinition } from './itto-definitions.js';
-import { ittoRegistry, ittoProcLookup } from './itto-registry.js';
-import { bilingualName, englishName } from './itto-bilingual.js';
+import { ittoProcLookup } from './itto-registry.js';
+
+// Load annotations extracted from ITTO.txt
+import { ittoAnnotations as annotationsData } from './itto-annotations-data.js';
+
+// Fuzzy lookup: strip parentheticals for matching
+function fuzzyKey(name) {
+  return name.replace(/[（(].*?[）)]/g, '').replace(/\s+/g, '').trim();
+}
+
+const fuzzyIndex = {};
+for (const key of Object.keys(annotationsData)) {
+  fuzzyIndex[fuzzyKey(key)] = key;
+}
 
 /**
- * 获取 ITTO 条目的悬浮注释文本
- * @param {string} itemName - 条目中文名
- * @param {string} itemType - 'input' | 'tool' | 'output'
- * @returns {object} { zh, en, flow }
+ * Get ITTO.txt annotation for an item
+ * @returns {{ text: string, type: string } | null}
  */
-export function getAnnotation(itemName, itemType) {
-  const typeLabels = { input: '输入', tool: '工具与技术', output: '输出' };
-  const typeLabel = typeLabels[itemType] || '条目';
-
-  // Try exact definition match
-  let def = ittoDefinitions[itemName];
+export function getAnnotation(itemName) {
+  // Exact match
+  if (annotationsData[itemName]) return annotationsData[itemName];
 
   // Fuzzy match
-  if (!def) {
-    const clean = (s) => s.replace(/[（(][^）)]*[）)]/g, '').trim();
-    const base = clean(itemName);
-    for (const key of Object.keys(ittoDefinitions)) {
-      if (clean(key) === base || base.startsWith(clean(key)) || clean(key).startsWith(base)) {
-        def = ittoDefinitions[key];
-        break;
-      }
+  const fk = fuzzyKey(itemName);
+  const matchKey = fuzzyIndex[fk];
+  if (matchKey) return annotationsData[matchKey];
+
+  // Try partial match (itemName starts with or contains key)
+  for (const [key, ann] of Object.entries(annotationsData)) {
+    if (itemName.includes(key) || key.includes(itemName)) {
+      return ann;
     }
   }
 
-  // Fallback: use getDefinition but detect placeholder
-  if (!def) {
-    const fallback = getDefinition(itemName, itemType);
-    def = fallback;
-  }
+  return null;
+}
 
-  // Detect placeholder / generic definition
-  const isPlaceholder = def.zh && def.zh.includes('定义待补充');
+/**
+ * Format annotation for tooltip display.
+ * Converts #N references to clickable-looking text.
+ */
+export function formatAnnotation(ann, itemType) {
+  if (!ann) return null;
 
-  // Get flow info from registry
-  let flowZh = '', flowEn = '';
-  let reg = ittoRegistry[itemName];
-  if (!reg) {
-    const clean = (s) => s.replace(/[（(][^）)]*[）)]/g, '').trim();
-    for (const key of Object.keys(ittoRegistry)) {
-      if (clean(key) === clean(itemName)) { reg = ittoRegistry[key]; break; }
-    }
-  }
-
-  if (reg && reg.o.length > 0) {
-    const procs = reg.o.map(n => {
-      const p = ittoProcLookup[n];
-      return p ? `#${n} ${p.n}` : `#${n}`;
-    });
-    flowZh = `产出流程: ${procs.join('、')}`;
-    flowEn = `Produced by: ${procs.join(', ')}`;
-  }
-
-  if (reg && reg.i.length > 0) {
-    const procs = reg.i.map(n => {
-      const p = ittoProcLookup[n];
-      return p ? `#${n} ${p.n}` : `#${n}`;
-    });
-    if (flowZh) flowZh += ' | ';
-    if (flowEn) flowEn += ' | ';
-    flowZh += `消费流程: ${procs.join('、')}`;
-    flowEn += `Consumed by: ${procs.join(', ')}`;
-  }
-
-  return {
-    zh: isPlaceholder ? '' : (def.zh || ''),
-    en: isPlaceholder ? '' : (def.en || ''),
-    flowZh,
-    flowEn,
-    typeLabel
+  const typeLabels = {
+    penetration: '📦 拆解注释',
+    flow: itemType === 'output' ? '📤 流向说明' : '📥 来源说明',
+    source: '📥 来源说明',
   };
+
+  const label = typeLabels[ann.type] || '📝 注释';
+  const text = ann.text;
+
+  return { label, text };
 }

@@ -332,6 +332,10 @@
 .itto-tooltip-type.tool  { background: #ede9fe; color: #6d28d9; }
 .itto-tooltip-type.output { background: #d1fae5; color: #065f46; }
 .itto-tooltip-body { color: #4b5563; margin-bottom: 6px; }
+.itto-tooltip-anno-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  color: #8b5cf6; margin-bottom: 4px; letter-spacing: 0.5px;
+}
 .itto-tooltip-en { color: #9ca3af; font-size: 12px; font-style: italic; }
 .itto-tooltip-flow {
   margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e5e7eb;
